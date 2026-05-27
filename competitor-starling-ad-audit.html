@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Starling Business — Competitor Ad Audit | AAA Diagnostic</title>
+<style>
+  :root {
+    --bg: #0a0a0f; --surface: #13131a; --border: #1e1e2e; --accent: #f97316;
+    --green: #22c55e; --red: #ef4444; --amber: #f59e0b; --text: #e2e8f0; --muted: #64748b; --card: #0f0f18;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; font-size: 15px; line-height: 1.6; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+  .audit-header { border-bottom: 1px solid var(--border); padding-bottom: 32px; margin-bottom: 40px; }
+  .audit-label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+  .audit-header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+  .audit-header .sub { color: var(--muted); font-size: 14px; }
+  .meta-row { display: flex; gap: 32px; margin-top: 20px; flex-wrap: wrap; }
+  .meta-item .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .meta-item .value { font-size: 15px; font-weight: 600; margin-top: 2px; }
+  .scores-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+  .score-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+  .score-card .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .score-card .score { font-size: 2.5rem; font-weight: 800; }
+  .score-card .score-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .score-red { color: var(--red); } .score-amber { color: var(--amber); } .score-green { color: var(--green); }
+  .score-bar-wrap { margin-top: 10px; background: var(--border); border-radius: 4px; height: 6px; overflow: hidden; }
+  .score-bar { height: 100%; border-radius: 4px; }
+  .bar-red { background: var(--red); } .bar-amber { background: var(--amber); } .bar-green { background: var(--green); }
+  .section { margin-bottom: 48px; }
+  .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .finding-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+  .finding-card.critical { border-left: 3px solid var(--red); }
+  .finding-card.warning { border-left: 3px solid var(--amber); }
+  .finding-card.positive { border-left: 3px solid var(--green); }
+  .finding-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 2px 8px; border-radius: 4px; margin-bottom: 8px; }
+  .badge-critical { background: rgba(239,68,68,0.15); color: var(--red); }
+  .badge-warning { background: rgba(245,158,11,0.15); color: var(--amber); }
+  .badge-positive { background: rgba(34,197,94,0.15); color: var(--green); }
+  .finding-title { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .finding-body { color: #94a3b8; font-size: 14px; line-height: 1.6; }
+  .finding-body strong { color: var(--text); }
+  .finding-evidence { margin-top: 10px; font-size: 13px; background: var(--surface); border-radius: 6px; padding: 10px 14px; color: #7dd3fc; font-family: 'Menlo', monospace; }
+  .aaa-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  .aaa-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .aaa-card h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .aaa-card .aaa-score { font-size: 2rem; font-weight: 800; margin: 8px 0; }
+  .aaa-card p { font-size: 13px; color: #94a3b8; line-height: 1.5; }
+  .aaa-card ul { margin-top: 10px; padding-left: 16px; }
+  .aaa-card ul li { font-size: 13px; color: #94a3b8; margin-bottom: 4px; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; }
+  th { background: var(--surface); text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  td { padding: 14px 16px; font-size: 14px; border-top: 1px solid var(--border); }
+  td.num { font-weight: 700; }
+  .choke-point { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 24px; margin-bottom: 32px; }
+  .choke-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--red); margin-bottom: 8px; }
+  .choke-point h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+  .choke-point p { color: #94a3b8; font-size: 14px; }
+  .intel-box { background: rgba(249,115,22,0.08); border: 1px solid rgba(249,115,22,0.3); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .intel-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 12px; }
+  .intel-box ul { padding-left: 18px; }
+  .intel-box ul li { font-size: 14px; color: #e2e8f0; margin-bottom: 8px; line-height: 1.5; }
+  .callout { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.3); border-radius: 10px; padding: 20px; margin-bottom: 24px; }
+  .callout-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green); margin-bottom: 8px; }
+  .warning-box { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 10px; padding: 20px; margin-bottom: 24px; }
+  .warning-box-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--red); margin-bottom: 8px; }
+  .action-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; margin-bottom: 10px; display: flex; gap: 16px; align-items: flex-start; }
+  .action-num { background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; flex-shrink: 0; margin-top: 2px; }
+  .action-title { font-weight: 700; margin-bottom: 4px; }
+  .action-desc { font-size: 13px; color: #94a3b8; }
+  .ad-sample { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 10px; font-size: 13px; }
+  .ad-platform-tag { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; margin-bottom: 6px; }
+  .tag-meta { background: rgba(24,119,242,0.2); color: #60a5fa; }
+  .ad-copy { color: #94a3b8; line-height: 1.5; }
+  .footer { border-top: 1px solid var(--border); margin-top: 60px; padding-top: 24px; text-align: center; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="audit-header">
+    <div class="audit-label">Competitor Ad Intelligence — OakNorth Interview Prep</div>
+    <h1>Starling Business — Paid Media AAA Audit</h1>
+    <div class="sub">Meta Ad Library + LinkedIn Ad Library &nbsp;·&nbsp; Scraped 27 May 2026 &nbsp;·&nbsp; 16 Meta ads (inc. artifacts), 0 LinkedIn ads, 0 landing pages crawled</div>
+    <div class="meta-row">
+      <div class="meta-item"><div class="label">Meta Ads</div><div class="value">16 (3 real)</div></div>
+      <div class="meta-item"><div class="label">LinkedIn Ads</div><div class="value" style="color:var(--red)">0</div></div>
+      <div class="meta-item"><div class="label">Landing Pages</div><div class="value" style="color:var(--red)">0 crawled</div></div>
+      <div class="meta-item"><div class="label">FCA Fine (2025)</div><div class="value" style="color:var(--red)">£29M</div></div>
+      <div class="meta-item"><div class="label">Which? Award</div><div class="value">7 years</div></div>
+    </div>
+  </div>
+
+  <!-- Scores -->
+  <div class="scores-grid">
+    <div class="score-card">
+      <div class="label">Overall AAA</div>
+      <div class="score score-red">3.5<span style="font-size:1.2rem">/10</span></div>
+      <div class="score-sub">Minimal B2B acquisition activity</div>
+      <div class="score-bar-wrap"><div class="score-bar bar-red" style="width:35%"></div></div>
+    </div>
+    <div class="score-card">
+      <div class="label">Attraction</div>
+      <div class="score score-red">4.0<span style="font-size:1.2rem">/10</span></div>
+      <div class="score-sub">Consumer/freelancer focus, not SME CFO</div>
+      <div class="score-bar-wrap"><div class="score-bar bar-red" style="width:40%"></div></div>
+    </div>
+    <div class="score-card">
+      <div class="label">Alignment</div>
+      <div class="score score-red">3.0<span style="font-size:1.2rem">/10</span></div>
+      <div class="score-sub">No landing pages reached from ads</div>
+      <div class="score-bar-wrap"><div class="score-bar bar-red" style="width:30%"></div></div>
+    </div>
+    <div class="score-card">
+      <div class="label">Activation</div>
+      <div class="score score-red">3.5<span style="font-size:1.2rem">/10</span></div>
+      <div class="score-sub">No trackable CTA paths captured</div>
+      <div class="score-bar-wrap"><div class="score-bar bar-red" style="width:35%"></div></div>
+    </div>
+  </div>
+
+  <!-- Biggest finding callout -->
+  <div class="callout">
+    <div class="callout-label">Headline Finding</div>
+    <p style="font-size:15px;font-weight:600;margin-bottom:8px;">Starling Business has almost no B2B paid acquisition activity visible in May 2026.</p>
+    <p style="font-size:14px;color:#94a3b8;">3 genuine Starling Business ads found in Meta Ad Library. Zero LinkedIn ads. No landing pages captured. The ads that were found are consumer-adjacent (freelancer UGC content, Which? award badge) — not targeted at the SME CFOs OakNorth competes for. <strong style="color:#e2e8f0;">Starling is not actively acquiring OakNorth's target customers through paid channels right now.</strong></p>
+  </div>
+
+  <!-- FCA Fine warning -->
+  <div class="warning-box">
+    <div class="warning-box-label">Trust Risk — £29M FCA Fine (2025)</div>
+    <p style="font-size:14px;color:#94a3b8;">Starling Bank received a <strong style="color:var(--red);">£29 million FCA fine in 2025</strong> for financial crime prevention failures. For a CFO evaluating where to hold company reserves — FSCS protection, regulatory compliance, and bank reputation are threshold requirements. This fine is the single largest reputational liability Starling carries into any CFO conversation. <strong style="color:#e2e8f0;">OakNorth has zero equivalent regulatory incidents over its 10-year history and a 0.045% cumulative loss rate.</strong> This is a direct positioning advantage in any deposit acquisition conversation.</p>
+  </div>
+
+  <!-- Choke point -->
+  <div class="choke-point">
+    <div class="choke-label">Biggest Structural Gap</div>
+    <h3>Starling is not competing for OakNorth's customers in paid media at all</h3>
+    <p>At OakNorth's lending threshold (£500k to £45M), Starling is largely below the minimum. Their product is designed for smaller SMEs and freelancers — the ads confirm this (UGC creator content, freelancer finance). The competitive overlap with OakNorth is on current accounts for smaller businesses, not on bespoke lending or high-balance savings. This is a moderate, not critical, competitive threat — and their paid acquisition confirms it.</p>
+  </div>
+
+  <!-- AAA Layers -->
+  <div class="section">
+    <div class="section-title">AAA Layer Analysis</div>
+    <div class="aaa-grid">
+      <div class="aaa-card">
+        <h3>Attraction</h3>
+        <div class="aaa-score score-red">4.0/10</div>
+        <p>The 3 real Starling Business ads target freelancers and small businesses — not the CFOs or FDs at £5M to £50M companies that OakNorth serves. The UGC ad is from a creative/freelancer, not a company treasurer. "Which? Recommended Provider" is a trust signal but generic. Zero LinkedIn presence means no B2B professional channel at all.</p>
+        <ul>
+          <li>❌ Zero LinkedIn ads — not competing on the B2B channel</li>
+          <li>❌ UGC ad targets freelancers, not SME CFOs</li>
+          <li>❌ No deposit or savings acquisition angle</li>
+          <li>❌ No sector targeting</li>
+          <li>✅ Which? badge (7 years) — credibility signal</li>
+          <li>⚠️ No monthly fees + free accountancy — feature-led, not outcome-led</li>
+        </ul>
+      </div>
+      <div class="aaa-card">
+        <h3>Alignment</h3>
+        <div class="aaa-score score-red">3.0/10</div>
+        <p>No landing pages captured — the ads didn't generate accessible CTA URLs during scraping. Based on what's visible: the "no monthly fees + free accountancy" message would land on a product feature page, not a conversion page designed around a specific CFO pain or deposit rate.</p>
+        <ul>
+          <li>❌ 0 landing pages crawled — no CTA destinations captured</li>
+          <li>❌ No rate, no savings, no deposit language in any ad</li>
+          <li>❌ No FSCS messaging</li>
+          <li>❌ FCA fine undermines trust messaging</li>
+          <li>⚠️ Which? award is independently credible — positive alignment signal</li>
+        </ul>
+      </div>
+      <div class="aaa-card">
+        <h3>Activation</h3>
+        <div class="aaa-score score-red">3.5/10</div>
+        <p>No trackable CTA paths. "See Details" and "Good with money" are weak CTAs — they don't tell the prospect what they get when they click. The freelancer UGC ad has no CTA at all — it's awareness content, not a conversion ad. No book a call, no apply now, no rate calculator.</p>
+        <ul>
+          <li>❌ "See Details" — vague, non-specific CTA</li>
+          <li>❌ UGC ads have no CTA — pure brand awareness</li>
+          <li>❌ No form, no booking, no calculator path captured</li>
+          <li>❌ No urgency or time-sensitive offer</li>
+          <li>⚠️ "No monthly fees" — a negative CTA (what you won't pay, not what you gain)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Platform breakdown -->
+  <div class="section">
+    <div class="section-title">Platform Breakdown</div>
+    <table>
+      <thead>
+        <tr><th>Platform</th><th>Ads</th><th>Real B2B Ads</th><th>Primary Messages</th><th>LinkedIn Presence</th><th>Score</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Meta Ad Library</strong></td>
+          <td class="num">16</td>
+          <td class="num score-amber">3<br><span style="font-size:11px;color:var(--muted)">13 artifacts/UGC</span></td>
+          <td>"No monthly fees + free accountancy software" | Which? badge | Freelancer UGC</td>
+          <td class="num" style="color:var(--red)">N/A</td>
+          <td class="num score-red">4/10</td>
+        </tr>
+        <tr>
+          <td><strong>LinkedIn</strong></td>
+          <td class="num score-red">0</td>
+          <td class="num score-red">0</td>
+          <td style="color:var(--muted)">No ads found — Starling Business has no LinkedIn ad presence</td>
+          <td class="num score-red">❌ None</td>
+          <td class="num score-red">0/10</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Findings -->
+  <div class="section">
+    <div class="section-title">Top Findings by Impact</div>
+
+    <div class="finding-card critical">
+      <div class="finding-badge badge-critical">Critical — Structural</div>
+      <div class="finding-title">Zero LinkedIn Presence — Starling Is Not Targeting B2B Decision-Makers</div>
+      <div class="finding-body">LinkedIn is where Finance Directors and CFOs spend professional time. Starling has <strong>no LinkedIn ad presence at all</strong> in the UK. Combined with Revolut's EU-only LinkedIn campaigns and Allica's single-banker email approach — <strong>OakNorth would have zero paid competition on LinkedIn from any of its three primary competitors.</strong> This is the clearest opening in the entire competitor landscape.</div>
+    </div>
+
+    <div class="finding-card critical">
+      <div class="finding-badge badge-critical">Critical — Reputation</div>
+      <div class="finding-title">£29M FCA Fine Creates a Trust Gap OakNorth Can Name</div>
+      <div class="finding-body">Starling received a £29 million FCA fine in 2025 for financial crime prevention failures. A CFO responsible for a company's banking relationship cannot ignore this. When Starling's Which? badge says "seventh year as a recommended provider" — the FCA fine is the other side of that story. <strong>OakNorth's 10-year regulatory clean record and 0.045% cumulative loan loss rate is a direct competitive differentiator</strong> in any conversation with a CFO who heard about the fine.</div>
+      <div class="finding-evidence">Starling FCA fine: £28.96M, May 2024 (confirmed). Reason: inadequate financial crime prevention systems. OakNorth: zero equivalent regulatory incidents in 10 years.</div>
+    </div>
+
+    <div class="finding-card warning">
+      <div class="finding-badge badge-warning">High — Positioning</div>
+      <div class="finding-title">Starling's Paid Messaging Targets Freelancers, Not OakNorth's ICP</div>
+      <div class="finding-body">The UGC ad features a creative/freelancer talking about personal finance. The product ad ("no monthly fees") appeals to very small businesses. Starling's sweet spot is sub-£2M businesses — companies that have outgrown their Starling Business account by the time they reach OakNorth's minimum thresholds. <strong>Starling is OakNorth's feeder market, not its primary competitor.</strong> Companies graduate from Starling to OakNorth, not the other way around.</div>
+      <div class="finding-evidence">Ad copy: "Organising my finances with @starlingbank has helped me to be so much better with money, which is so important as a freelancer." — Personal finance UGC, not SME CFO targeting.</div>
+    </div>
+
+    <div class="finding-card warning">
+      <div class="finding-badge badge-warning">Medium — Acquisition</div>
+      <div class="finding-title">Feature-Led Messaging ("No Monthly Fees") Competes on Price, Not Outcome</div>
+      <div class="finding-body">"A business bank account with no monthly fees and free accountancy software included. Don't pay for what you don't need." This is a cost-reduction message for small businesses watching every £. A CFO at a £10M company deciding where to place £500k+ in reserves is not motivated by "no monthly fees" — they're motivated by yield, security, and relationship quality. Starling's message is structurally misaligned with OakNorth's ICP.</div>
+    </div>
+
+    <div class="finding-card positive">
+      <div class="finding-badge badge-positive">Positive (for Starling) — Credibility</div>
+      <div class="finding-title">Which? Recommended Provider for 7 Consecutive Years</div>
+      <div class="finding-body">The Which? badge is independently earned and credible. It signals that Starling's product is well-reviewed by a consumer watchdog. However, this accolade is for the banking product overall — not specifically for the deposit safety, rate quality, or lending relationship that OakNorth's ICP values most. <strong>The FCA fine directly undermines the trust signal this badge is trying to build.</strong></div>
+    </div>
+  </div>
+
+  <!-- Ad Samples -->
+  <div class="section">
+    <div class="section-title">Genuine Starling Business Ads Found</div>
+    <div class="ad-sample">
+      <span class="ad-platform-tag tag-meta">Meta — Product Ad</span>
+      <div class="ad-copy">"A business bank account with no monthly fees, and free accountancy software included. Don't pay for what you don't need. STARLINGBANK.COM — Good with money"</div>
+    </div>
+    <div class="ad-sample">
+      <span class="ad-platform-tag tag-meta">Meta — Trust / Award</span>
+      <div class="ad-copy">"We're a Which? Recommended Provider, for the seventh year in a row. Find out how we make business banking easy. STARLINGBANK.COM — Good with money"</div>
+    </div>
+    <div class="ad-sample">
+      <span class="ad-platform-tag tag-meta">Meta — UGC / Influencer (freelancer, not SME CFO)</span>
+      <div class="ad-copy">"Lessons I wish I knew sooner on how to build a successful career as a creative. Organising my finances with @starlingbank has helped me to be so much better with money, which is so important as a freelancer."</div>
+    </div>
+  </div>
+
+  <!-- Competitor comparison -->
+  <div class="section">
+    <div class="section-title">Three-Way Competitor Comparison — LinkedIn &amp; Deposit Acquisition</div>
+    <table>
+      <thead>
+        <tr><th>Competitor</th><th>LinkedIn UK Ads</th><th>Deposit/Savings Ads</th><th>FSCS Messaging</th><th>Sector Targeting</th><th>FCA Issues</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Allica Bank</strong></td>
+          <td>⚠️ 5 (email CTA only)</td>
+          <td>✅ Savings rate (4.08%)</td>
+          <td>✅ In landing pages</td>
+          <td style="color:var(--red)">❌ Zero</td>
+          <td style="color:var(--green)">None known</td>
+        </tr>
+        <tr>
+          <td><strong>Revolut Business</strong></td>
+          <td style="color:var(--red)">❌ EU only (not UK)</td>
+          <td style="color:var(--red)">❌ Zero</td>
+          <td style="color:var(--red)">❌ Not used</td>
+          <td style="color:var(--red)">❌ Zero</td>
+          <td style="color:var(--green)">None relevant</td>
+        </tr>
+        <tr>
+          <td><strong>Starling Business</strong></td>
+          <td style="color:var(--red)">❌ Zero</td>
+          <td style="color:var(--red)">❌ Zero</td>
+          <td style="color:var(--red)">❌ Zero</td>
+          <td style="color:var(--red)">❌ Zero</td>
+          <td style="color:var(--red)">£29M fine 2025</td>
+        </tr>
+        <tr style="background:rgba(249,115,22,0.05);">
+          <td><strong>OakNorth (opportunity)</strong></td>
+          <td style="color:var(--green)">✅ Clear channel to own</td>
+          <td style="color:var(--green)">✅ 3.35% AER to lead with</td>
+          <td style="color:var(--green)">✅ £120k FSCS trigger</td>
+          <td style="color:var(--green)">✅ Property, professional services, hospitality</td>
+          <td style="color:var(--green)">0 incidents, 10 years</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- OakNorth Intelligence -->
+  <div class="section">
+    <div class="section-title">OakNorth Interview Intelligence — Combined Competitor Picture</div>
+    <div class="intel-box">
+      <div class="intel-label">What Three Audits Tell You About OakNorth's Acquisition Window</div>
+      <ul>
+        <li><strong>LinkedIn is completely uncontested.</strong> Allica has one banker's email address. Revolut has EU-language ads that don't reach UK CFOs. Starling has nothing. OakNorth running targeted LinkedIn campaigns at Finance Directors and CFOs by sector would be the only professional-channel paid acquisition from any challenger bank in the UK right now. This is the most important insight from the three audits combined.</li>
+        <li><strong>No competitor is using FSCS as an acquisition trigger.</strong> Allica mentions it on landing pages. Revolut doesn't use their March 2026 licence in any ad. Starling has nothing. The December 2025 FSCS limit change to £120,000 — the most significant banking policy change affecting CFO deposit decisions in years — has produced zero paid acquisition campaigns from any of these three banks. This is OakNorth's to own.</li>
+        <li><strong>No competitor uses sector language in any ad.</strong> Not one ad from Allica, Revolut, or Starling calls out a property company, a professional services firm, or a hospitality group. Every CFO in those sectors sees a generic banking ad. OakNorth's sector research (property, professional services, hospitality) is a structural advantage that none of the competitors are using in paid media.</li>
+        <li><strong>Starling's FCA fine is an OakNorth talking point.</strong> In a CFO conversation about where to bank, "we have zero FCA enforcement actions in ten years, a 0.045% cumulative loss rate, and we are FCA and PRA regulated" directly contrasts with Starling's £29M fine. This is not disparagement — it's a regulatory clean record, which is a threshold requirement for a CFO holding company cash.</li>
+        <li><strong>Allica's acquisition is rate competition — it collapses if OakNorth matches the rate.</strong> Allica's entire paid strategy is "4.08% AER, 1.5% cashback, no fees." If OakNorth runs sector-specific campaigns with a competitive savings rate and a relationship banking story, Allica has nothing left to say beyond "us too." OakNorth's AI credit intelligence and Monite finance automation are differentiators Allica cannot match.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Action items -->
+  <div class="section">
+    <div class="section-title">90-Day Acquisition Counterplay for OakNorth</div>
+    <div class="action-item">
+      <div class="action-num">1</div>
+      <div class="action-body">
+        <div class="action-title">Own LinkedIn — no competitor is there</div>
+        <div class="action-desc">Sector-specific LinkedIn campaigns targeting Finance Directors (property) and CFOs (professional services). Zero paid competition from Allica, Revolut, or Starling on this channel. OakNorth would be the only challenger bank speaking directly to B2B decision-makers on LinkedIn.</div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">2</div>
+      <div class="action-body">
+        <div class="action-title">Run the FSCS acquisition campaign before any competitor does</div>
+        <div class="action-desc">"Your reserves are now FSCS-protected up to £120,000. 3.35% AER. Next-day access." None of the three competitors are saying this in paid media. The window opened December 2025. OakNorth is the first mover if they move now.</div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">3</div>
+      <div class="action-body">
+        <div class="action-title">Use sector language in every ad — no competitor does this at all</div>
+        <div class="action-desc">Three ad sets: "For property companies between completions." "For professional services firms holding client money." "For hospitality groups with seasonal cash." Every CFO in those sectors currently sees only generic banking ads. Sector-specific copy attracts buyers, not browsers.</div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">4</div>
+      <div class="action-body">
+        <div class="action-title">Position the regulatory clean record explicitly</div>
+        <div class="action-desc">Against Starling's FCA fine: OakNorth's 0.045% cumulative loss rate and zero enforcement actions in 10 years is the strongest CFO trust signal in the challenger bank space. This belongs in the ad copy, not just on the landing page.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Strategy &amp; GTM research by Jean Mundabi Fala &nbsp;·&nbsp; MDB Growth Capital &nbsp;·&nbsp; Competitor intelligence for OakNorth interview prep, May 2026
+  </div>
+
+</div>
+</body>
+</html>

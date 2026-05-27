@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OakNorth Business Banking — For UK SMEs Who've Outgrown Their Bank</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  :root {
+    --navy: #1a2744;
+    --green: #00a651;
+    --light-green: #e8f7ee;
+    --white: #ffffff;
+    --light-gray: #f4f6fb;
+    --mid-gray: #64748b;
+    --dark: #0f172a;
+    --red: #dc2626;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--white); color: var(--dark); line-height: 1.6; font-size: 18px; }
+
+  /* BUYING WINDOW STRIP */
+  .buying-strip { background: var(--navy); color: #94a3b8; font-size: 0.75rem; text-align: center; padding: 10px 24px; letter-spacing: 0.04em; }
+  .buying-strip span { color: white; font-weight: 600; }
+
+  /* NAV */
+  .nav { background: white; border-bottom: 1px solid #e2e8f0; padding: 16px 48px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+  .nav-logo { font-size: 1.1rem; font-weight: 800; color: var(--navy); }
+  .nav-cta { background: var(--green); color: white; padding: 10px 20px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; text-decoration: none; }
+
+  /* HERO */
+  .hero { background: var(--navy); color: white; padding: 80px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; max-width: 100%; }
+  .hero-eyebrow { display: inline-block; background: rgba(0,166,81,0.2); color: var(--green); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 12px; border-radius: 4px; margin-bottom: 16px; }
+  .hero h1 { font-size: 2.8rem; font-weight: 900; line-height: 1.15; margin-bottom: 20px; }
+  .hero h1 span { color: var(--green); }
+  .hero-sub { font-size: 1.05rem; color: #94a3b8; margin-bottom: 32px; line-height: 1.7; }
+  .hero-cta-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .hero-cta-primary { background: var(--green); color: white; padding: 16px 32px; border-radius: 8px; font-size: 1rem; font-weight: 700; text-decoration: none; display: inline-block; }
+  .hero-cta-secondary { color: #94a3b8; font-size: 0.9rem; }
+  .hero-cta-secondary a { color: white; text-decoration: underline; }
+  .hero-right { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 32px; }
+  .hero-right h3 { font-size: 0.9rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px; }
+  .calc-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .calc-row:last-of-type { border-bottom: none; }
+  .calc-bank { font-size: 0.9rem; color: #94a3b8; }
+  .calc-rate { font-size: 0.85rem; color: #94a3b8; }
+  .calc-yield { font-size: 0.9rem; font-weight: 600; color: white; }
+  .calc-row.highlight { background: rgba(0,166,81,0.1); margin: 0 -16px; padding: 12px 16px; border-radius: 8px; }
+  .calc-row.highlight .calc-bank, .calc-row.highlight .calc-rate { color: white; }
+  .calc-row.highlight .calc-yield { color: var(--green); font-size: 1.1rem; }
+  .calc-gap { background: var(--green); border-radius: 8px; padding: 16px; margin-top: 20px; text-align: center; }
+  .calc-gap p { font-size: 0.85rem; color: var(--light-green); }
+  .calc-gap .gap-num { font-size: 1.8rem; font-weight: 900; color: white; display: block; margin: 4px 0; }
+
+  /* SOCIAL PROOF STRIP */
+  .proof-strip { background: var(--light-gray); padding: 24px 48px; display: flex; gap: 32px; align-items: center; overflow-x: auto; }
+  .proof-item { flex-shrink: 0; display: flex; align-items: center; gap: 10px; }
+  .proof-item .proof-num { font-size: 1.4rem; font-weight: 800; color: var(--navy); }
+  .proof-item .proof-label { font-size: 0.78rem; color: var(--mid-gray); line-height: 1.3; max-width: 100px; }
+
+  /* SECTIONS */
+  .section { padding: 72px 48px; max-width: 1100px; margin: 0 auto; }
+  .section h2 { font-size: 2rem; font-weight: 800; color: var(--navy); margin-bottom: 8px; line-height: 1.25; }
+  .section .section-sub { font-size: 1rem; color: var(--mid-gray); margin-bottom: 40px; }
+  .full-width { max-width: 100%; padding: 72px 48px; }
+
+  /* VSL PLACEHOLDER */
+  .vsl-wrap { background: var(--navy); padding: 64px 48px; text-align: center; }
+  .vsl-box { max-width: 680px; margin: 0 auto; background: rgba(255,255,255,0.05); border-radius: 16px; padding: 48px; border: 2px solid rgba(255,255,255,0.1); }
+  .vsl-box .play { width: 72px; height: 72px; background: var(--green); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 16px; }
+  .vsl-box h3 { font-size: 1.2rem; font-weight: 700; color: white; margin-bottom: 8px; }
+  .vsl-box p { color: #94a3b8; font-size: 0.9rem; }
+  .vsl-box .duration { display: inline-block; background: rgba(0,166,81,0.2); color: var(--green); font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 4px; margin-top: 12px; }
+
+  /* PAIN SECTIONS */
+  .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .pain-card { background: var(--light-gray); border-radius: 12px; padding: 28px; border-left: 4px solid var(--red); }
+  .pain-card .pain-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--red); margin-bottom: 12px; }
+  .pain-card blockquote { font-size: 1rem; color: var(--dark); font-style: italic; line-height: 1.6; margin-bottom: 12px; font-weight: 500; }
+  .pain-card blockquote::before { content: '"'; font-size: 2rem; color: var(--mid-gray); line-height: 0.5; }
+  .pain-card p { font-size: 0.85rem; color: var(--mid-gray); }
+
+  /* OLD WAY / NEW WAY */
+  .comparison-wrap { background: var(--light-gray); }
+  .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .old-way { background: #fff5f5; }
+  .new-way { background: var(--light-green); }
+  .comparison-header { padding: 20px 32px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+  .old-way .comparison-header { color: var(--red); background: #fee2e2; }
+  .new-way .comparison-header { color: var(--green); background: #dcfce7; }
+  .comp-pair { display: grid; grid-template-columns: 1fr 1fr; }
+  .comp-item { padding: 28px 32px; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 0.9rem; line-height: 1.7; }
+  .comp-item.old { background: #fff5f5; color: var(--mid-gray); border-right: 2px solid #fecaca; }
+  .comp-item.new { background: #f0fdf4; color: var(--dark); }
+  .comp-item .comp-icon { font-size: 1rem; margin-right: 8px; }
+
+  /* MECHANISM */
+  .mechanism-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 32px; }
+  .mech-step { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-top: 3px solid var(--green); }
+  .mech-step .step-num { font-size: 0.75rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .mech-step h4 { font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .mech-step p { font-size: 0.83rem; color: var(--mid-gray); }
+
+  /* VIDEO TESTIMONIALS */
+  .vt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .vt-card { background: var(--navy); border-radius: 12px; overflow: hidden; }
+  .vt-thumb { position: relative; background: #0f2040; height: 160px; display: flex; align-items: center; justify-content: center; }
+  .vt-initials { width: 56px; height: 56px; background: rgba(0,166,81,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; color: white; }
+  .vt-play { width: 40px; height: 40px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; position: absolute; bottom: 16px; right: 16px; }
+  .vt-duration { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 3px; }
+  .vt-body { padding: 20px; }
+  .vt-quote { font-size: 0.85rem; color: #94a3b8; font-style: italic; margin-bottom: 12px; line-height: 1.6; }
+  .vt-name-bar { font-size: 0.78rem; font-weight: 700; color: white; }
+  .vt-attr { font-size: 0.72rem; color: #64748b; }
+
+  /* QUALIFICATION */
+  .qual-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .qual-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .qual-card.fits { border-left: 4px solid var(--green); }
+  .qual-card.not { border-left: 4px solid var(--red); }
+  .qual-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; }
+  .qual-card.fits h4 { color: var(--green); }
+  .qual-card.not h4 { color: var(--red); }
+  .qual-card ul { padding-left: 18px; }
+  .qual-card ul li { font-size: 0.87rem; color: var(--mid-gray); margin-bottom: 5px; }
+
+  /* REVENUE GAP */
+  .revenue-gap-wrap { background: var(--navy); padding: 72px 48px; }
+  .revenue-table { width: 100%; border-collapse: collapse; max-width: 700px; margin: 0 auto; }
+  .revenue-table th { text-align: left; padding: 12px 16px; font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em; }
+  .revenue-table td { padding: 14px 16px; font-size: 0.9rem; color: #94a3b8; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .revenue-table tr.highlight td { background: rgba(0,166,81,0.1); color: white; font-weight: 700; }
+  .revenue-table tr.highlight td:first-child { border-left: 3px solid var(--green); }
+  .gap-callout { max-width: 700px; margin: 32px auto 0; background: var(--green); border-radius: 12px; padding: 24px 32px; text-align: center; }
+  .gap-callout .gap-big { font-size: 3rem; font-weight: 900; color: white; display: block; }
+  .gap-callout p { color: var(--light-green); font-size: 0.9rem; margin-top: 4px; }
+
+  /* OFFER */
+  .offer-wrap { background: var(--light-gray); }
+  .offer-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+  .offer-card { background: white; border-radius: 12px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .offer-card .offer-tag { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green); margin-bottom: 8px; }
+  .offer-card h4 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+  .offer-card p { font-size: 0.85rem; color: var(--mid-gray); margin-bottom: 10px; }
+  .offer-card .micro-pas { font-size: 0.8rem; color: var(--red); font-style: italic; }
+
+  /* FAQ */
+  .faq-list { max-width: 720px; }
+  .faq-item { border-bottom: 1px solid #e2e8f0; padding: 20px 0; }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-item h4 { font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .faq-item p { font-size: 0.87rem; color: var(--mid-gray); }
+
+  /* FINAL CTA */
+  .final-cta { background: var(--navy); padding: 80px 48px; text-align: center; }
+  .final-cta h2 { font-size: 2.2rem; font-weight: 900; color: white; margin-bottom: 16px; line-height: 1.2; }
+  .final-cta .cost-line { font-size: 1rem; color: var(--mid-gray); margin-bottom: 8px; }
+  .final-cta .dream-line { font-size: 1.05rem; color: #94a3b8; margin-bottom: 40px; }
+  .final-cta-btn { display: inline-block; background: var(--green); color: white; padding: 20px 48px; border-radius: 8px; font-size: 1.1rem; font-weight: 700; text-decoration: none; }
+
+  /* FOOTER */
+  .footer { background: var(--dark); color: #475569; text-align: center; padding: 20px; font-size: 0.78rem; }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; padding: 48px 24px; }
+    .hero h1 { font-size: 2rem; }
+    .pain-grid { grid-template-columns: 1fr; }
+    .mechanism-steps { grid-template-columns: 1fr 1fr; }
+    .vt-grid { grid-template-columns: 1fr; }
+    .offer-cards { grid-template-columns: 1fr; }
+    .qual-grid { grid-template-columns: 1fr; }
+    .comp-pair { grid-template-columns: 1fr; }
+    .section { padding: 48px 24px; }
+    .nav { padding: 16px 24px; }
+    .proof-strip { padding: 20px 24px; }
+    .revenue-gap-wrap { padding: 48px 24px; }
+    .full-width { padding: 48px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BUYING WINDOW STRIP -->
+<section class="buying-strip">
+  <span>FSCS deposit limit raised to £120,000 — December 2025.</span> New Finance Director starting this quarter? Now's the time to review your banking relationships.
+</section>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">OakNorth Business Banking</div>
+  <a href="#open-account" class="nav-cta">Talk to Our Team</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">FSCS-Protected Business Banking</div>
+    <h1>Your reserves at Barclays are earning <span>£10,600 less</span> than they could be.</h1>
+    <p class="hero-sub">One bank that actually understands how a business like yours works. Fast lending decisions. Cash earning a proper rate. A human you can call. And now — bank-native finance automation so your team stops managing four systems to do the job of one.</p>
+    <div class="hero-cta-row">
+      <a href="#open-account" class="hero-cta-primary">Talk to Our Team</a>
+      <span class="hero-cta-secondary"><a href="#calculator">See your yield gap →</a></span>
+    </div>
+  </div>
+  <div class="hero-right" id="calculator">
+    <h3>Annual yield on £500,000 — May 2026</h3>
+    <div class="calc-row">
+      <span class="calc-bank">Barclays Business</span>
+      <span class="calc-rate">~1.5% AER</span>
+      <span class="calc-yield">~£7,500</span>
+    </div>
+    <div class="calc-row">
+      <span class="calc-bank">OakNorth Easy Access</span>
+      <span class="calc-rate">2.35% AER</span>
+      <span class="calc-yield">£11,750</span>
+    </div>
+    <div class="calc-row">
+      <span class="calc-bank">OakNorth Notice 95-day</span>
+      <span class="calc-rate">3.55% AER</span>
+      <span class="calc-yield">£17,750</span>
+    </div>
+    <div class="calc-row highlight">
+      <span class="calc-bank"><strong>OakNorth Notice 125-day</strong></span>
+      <span class="calc-rate">3.62% AER</span>
+      <span class="calc-yield">£18,100</span>
+    </div>
+    <div class="calc-row highlight">
+      <span class="calc-bank"><strong>OakNorth Fixed 12-month</strong></span>
+      <span class="calc-rate">3.80% AER</span>
+      <span class="calc-yield">£19,000</span>
+    </div>
+    <div class="calc-gap">
+      <p>Annual yield difference — Notice 125-day vs Barclays</p>
+      <span class="gap-num">£10,600</span>
+      <p>FSCS protected up to £120,000. Verified May 2026 — oaknorth.co.uk/business-banking/savings/</p>
+    </div>
+  </div>
+</div>
+
+<!-- VSL PLACEHOLDER -->
+<section class="vsl-wrap">
+  <div class="vsl-box">
+    <div class="play">▶</div>
+    <h3>Watch: How OakNorth removes the slow-bank problem without the Big Four headache</h3>
+    <p>CFOs at companies like yours — hospitality, healthcare, professional services — on what changed when they moved their reserves and their lending to one bank that actually knows their numbers.</p>
+    <span class="duration">VIDEO_URL_GOES_HERE · 4 min</span>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF STRIP -->
+<section class="proof-strip">
+  <div class="proof-item"><div class="proof-num">£223m</div><div class="proof-label">Pre-tax profit 2025</div></div>
+  <div class="proof-item"><div class="proof-num">270+</div><div class="proof-label">Industry sectors covered</div></div>
+  <div class="proof-item"><div class="proof-num">4.5★</div><div class="proof-label">Trustpilot — 400+ reviews</div></div>
+  <div class="proof-item"><div class="proof-num">40%+</div><div class="proof-label">Repeat borrower rate</div></div>
+  <div class="proof-item"><div class="proof-num">3 weeks</div><div class="proof-label">Average lending decision</div></div>
+  <div class="proof-item"><div class="proof-num">0.045%</div><div class="proof-label">Cumulative principal losses over 10 years</div></div>
+</section>
+
+<!-- PAIN SECTIONS -->
+<section class="section">
+  <h2>If any of these sounds familiar, you're in the right place.</h2>
+  <p class="section-sub">Three patterns we hear from Finance Directors and CFOs who found us — and why they stayed.</p>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="pain-label">Pain 01 — The Yield Gap</div>
+      <blockquote>We have £600,000 sitting in a Barclays notice account at 1.6%. I told the board we'd improve our cash position in Q1. It's Q2 now. I still haven't moved it.</blockquote>
+      <p>Every month that cash stays at your incumbent bank costs you approximately £729 in foregone interest at OakNorth's current rate. The reason you haven't switched is not the rate. It's the switching friction. We've removed it.</p>
+    </div>
+    <div class="pain-card">
+      <div class="pain-label">Pain 02 — The Lending Wall</div>
+      <blockquote>My HSBC relationship manager is on his fourth handover in 18 months. I have no idea who to call when I need to make a lending decision quickly. The acquisition window is three weeks. The term sheet is eight months away.</blockquote>
+      <p>OakNorth's average lending decision: 2 to 4 weeks. For a business at the stage where speed matters — acquisition, expansion, working capital — that difference is not a feature. It is the deal happening or not happening.</p>
+    </div>
+    <div class="pain-card">
+      <div class="pain-label">Pain 03 — The Middle Ground</div>
+      <blockquote>We're at £8 million turnover. We've outgrown the Starling account we set up in 2021. But I don't know who actually serves companies like us — the Big Four don't want to know us and the fintechs feel too small.</blockquote>
+      <p>OakNorth exists for this gap. Too established for retail banking. Too specific for a generic challenger. We know what £8 million turnover looks like in hospitality, healthcare, professional services — because we've financed 270+ sectors.</p>
+    </div>
+  </div>
+</section>
+
+<!-- OLD WAY / NEW WAY -->
+<section class="comparison-wrap">
+<section style="max-width:1100px;margin:0 auto;padding:72px 48px 0;display:block;">
+    <h2>The difference is not the rate. It's everything that stops you accessing it.</h2>
+    <p class="section-sub">Five things that used to be problems. Five things that changed when Finance Directors moved to OakNorth.</p>
+  </section>
+  <div class="comp-pair">
+    <div class="comp-item old">
+      <div class="comparison-header" style="background:#fee2e2;color:var(--red);padding:12px 32px;">Before OakNorth</div>
+    </div>
+    <div class="comp-item new">
+      <div class="comparison-header" style="background:#dcfce7;color:var(--green);padding:12px 32px;">After OakNorth</div>
+    </div>
+  </div>
+
+  <div class="comp-pair">
+    <div class="comp-item old"><span class="comp-icon">✕</span> We were trying to improve our treasury position before the end of year, but Barclays told us the notice period would reset if we moved. When the board asked me for the yield calculation, I only had the Barclays rate to show. I spent more time explaining why I hadn't moved than actually moving it. The part nobody says out loud is I was more worried about being asked why I waited than about the actual interest income.</div>
+    <div class="comp-item new"><span class="comp-icon">✓</span> Now the rate comparison is already in front of the board. The 125-day Notice Account is open, the cash is earning 3.62%, and the conversation changed from "why are we still at Barclays" to "what else can we do with the yield gain." That first month the FD said: good call.</div>
+  </div>
+
+  <div class="comp-pair">
+    <div class="comp-item old"><span class="comp-icon">✕</span> We tried HSBC for the acquisition financing. Four months to come back with a term sheet — and then the deal was conditional on us moving our primary banking relationship. By the time the decision arrived, we'd already paid two consultants to explain our sector to the credit team. The question they kept asking was not about our numbers. It was about whether our sector was on their approved list.</div>
+    <div class="comp-item new"><span class="comp-icon">✓</span> OakNorth came back in 11 days. The credit team had seen 30 deals in our sector before they saw ours. The term sheet was specific to our business, not templated from a generic SME model. We closed the acquisition. The next funding round — we went straight back.</div>
+  </div>
+
+  <div class="comp-pair">
+    <div class="comp-item old"><span class="comp-icon">✕</span> We were running AP through Xero and banking through Starling. When the reconciliation window opened every month, the finance team spent three days matching invoices that should have been auto-matched. We posted an AP manager role on Indeed. By the time we got through three rounds of interviews the cost of the manual process had already exceeded what the hire would cost. The part nobody says out loud is that we'd rebuilt a problem we thought technology had solved.</div>
+    <div class="comp-item new"><span class="comp-icon">✓</span> Now AP and AR run natively through OakNorth. The data is already in the bank — no API call, no 24-hour lag. We cancelled the job posting. The finance team stopped spending three days a month on reconciliation. The conversation changed from managing process to managing cash.</div>
+  </div>
+
+  <div class="comp-pair">
+    <div class="comp-item old"><span class="comp-icon">✕</span> I spread our £600,000 across five banks for FSCS protection. The admin of managing five bank accounts — five sets of authorisations, five direct debit setups, five statement downloads every month — was a job in itself. When I read the FSCS limit had gone up to £120,000 in December, I realised I'd been running a system designed for the old limit for nine months.</div>
+    <div class="comp-item new"><span class="comp-icon">✓</span> Now one bank holds £500,000 FSCS-protected. The admin overhead is gone. The interest income from that consolidation pays for a piece of software the team needed. I did the review that should have happened in December. Three days to set up. Done.</div>
+  </div>
+
+  <div class="comp-pair">
+    <div class="comp-item old"><span class="comp-icon">✕</span> Our broker found us a lender for the last refinance. They'd never seen a deal in professional services before. The credit memo read like a Wikipedia article about our industry. When their rate changed on exchange, we had no relationship to call. We were a file number, not a client.</div>
+    <div class="comp-item new"><span class="comp-icon">✓</span> OakNorth has financed 270+ industry sectors. Our relationship manager knew our sector before the first call. When we needed to move quickly on a second facility, the conversation started where the last one ended. We are not starting from scratch with a new relationship manager every 18 months.</div>
+  </div>
+  <div style="height:72px;"></div>
+</div>
+
+<!-- MECHANISM -->
+<section class="section">
+  <h2>How it works — from first conversation to your first deposit earning more.</h2>
+  <p class="section-sub">Four steps. No operational disruption. Built for CFOs who do not have time to manage a bank migration.</p>
+  <div class="mechanism-steps">
+    <div class="mech-step">
+      <div class="step-num">Step 1</div>
+      <h4>15-Minute Conversation</h4>
+      <p>Tell us your current cash position, your existing banking relationships, and what you need from a banking partner. We tell you exactly what you would earn with us versus your current bank — in writing, in your first conversation.</p>
+    </div>
+    <div class="mech-step">
+      <div class="step-num">Step 2</div>
+      <h4>Tailored Product Review</h4>
+      <p>We map your needs to our product suite: Business Notice Account, Fixed Term Deposits, notice accounts, lending, Finance Automation. No product push — just a clear picture of what the switch looks like for your specific company.</p>
+    </div>
+    <div class="mech-step">
+      <div class="step-num">Step 3</div>
+      <h4>Account Opening</h4>
+      <p>UK Limited Companies and LLPs. ID verification handled digitally. Direct debits and standing orders can be maintained through your existing primary account while the savings relationship transfers. No operational disruption.</p>
+    </div>
+    <div class="mech-step">
+      <div class="step-num">Step 4</div>
+      <h4>First Deposit. First Return.</h4>
+      <p>Easy Access: 2.35% AER, next business day, minimum £1. Notice accounts: 30-day (3.15%), 95-day (3.55%), 125-day (3.62%) — all minimum £50,000. Fixed Term Deposits: 6-month (3.65%), 12-month (3.80%) — minimum £50,000, rate locked until maturity. Rates verified May 2026.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO TESTIMONIALS -->
+<section class="full-width" style="background:var(--navy);">
+  <div style="max-width:1100px;margin:0 auto;">
+    <h2 style="color:white;font-size:2rem;font-weight:800;margin-bottom:8px;">Finance Directors on what actually changed.</h2>
+    <p style="color:#94a3b8;margin-bottom:40px;">Not edited quotes. Actual conversations about what the switch looked like in practice.</p>
+    <div class="vt-grid">
+      <div class="vt-card">
+        <div class="vt-thumb">
+          <div class="vt-initials">SL</div>
+          <div class="vt-play">▶</div>
+          <div class="vt-duration">2:14</div>
+        </div>
+        <div class="vt-body">
+          <div class="vt-quote">VIDEO_TESTIMONIAL_1 — "The lending decision came back in 10 days. HSBC had been sitting on it for four months. We closed the acquisition."</div>
+          <div class="vt-name-bar">Sarah L.</div>
+          <div class="vt-attr">Head of Finance — Hospitality Group, £35m turnover</div>
+        </div>
+      </div>
+      <div class="vt-card">
+        <div class="vt-thumb">
+          <div class="vt-initials">MH</div>
+          <div class="vt-play">▶</div>
+          <div class="vt-duration">1:58</div>
+        </div>
+        <div class="vt-body">
+          <div class="vt-quote">VIDEO_TESTIMONIAL_2 — "First month the interest income from our Business Notice Account was £2,300 more than the same balance had earned at Barclays in six months."</div>
+          <div class="vt-name-bar">Mark H.</div>
+          <div class="vt-attr">Finance Director — Healthcare Services, £18m turnover</div>
+        </div>
+      </div>
+      <div class="vt-card">
+        <div class="vt-thumb">
+          <div class="vt-initials">JT</div>
+          <div class="vt-play">▶</div>
+          <div class="vt-duration">2:31</div>
+        </div>
+        <div class="vt-body">
+          <div class="vt-quote">VIDEO_TESTIMONIAL_3 — "We switched our AP to run through OakNorth's finance automation. The reconciliation job that used to take three days now takes an afternoon. We cancelled the headcount hire."</div>
+          <div class="vt-name-bar">Jo T.</div>
+          <div class="vt-attr">CFO — Professional Services, £22m turnover</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUALIFICATION ENGINE -->
+<section class="section">
+  <h2>Three profiles that fit. One that doesn't.</h2>
+  <p class="section-sub">OakNorth works for a specific type of business. Not every company should switch. Here is who we are built for — and who we are not.</p>
+  <div class="qual-grid">
+    <div class="qual-card fits">
+      <h4>The Cash Optimiser</h4>
+      <ul>
+        <li>£100,000 or more in operating reserves at a Big Four or incumbent bank</li>
+        <li>CFO who knows the rate differential but hasn't had time to act</li>
+        <li>Companies with £2m to £100m in annual turnover</li>
+        <li>FSCS limit review triggered by December 2025 change</li>
+      </ul>
+    </div>
+    <div class="qual-card fits">
+      <h4>The Speed-Dependent Borrower</h4>
+      <ul>
+        <li>SME needing a lending decision in weeks, not quarters</li>
+        <li>Acquisition, expansion, or working capital that cannot wait for Big Four timelines</li>
+        <li>Deal size: £500,000 to £45 million</li>
+        <li>Established business (3+ years trading, audited accounts)</li>
+      </ul>
+    </div>
+    <div class="qual-card fits">
+      <h4>The Finance Automation Buyer</h4>
+      <ul>
+        <li>Currently running AP/AR through Xero or manual spreadsheets</li>
+        <li>Considering a headcount hire for accounts payable or receivable</li>
+        <li>Wants accounting to be native to the bank, not bolted on</li>
+        <li>Lower mid-market: £5m to £50m annual turnover</li>
+      </ul>
+    </div>
+    <div class="qual-card not">
+      <h4>Not the Right Fit</h4>
+      <ul>
+        <li>Businesses under £1m turnover or startups without 2+ years of accounts</li>
+        <li>Companies needing a high-street branch for daily cash handling</li>
+        <li>Sole traders or partnerships (accounts are for Limited Companies and LLPs)</li>
+        <li>Businesses where the primary need is consumer payment processing</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- REVENUE GAP -->
+<section class="revenue-gap-wrap" id="revenue-gap">
+  <div style="max-width:800px;margin:0 auto;text-align:center;margin-bottom:40px;">
+    <h2 style="color:white;font-size:2rem;font-weight:800;margin-bottom:8px;">The cost of staying at your current bank.</h2>
+    <p style="color:#94a3b8;font-size:1rem;">Annual yield on business reserves — OakNorth versus the incumbent average. Calculated at May 2026 rates. FSCS protection equivalent.</p>
+  </div>
+  <table class="revenue-table">
+    <thead><tr><th style="color:#64748b;">Bank</th><th style="color:#64748b;">Rate (AER)</th><th style="color:#64748b;">Annual on £500k</th><th style="color:#64748b;">Annual on £1m</th></tr></thead>
+    <tbody>
+      <tr><td>Barclays Business</td><td>~1.50%</td><td>~£7,500</td><td>~£15,000</td></tr>
+      <tr><td>HSBC Business</td><td>~1.50%</td><td>~£7,500</td><td>~£15,000</td></tr>
+      <tr><td>OakNorth Easy Access</td><td>2.35%</td><td>£11,750</td><td>£23,500</td></tr>
+      <tr><td>OakNorth Notice 95-day</td><td>3.55%</td><td>£17,750</td><td>£35,500</td></tr>
+      <tr class="highlight"><td>OakNorth Notice 125-day</td><td>3.62%</td><td>£18,100</td><td>£36,200</td></tr>
+      <tr class="highlight"><td>OakNorth Fixed 12-month</td><td>3.80%</td><td>£19,000</td><td>£38,000</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:0.75rem;color:#64748b;margin:8px 0 16px;">Rates verified oaknorth.co.uk/business-banking/savings/ May 2026. Notice/Fixed accounts min £50,000. Starling rate not verified May 2026 — removed.</p>
+  <div class="gap-callout">
+    <p>Annual yield gap — OakNorth Notice 125-day versus Barclays — on £500,000</p>
+    <span class="gap-big">£10,600</span>
+    <p>FSCS protected up to £120,000. Every month at Barclays on £500k costs approximately £885 in foregone interest.</p>
+  </div>
+</section>
+
+<!-- OFFER -->
+<section class="offer-wrap">
+  <div class="section">
+    <h2>What you get with OakNorth Business Banking.</h2>
+    <p class="section-sub">Not a product brochure. The specific things that change for your finance function when you switch.</p>
+    <div class="offer-cards">
+      <div class="offer-card">
+        <div class="offer-tag">Business Savings</div>
+        <h4>Business Savings — up to 3.80% AER</h4>
+        <p>Easy Access 2.35% AER (next business day, min £1). Notice 125-day 3.62% AER (min £50k). Fixed 12-month 3.80% AER (min £50k). All FSCS protected to £120,000. Rates verified May 2026.</p>
+        <div class="micro-pas">Without this: your cash earns what Barclays chose to give you last time you didn't review it.</div>
+      </div>
+      <div class="offer-card">
+        <div class="offer-tag">Commercial Lending</div>
+        <h4>£500k to £45m — Decisions in Weeks</h4>
+        <p>Bespoke terms based on your actual business. 270+ sectors. 40%+ repeat borrower rate — which means our borrowers keep coming back. Average decision: 2 to 4 weeks.</p>
+        <div class="micro-pas">Without this: your acquisition timeline depends on when HSBC's credit committee meets next.</div>
+      </div>
+      <div class="offer-card">
+        <div class="offer-tag">Finance Automation</div>
+        <h4>Bank-Native AP/AR via Monite</h4>
+        <p>Accounts payable, accounts receivable, and expense management native to OakNorth's banking interface. No Xero API call required. No 24-hour reconciliation lag. Launching Q2 2026.</p>
+        <div class="micro-pas">Without this: your AP manager spends three days a month reconciling data that should already be in the same system.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GOLDEN HIPPO OFFER -->
+<section class="section" id="golden-hippo-offer">
+  <h2>Everything you get with OakNorth Business Banking — in full.</h2>
+  <p class="section-sub">Not a product list. The specific business outcome each component delivers — and what happens without it.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:28px;">
+    <div style="background:white;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:3px solid var(--green);">
+      <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:8px;">Business Savings</div>
+      <h4 style="font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:8px;">2.35% to 3.80% AER — Easy Access to Fixed Term</h4>
+      <p style="font-size:0.83rem;color:var(--mid-gray);margin-bottom:10px;">Easy Access: 2.35% AER (next business day, min £1). Notice 125-day: 3.62% AER (min £50k). Fixed 12-month: 3.80% AER (min £50k). All FSCS protected to £120,000. Rates verified May 2026.</p>
+      <p style="font-size:0.8rem;color:var(--red);font-style:italic;">Without this: a CFO at Barclays earning ~1.5% on £500,000 is leaving up to £11,500 per year on the table — every year they don't switch.</p>
+    </div>
+    <div style="background:white;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:3px solid var(--green);">
+      <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:8px;">Fixed Term Deposits</div>
+      <h4 style="font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:8px;">Rates confirmed at opening. 6 or 12 months.</h4>
+      <p style="font-size:0.83rem;color:var(--mid-gray);margin-bottom:10px;">Rate locked at opening. No movement risk for the term. Maximum certainty for treasury planning and board-level reporting.</p>
+      <p style="font-size:0.8rem;color:var(--red);font-style:italic;">Without this: your fixed cash position earns a variable rate that moves when your bank decides, not when your board approved.</p>
+    </div>
+    <div style="background:white;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:3px solid var(--green);">
+      <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:8px;">Commercial Lending</div>
+      <h4 style="font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:8px;">£500k to £45m. Decision in 2 to 4 weeks.</h4>
+      <p style="font-size:0.83rem;color:var(--mid-gray);margin-bottom:10px;">Bespoke terms based on your actual business. 270+ sectors. Dedicated relationship manager who knows your sector before the first call.</p>
+      <p style="font-size:0.8rem;color:var(--red);font-style:italic;">Without this: you are dependent on whether your HSBC relationship manager is available and whether your sector is on their approved list this quarter.</p>
+    </div>
+    <div style="background:white;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:3px solid var(--green);">
+      <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:8px;">Finance Automation — Monite</div>
+      <h4 style="font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:8px;">Bank-native AP/AR. No Xero API needed.</h4>
+      <p style="font-size:0.83rem;color:var(--mid-gray);margin-bottom:10px;">Accounts payable, accounts receivable, expense management built into the banking interface. Data is already in the bank. Launching Q2 2026.</p>
+      <p style="font-size:0.8rem;color:var(--red);font-style:italic;">Without this: your AP manager spends three days per month reconciling data that is already in the bank — just not connected to your accounting system.</p>
+    </div>
+    <div style="background:white;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-top:3px solid var(--green);">
+      <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:8px;">Relationship Banking</div>
+      <h4 style="font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:8px;">A person who knows your company. Not a call centre.</h4>
+      <p style="font-size:0.83rem;color:var(--mid-gray);margin-bottom:10px;">Dedicated relationship manager for Business Banking clients. 40%+ repeat borrower rate is the proof the model works — when the banking relationship works, clients come back.</p>
+      <p style="font-size:0.8rem;color:var(--red);font-style:italic;">Without this: you are starting the relationship from scratch with a new relationship manager every 18 months, explaining your sector every time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="section" id="guarantee">
+  <div style="background:var(--navy);border-radius:16px;padding:40px;">
+    <h2 style="color:white;font-size:1.6rem;font-weight:800;margin-bottom:12px;">Our commitment to you before you move a pound.</h2>
+    <p style="color:#94a3b8;font-size:0.92rem;margin-bottom:20px;">We tell you exactly what you would earn with us versus your current bank — in writing, in the first conversation. We walk you through what the switch looks like for your specific company, including FSCS coverage, account structure, and operational transition. If it is not the right fit for your situation, we tell you that too.</p>
+    <div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:24px;font-size:0.87rem;color:#94a3b8;">
+      <p style="margin-bottom:8px;"><strong style="color:white;">What you get in the first conversation:</strong></p>
+      <ul style="padding-left:18px;">
+        <li style="margin-bottom:6px;">Specific yield calculation for your actual reserve level — not a generic rate sheet</li>
+        <li style="margin-bottom:6px;">FSCS coverage review: how many accounts you actually need post-December 2025 limit change</li>
+        <li style="margin-bottom:6px;">Operational transition map: how your direct debits, standing orders, and payment rails continue uninterrupted</li>
+        <li style="margin-bottom:6px;">Honest assessment: if OakNorth is not the right fit for your current setup, we say so and tell you who is</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <h2>The questions Finance Directors ask before they switch.</h2>
+  <p class="section-sub">Honest answers. Not marketing copy.</p>
+  <div class="faq-list">
+    <div class="faq-item">
+      <h4>Is OakNorth safe? It's not Barclays.</h4>
+      <p>OakNorth is authorised and regulated by the Prudential Regulation Authority (PRA) and the Financial Conduct Authority (FCA). Business savings are FSCS protected up to £120,000 per depositor — the same protection as Barclays, HSBC, or any Big Four bank. OakNorth reported £223 million pre-tax profit in 2025, an efficiency ratio of 26%, and 0.045% cumulative principal losses over its 10-year operating history. Those numbers are better than most Big Four branch-level credit books would prefer to advertise.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Switching banks disrupts our direct debits and supplier payment rails.</h4>
+      <p>You do not need to switch your primary current account to use OakNorth for business savings. OakNorth savings accounts are standalone — you keep your Barclays or HSBC current account for daily operations. Your reserves earn 2.35% to 3.80% AER at OakNorth depending on the product. There is no operational disruption to your payment infrastructure.</p>
+    </div>
+    <div class="faq-item">
+      <h4>Our auditors will ask why we moved cash to a smaller bank.</h4>
+      <p>OakNorth is a fully regulated UK bank — not an e-money institution or fintech app. The audit trail is clean: PRA authorisation, FCA regulation, FSCS protection, published audited accounts. If your auditor asks, the answer is: higher yield, equivalent FSCS protection, equivalent regulatory status. A 1.75 percentage point rate advantage over Barclays is a commercially sound treasury decision, not an anomaly to explain.</p>
+    </div>
+    <div class="faq-item">
+      <h4>I need a relationship manager I can call, not just an app.</h4>
+      <p>OakNorth assigns dedicated relationship managers to Business Banking clients. The lending model is explicitly relationship-based — which is why 40%+ of OakNorth borrowers return for subsequent facilities. This is not a call centre model. You speak to someone who knows your company and your sector.</p>
+    </div>
+    <div class="faq-item">
+      <h4>The minimum is £100,000. We don't have that sitting idle.</h4>
+      <p>The £100,000 minimum applies to the Business Notice Account. If your current operating reserves are below that threshold, Fixed Term Deposits and notice accounts have different minimums. If you are growing toward that level, the lending relationship is a natural entry point — 40% of OakNorth borrowers become deposit clients within their first 12 months.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="open-account">
+  <h2>Every month you wait is a month your cash earns less than it should.</h2>
+  <p class="cost-line">On £500,000: approximately £729 per month in foregone interest income at current rates.</p>
+  <p class="dream-line">One conversation. 15 minutes. We tell you exactly what the switch looks like for your specific company — in writing, in the first call.</p>
+  <a href="https://www.oaknorth.co.uk/business-banking" class="final-cta-btn">Talk to Our Business Banking Team</a>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  OakNorth Bank is authorised by the Prudential Regulation Authority and regulated by the Financial Conduct Authority and the Prudential Regulation Authority. FSCS protection applies to eligible deposits up to £120,000. Interest rates are variable and subject to change. Available to UK Limited Companies and Limited Liability Partnerships only. Full terms available at oaknorth.co.uk.<br><br>
+  Mockup prepared by MDB Growth Capital. Strategy and GTM by Jean Mundabi Fala.
+</div>
+
+</body>
+</html>

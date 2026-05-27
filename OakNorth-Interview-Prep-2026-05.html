@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OakNorth Interview Prep — Senior Growth Marketing Manager</title>
+<style>
+  :root {
+    --bg: #0f0f13;
+    --surface: #18181f;
+    --surface2: #1f1f2a;
+    --border: #2a2a38;
+    --text: #e8e8f0;
+    --text-muted: #888899;
+    --accent: #6c5ce7;
+    --green: #00b894;
+    --blue: #0984e3;
+    --amber: #fdcb6e;
+    --red: #d63031;
+    --green-dim: rgba(0,184,148,0.12);
+    --blue-dim: rgba(9,132,227,0.12);
+    --amber-dim: rgba(253,203,110,0.12);
+    --red-dim: rgba(214,48,49,0.12);
+    --accent-dim: rgba(108,92,231,0.15);
+    --nav-w: 230px;
+    --radius: 10px;
+  }
+  [data-theme="light"] {
+    --bg: #f5f5f8;
+    --surface: #ffffff;
+    --surface2: #f0f0f5;
+    --border: #dddde8;
+    --text: #1a1a2e;
+    --text-muted: #666688;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.65;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    width: var(--nav-w);
+    min-width: var(--nav-w);
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    height: 100vh;
+    position: fixed;
+    top: 0; left: 0;
+    overflow-y: auto;
+    padding: 0 0 40px 0;
+    z-index: 100;
+  }
+  .nav-header {
+    padding: 20px 16px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .nav-role {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  nav a:hover, nav a.active {
+    color: var(--text);
+    border-left-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .nav-section {
+    padding: 16px 16px 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .nav-badge {
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-weight: 700;
+    margin-left: auto;
+  }
+  .badge-g { background: var(--green-dim); color: var(--green); }
+  .badge-b { background: var(--blue-dim); color: var(--blue); }
+  .badge-a { background: var(--amber-dim); color: var(--amber); }
+
+  /* MAIN */
+  main {
+    margin-left: var(--nav-w);
+    flex: 1;
+    padding: 0 32px 80px;
+    max-width: 820px;
+  }
+  .topbar {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 50;
+    margin: 0 -32px;
+    padding: 12px 32px;
+  }
+  .topbar-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+  .topbar-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  button {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  button:hover { background: var(--border); }
+  .btn-accent {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 600;
+  }
+  .btn-accent:hover { opacity: 0.9; background: var(--accent); }
+
+  /* TIMER */
+  .timer-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    margin: 24px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .timer-display {
+    font-size: 28px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    min-width: 80px;
+  }
+  .timer-display.running { color: var(--green); }
+  .timer-display.overtime { color: var(--red); }
+  .timer-presets { display: flex; gap: 6px; flex-wrap: wrap; }
+  .timer-presets button { font-size: 11px; padding: 4px 10px; }
+  .timer-label { font-size: 11px; color: var(--text-muted); }
+
+  /* SECTION */
+  .section {
+    scroll-margin-top: 60px;
+    margin-top: 40px;
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 0 0 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .card-header:hover { background: var(--surface2); }
+  .card-num {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    min-width: 24px;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    flex: 1;
+  }
+  .card-type {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .type-cheat { background: var(--accent-dim); color: var(--accent); }
+  .type-primary { background: var(--green-dim); color: var(--green); }
+  .type-backup { background: var(--blue-dim); color: var(--blue); }
+  .type-pushback { background: var(--amber-dim); color: var(--amber); }
+  .type-market { background: rgba(116,185,255,0.12); color: #74b9ff; }
+  .type-plan { background: rgba(162,155,254,0.12); color: #a29bfe; }
+  .type-closer { background: var(--red-dim); color: var(--red); }
+  .type-intro { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+  .card-chevron {
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: transform 0.2s;
+  }
+  .card.open .card-chevron { transform: rotate(90deg); }
+  .card-body {
+    display: none;
+    padding: 0 18px 18px;
+    border-top: 1px solid var(--border);
+  }
+  .card.open .card-body { display: block; }
+
+  /* CARD BODY STYLES */
+  .card-body h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 16px 0 4px;
+    line-height: 1.3;
+  }
+  .card-body h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 16px 0 8px;
+  }
+  .card-body p {
+    margin: 10px 0;
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .card-body ul, .card-body ol {
+    margin: 10px 0 10px 20px;
+    line-height: 1.8;
+  }
+  .card-body li { margin-bottom: 4px; }
+  .card-body strong { color: var(--text); font-weight: 600; }
+  .card-body em { color: var(--text-muted); font-style: italic; }
+  .card-body blockquote {
+    border-left: 3px solid var(--accent);
+    margin: 14px 0;
+    padding: 10px 16px;
+    background: var(--accent-dim);
+    border-radius: 0 6px 6px 0;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .card-body code {
+    background: var(--surface2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 13px;
+  }
+  hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+  /* STAR LABELS */
+  .star-label {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+  }
+  .sl-s { background: rgba(116,185,255,0.15); color: #74b9ff; }
+  .sl-t { background: rgba(253,203,110,0.15); color: var(--amber); }
+  .sl-a { background: rgba(162,155,254,0.15); color: #a29bfe; }
+  .sl-r { background: var(--green-dim); color: var(--green); }
+  .sl-h { background: var(--accent-dim); color: var(--accent); }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 14px 0;
+    border-left: 3px solid var(--accent);
+  }
+  .highlight.green { border-left-color: var(--green); background: var(--green-dim); }
+  .highlight.amber { border-left-color: var(--amber); background: var(--amber-dim); }
+  .highlight.red { border-left-color: var(--red); background: var(--red-dim); }
+  .highlight.blue { border-left-color: var(--blue); background: var(--blue-dim); }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+  th {
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--surface2);
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+
+  /* CHEAT SHEET */
+  .cheat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 14px 0;
+  }
+  .cheat-box {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 14px;
+    border: 1px solid var(--border);
+  }
+  .cheat-box h4 {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .cheat-box ul { margin-left: 14px; }
+  .cheat-box li { font-size: 13px; line-height: 1.6; margin-bottom: 2px; }
+  @media (max-width: 600px) { .cheat-grid { grid-template-columns: 1fr; } }
+
+  /* QUESTION CARDS */
+  .q-card {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 10px 0;
+    border: 1px solid var(--border);
+  }
+  .q-card p:first-child { font-weight: 600; font-size: 14px; margin-top: 0; }
+  .q-why { font-size: 12px; color: var(--text-muted); margin-top: 6px !important; }
+
+  /* PRINT */
+  @media print {
+    nav { display: none; }
+    main { margin-left: 0; max-width: 100%; padding: 20px; }
+    .topbar { display: none; }
+    .card { break-inside: avoid; }
+    .card-body { display: block !important; }
+    .card-header { cursor: default; }
+  }
+
+  /* SCROLL */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-header">
+    <div class="nav-logo">OakNorth</div>
+    <div class="nav-role">Senior Growth Marketing Manager<br>Business Banking · Contractor</div>
+  </div>
+  <div class="nav-section">Quick Ref</div>
+  <a href="#cheat">Cheat Sheet</a>
+  <a href="#howto">How to Use</a>
+  <a href="#desirable-skills">Desirable Skills</a>
+  <div class="nav-section">Openers</div>
+  <a href="#intro">Tell Me About Yourself</a>
+  <a href="#why-oaknorth">Why OakNorth?</a>
+  <a href="#why-role">Why This Role?</a>
+  <div class="nav-section">Intelligence</div>
+  <a href="#market">Market Context <span class="nav-badge badge-b">Study</span></a>
+  <a href="#funnel">Funnel Findings <span class="nav-badge badge-b">WOW</span></a>
+  <a href="#fix-first">Fix First</a>
+  <div class="nav-section">STAR Bank</div>
+  <a href="#acq">Acquisition Ownership <span class="nav-badge badge-g">Core</span></a>
+  <a href="#channel">Channel Strategy <span class="nav-badge badge-g">Core</span></a>
+  <a href="#fca">FCA Compliance <span class="nav-badge badge-g">Core</span></a>
+  <a href="#deposit-plain-english">Deposit Economics: Plain English <span class="nav-badge badge-a">Probe</span></a>
+  <a href="#deposits">Deposit Economics: Scripts</a>
+  <a href="#bd">BD Alignment</a>
+  <a href="#data">Data Literacy</a>
+  <a href="#gtm">Product GTM</a>
+  <a href="#lifecycle">Lifecycle & Activation</a>
+  <a href="#programmes">Commercial Programmes</a>
+  <div class="nav-section">Strategy</div>
+  <a href="#plan90">90-Day Plan</a>
+  <a href="#roadmap">12-Month Roadmap</a>
+  <div class="nav-section">Closing</div>
+  <a href="#questions">Smart Questions</a>
+  <a href="#traps">Traps to Avoid</a>
+  <a href="#pitch">60-Second Pitch</a>
+  <a href="#perspective">Interviewer View</a>
+  <div class="nav-section">Extra Assets</div>
+  <a href="segment-evaluation.html" target="_blank">Target Segments ↗</a>
+  <a href="oaknorth-90-day-plan.html" target="_blank">90-Day Plan Deck ↗</a>
+</nav>
+
+<!-- MAIN -->
+<main>
+  <div class="topbar">
+    <span class="topbar-title">OakNorth Interview Prep · 2026</span>
+    <div class="topbar-actions">
+      <button onclick="toggleTheme()">☀ Light</button>
+      <button onclick="expandAll()">Expand All</button>
+      <button onclick="collapseAll()">Collapse All</button>
+      <button onclick="window.print()" class="btn-accent">Print</button>
+    </div>
+  </div>
+
+  <!-- TIMER -->
+  <div class="timer-bar">
+    <div>
+      <div class="timer-display" id="timerDisplay">0:00</div>
+      <div class="timer-label" id="timerLabel">Select a target time</div>
+    </div>
+    <div class="timer-presets">
+      <button onclick="setTimer(60)">60s</button>
+      <button onclick="setTimer(90)">90s</button>
+      <button onclick="setTimer(120)">2 min</button>
+      <button onclick="setTimer(180)">3 min</button>
+      <button onclick="startTimer()" class="btn-accent" id="startBtn">▶ Start</button>
+      <button onclick="resetTimer()">Reset</button>
+    </div>
+  </div>
+
+  <!-- SECTION: QUICK REF -->
+  <div class="section" id="cheat">
+    <div class="section-title">Quick Reference</div>
+
+    <div class="card open">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">01</span>
+        <span class="card-title">Interview Cheat Sheet</span>
+        <span class="card-type type-cheat">Cheat</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <div class="cheat-grid">
+          <div class="cheat-box">
+            <h4>The Role</h4>
+            <ul>
+              <li>Senior Growth Marketing Manager</li>
+              <li>Business Banking — Contractor</li>
+              <li>Outside IR35 · On-site · London</li>
+              <li style="color:#f59e0b; font-weight:700;">⚠️ Interviewer: CONFIRM WITH RECRUITER — Hugo Oliveira Sousa left November 2025 (now at Moneycorp). Ask who you are meeting before going in.</li>
+            </ul>
+          </div>
+          <div class="cheat-box">
+            <h4>3 Things They're Hiring For</h4>
+            <ul>
+              <li>Own a B2B acquisition target — not support one</li>
+              <li>FCA compliance from day one — no ramp-up</li>
+              <li>Build the function from zero — no existing playbook</li>
+            </ul>
+          </div>
+          <div class="cheat-box">
+            <h4>Your Killer Themes</h4>
+            <ul>
+              <li>£30M Santander BB campaign — 7× improvement</li>
+              <li>£260K CAC reduction (15%) — attribution model</li>
+              <li>BT dashboard — used by Marketing, Finance, Commercial</li>
+              <li>6 years FCA-regulated financial services</li>
+              <li>I looked at their funnel — I know what's broken</li>
+            </ul>
+          </div>
+          <div class="cheat-box">
+            <h4>What They Fear Hiring</h4>
+            <ul>
+              <li>Measurement person who never owned CAC</li>
+              <li>Someone needing 60 days to get going</li>
+              <li>FCA financial promotions learner</li>
+            </ul>
+          </div>
+        </div>
+        <div class="highlight green">
+          <strong>The JD in one sentence:</strong> Build the B2B acquisition engine for Business Banking — deposit volumes, account openings, and activation — across paid, outbound, referral, lifecycle, and commercial programmes, with FCA compliance built in from day one.
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="howto">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">02</span>
+        <span class="card-title">How to Use This Deck</span>
+        <span class="card-type type-cheat">Guide</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><strong>For each competency:</strong> Intro card (what they're really asking + predicted questions) → Primary STAR (green) → Backup STAR (blue).</p>
+        <p><strong>Study strategy:</strong> Read through once tonight. Practice Cards 3, 4, 5 out loud. Study Cards 6 and 7 (market context + funnel findings) cold — these are what differentiate you from every other candidate.</p>
+        <div class="highlight">
+          <strong>Golden rules:</strong><br>
+          Every answer ends with a <strong>number</strong>.<br>
+          Every answer ends with an <strong>OakNorth hook</strong> — name a specific fact.<br>
+          Action section is longest — show HOW you work.<br>
+          2–3 minutes maximum. Use the timer above.
+        </div>
+        <p>You can reference your prep: <em>"Before this interview I looked at your acquisition funnel."</em> Say this. It separates you from every other candidate.</p>
+      </div>
+    </div>
+
+    <div class="card" id="desirable-skills">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">2B</span>
+        <span class="card-title">Desirable Skills — Your Evidence</span>
+        <span class="card-type type-cheat">Cheat Sheet</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><em>The JD lists 4 Desirable skills. This card gives you a scripted one-liner for each, plus the evidence card to point to.</em></p>
+        <hr>
+
+        <h4>Desirable 1 — B2B Financial Product Marketing (Banking / Lending / Payments)</h4>
+        <div class="highlight green">
+          <strong>Say this:</strong> "Two years at Santander Business Banking — FCA-compliant acquisition campaigns for business savings, business current accounts, and lending products. Full campaign ownership: brief to launch. The £30M Business Banking campaign is in Card 09."
+        </div>
+
+        <h4 style="margin-top:1.2rem;">Desirable 2 — UK Mid-Market Segment (£1m–£100m) Buying Behaviour</h4>
+        <div class="highlight green">
+          <strong>Key insight to drop:</strong> "In this segment, the founder picks the bank at the start. After that, it is the Finance Director who manages the relationship and decides whether to switch. The FD cares about yield, admin simplicity, FSCS protection, and compliance. Every deposit campaign I would build at OakNorth would have an FD voice — not a founder voice."
+        </div>
+        <p><em>This separates you from candidates who say "target SME owners." You understand WHO makes the cash management decision.</em></p>
+
+        <h4 style="margin-top:1.2rem;">Desirable 3 — Hands-On Tooling (Salesforce / HubSpot / Apollo / Iterable)</h4>
+        <div class="highlight green">
+          <strong>Say this:</strong> "At BT I worked inside Salesforce every day — our CRM connected marketing attribution to commercial pipeline. Pardot for automated nurture sequences. SQL and Tableau for campaign analytics. I currently use Apollo for prospect research and contact finding — building target lists, verifying emails, mapping org charts before outreach. I haven't used Iterable specifically. The closest is Pardot — same use case, lifecycle email automation and segmented nurture. The methodology is the same across platforms."
+        </div>
+        <p><em>Be honest. Do not claim HubSpot or Iterable. The answer above is credible and specific.</em></p>
+
+        <h4 style="margin-top:1.2rem;">Desirable 4 — Deposit Economics and NIM Connection</h4>
+        <div class="highlight green">
+          <strong>Say this:</strong> "I can explain how deposit CAC connects to the bank's P&L. OakNorth funds its loan book partly with retail deposits. Growing those deposits reduces the bank's cost of funds versus wholesale borrowing. So a deposit acquired through marketing is not just a customer — it is a direct intervention in the bank's margin. The payback question is not just cost-per-acquisition. It is how much does this deposit save the bank every year it stays. Full breakdown in Card 17B — with the actual calculations."
+        </div>
+
+        <hr>
+        <div class="highlight amber">
+          <strong>When they ask about Desirable skills:</strong> Do not wait to be asked. Weave these into your "Why OakNorth?" answer and your 90-day plan. Candidates who understand deposit economics are rare. Say the NIM line early.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: SCRIPTED OPENERS -->
+  <div class="section" id="intro">
+    <div class="section-title">Scripted Openers</div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">03</span>
+        <span class="card-title">"Tell Me About Yourself" — 2-Min Script</span>
+        <span class="card-type type-cheat">Opener</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><em>Target: 1 min 45 sec to 2 min. Use the timer. If over 2 min, cut the BT dashboard detail.</em></p>
+        <hr>
+        <p>"I'm a growth and performance marketer. For the last ten years my work has been the same question in different organisations: where is acquisition money working, and what do we do with that information?</p>
+        <p>I started in campaign analytics — New Day, Next, Open University, Travis Perkins. That's where I learned SQL, segmentation, and how to connect customer data to campaign performance. The foundations.</p>
+        <p>Then I moved to Santander as Marketing Effectiveness Manager. I led a team of four. I designed and owned a <strong>£30 million Business Banking acquisition campaign</strong>. The previous campaigns were delivering seven times below target. Seven times. I rebuilt the approach from scratch — sector-specific LinkedIn targeting for CFOs and Finance Directors, FCA-compliant landing pages, CRM-integrated conversion tracking, compliance sign-off built into the brief stage. The result was a <strong>7× performance improvement</strong> and ten percent customer acquisition growth for the Commercial Banking division.</p>
+        <p>For the last three and a half years I've been at BT as SMB Performance and Effectiveness Marketing Manager. I've owned acquisition across paid search, paid social, and outbound — <strong>fifteen percent revenue growth, twenty-five percent lead improvement</strong>. I built the single performance dashboard that Marketing, Finance, and Commercial all now use to make investment decisions. That dashboard still runs today.</p>
+        <p>What this means for this role: I've built B2B acquisition campaigns in a regulated banking environment. I know where FCA compliance sits in the brief-to-launch cycle. And I've owned a CAC target, not just reported on one.</p>
+        <p><strong>OakNorth is building the acquisition function for Business Banking from zero. No existing playbook. No attribution model. No sector-specific channels. That is exactly the moment I'm built for. I've done it twice. I'd like to do it here."</strong></p>
+        <div class="highlight amber">⏱ Timing check: If this runs over 2 minutes, cut the BT dashboard detail. Keep the £30M Santander story — that's the anchor.</div>
+      </div>
+    </div>
+
+    <div class="card" id="why-oaknorth">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">04</span>
+        <span class="card-title">"Why OakNorth?" — 3 Specific Reasons</span>
+        <span class="card-type type-cheat">Opener</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><em>Not "Great Company." Real reasons. Sound like you've thought about this for a week — because you have.</em></p>
+        <hr>
+        <p>"Three reasons, all specific to this moment.</p>
+        <p><strong>First: the £1 million to £100 million segment is genuinely underserved, and OakNorth's credit intelligence is the only moat that survives a rate war.</strong> Revolut got their UK banking licence in March 2026. They have 500,000 business customers and they are now FSCS-protected. Every challenger bank is going to compete on rates eventually — and OakNorth can't win that fight long-term on rates alone. What OakNorth can own is the speed and quality of lending decisions. The ONCI AI credit intelligence system lets OakNorth make a lending decision in weeks where HSBC takes six months. That's the real moat. Marketing hasn't yet turned that into a systematic acquisition channel.</p>
+        <p><strong>Second: Business Banking launched in November 2023 and the acquisition function is genuinely a blank canvas.</strong> There's no sector-specific landing page strategy, no CFO direct outreach sequence, no lifecycle campaign from account open to first deposit placed. The Monite Finance Automation product launches this quarter with no documented demand generation programme. I'm not walking into a bureaucracy — I'm building the machine.</p>
+        <p><strong>Third: I can see the competitive window this role needs to act on, and I can articulate it clearly.</strong> The FSCS limit increased to £120,000 in December 2025. CFOs who were spreading deposits across four banks no longer need to. Revolut's banking licence created a moment where SME founders saw 'FSCS protected' and asked whether their actual bank is good enough. These are two live buying windows that OakNorth hasn't yet built an acquisition campaign around. That's what I'd build first."</p>
+      </div>
+    </div>
+
+    <div class="card" id="why-role">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">05</span>
+        <span class="card-title">"Why This Role?" — Connect the Career Arc</span>
+        <span class="card-type type-cheat">Opener</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>"Every role I've had has been building toward this one.</p>
+        <p>I started in analytics — learning to read campaign data and connect it to customer behaviour. Then at Santander I moved from reading the data to owning the campaign — the full build: targeting, creative brief, landing page, compliance sign-off, conversion tracking, CAC reporting. At BT I added the commercial alignment side: running weekly sessions with Finance and Sales, making channel investment decisions that Commercial trusted, building the performance infrastructure the whole business uses.</p>
+        <p>What I've never had is the title that reflects what I've actually been doing. At Santander I owned a £30 million Business Banking acquisition campaign. At BT I own the channel mix decisions for SMB acquisition. But the title has always been 'effectiveness' or 'performance' — which is the measurement layer, not the ownership layer.</p>
+        <p><strong>This role is the ownership layer.</strong> Own the CAC target. Own the channel mix. Own the activation rate. Own the lifecycle campaigns. Attend the BD reviews as the marketing lead. That's the role I've been building toward.</p>
+        <p>And the fact that it's a contractor role, outside IR35, at a company in build phase — that's not a downside. Contractors move faster. No first-thirty-days politics. I'd have the acquisition audit done by day twenty and the first campaign live by day fifty-five."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: INTELLIGENCE -->
+  <div class="section" id="market">
+    <div class="section-title">Market Intelligence — Study These Cold</div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">06</span>
+        <span class="card-title">Market Context — The Environment OakNorth Is Navigating</span>
+        <span class="card-type type-market">Study</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><em>Know this cold. Mentioning any of these signals in the interview separates you from every other candidate.</em></p>
+        <hr>
+        <h3>Revolut Banking Licence (March 2026) — The Deposit Threat</h3>
+        <p>Revolut has <strong>500,000+ business customers</strong> in the UK. Full PRA banking licence received March 2026 — now FSCS-protected. Their business customers received a push notification: "Your deposits are now FSCS protected." That notification triggered the exact banking review question OakNorth needs CFOs to ask — "Is my current bank good enough?" Problem: Revolut captures that moment, not OakNorth. OakNorth has no outbound channel to intercept CFOs at that point of review.</p>
+        <h3>Allica Bank — The Broker Interception</h3>
+        <p>Allica Bank's CEO, Richard Davies (previously MD of SME Banking at Santander), built Allica on the thesis that NACFB brokers choose lenders on relationship quality. Allica built a local banker network to cultivate broker relationships directly — intercepting deals before OakNorth sees them. <strong>Allica's loan book grew 23% in 2025.</strong> Every Allica local banker hired is a systematic reduction in OakNorth's organic deal flow.</p>
+        <div class="highlight red" style="margin-bottom:0.8rem;">
+          <strong>⚠️ Rate gap — prepare this answer cold (verified May 2026).</strong><br><br>
+          <strong>OakNorth rates</strong> (oaknorth.co.uk/business-banking/savings/): Easy Access 2.35% AER (next business day, min £1) &nbsp;·&nbsp; Notice 95-day 3.55% &nbsp;·&nbsp; Notice 125-day 3.62% &nbsp;·&nbsp; Fixed 12-month 3.80% — notice/fixed all min £50,000.<br><br>
+          <strong>Allica rates</strong> (allica.bank/business-savings): Easy Access 2.80% AER (instant, no stated min) &nbsp;·&nbsp; Business Rewards Pot up to 4.08% AER (headline only; base rate 2.83%; sustained after temporary boosts: 3.33% if you make 15 bank transfers/month — requires CASS switch + min £50k) &nbsp;·&nbsp; Fixed 12-month 4.00% AER.<br><br>
+          <strong>Honest position:</strong> Allica beats OakNorth on Easy Access (2.80% vs 2.35%) and Fixed 12-month (4.00% vs 3.80%). OakNorth's Notice accounts (3.55–3.62%) beat Allica's <em>sustained</em> Rewards Pot rate (3.33% after boosts expire). The 4.08% headline is a 3-month rate requiring a full current account switch.<br><br>
+          If asked <em>"why would a CFO choose OakNorth over Allica for deposits?"</em> — the answer is NOT rate. The answer is: (1) <strong>Sector expertise</strong> — Allica ads are generic across all industries; OakNorth speaks the CFO's specific language. (2) <strong>Combined lending and deposit relationship</strong> — companies that borrow from OakNorth consolidate deposits there. (3) <strong>Monite bank-native AP/AR automation</strong> — Allica has no equivalent product. (4) <strong>10-year clean credit record</strong> (0.045% cumulative losses) — Starling took a £29M FCA fine in 2025; OakNorth's record is clean.<br><br>
+          Verify live rates morning of interview: oaknorth.co.uk/business-banking/savings/ and allica.bank/business-savings
+        </div>
+        <h3>The FSCS Window (December 2025)</h3>
+        <p>FSCS limit increased from £85,000 to <strong>£120,000 in December 2025</strong>. CFOs who spread deposits across four or five banks for FSCS protection no longer need to. This is a live consolidation trigger — CFOs simplifying banking relationships and moving reserves to higher-rate accounts. Most haven't been reached by any challenger bank with a specific message about this change. Six-to-twelve month window.</p>
+        <h3>Monite Finance Automation (Q2 2026 Launch)</h3>
+        <p>OakNorth acquired Monite in March 2026 — accounts payable, accounts receivable, expense management, native to the banking interface. First capabilities launching <strong>this quarter</strong>. No documented demand generation programme. No landing page. No email campaign. No CFO targeting strategy. Most immediate launch risk.</p>
+        <h3>What OakNorth's Marketing Leadership Cares About Publicly</h3>
+        <div class="highlight amber" style="margin-bottom:0.8rem;"><strong>⚠️ Note:</strong> Hugo Oliveira Sousa (the previous Senior Director of Marketing) left November 2025. Confirm the interviewer's name with your recruiter before going in. The framing below reflects OakNorth's public positioning — valid regardless of who you meet.</div>
+        <p>OakNorth's public marketing language centres on: <strong>"sustainable growth," "relationship-led banking," "deposit base expansion," and "serving ambitious UK businesses."</strong> They do not use "pipeline machine" or "growth hacking." Frame your answers around systematic, data-driven, FCA-compliant acquisition — not volume at any cost. The interviewer, whoever they are, is inheriting a function being built from scratch. They need someone who can own it, not support it.</p>
+        <h3>Key OakNorth Numbers (2025)</h3>
+        <table>
+          <tr><th>Metric</th><th>Figure</th></tr>
+          <tr><td>Pre-tax profit</td><td>£223M</td></tr>
+          <tr><td>Gross originations</td><td>£2.8bn (+33% YoY)</td></tr>
+          <tr><td>Total facilities</td><td>£7.2bn (+18% YoY)</td></tr>
+          <tr><td>Retail deposits</td><td>£5.2bn</td></tr>
+          <tr><td>Cost-to-income ratio</td><td>26% (from 29%)</td></tr>
+          <tr><td>US originations</td><td>40% of gross total</td></tr>
+          <tr><td>Cumulative credit losses</td><td>0.045% over 10 years</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" id="funnel">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">07</span>
+        <span class="card-title">"Before This Interview, I Looked At Your Acquisition Funnel"</span>
+        <span class="card-type type-market">WOW Factor</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <div class="highlight green"><strong>Say this in the interview.</strong> Frame: "I spent time looking at how OakNorth acquires business banking customers before coming in today. Here's what I found…"</div>
+        <hr>
+        <p><strong>Finding 1: No sector-specific landing pages.</strong><br>
+        The Business Banking landing page says "Business banking for UK companies with ambition" to every visitor — the healthcare FD, the property developer, the hospitality group CFO. Same headline, same copy, same proof points. Every competitor has the same generic page. This is the fastest win.</p>
+        <p><strong>Finding 2: No CFO-voice copy — the £10,500+ gap is invisible.</strong><br>
+        The hero explains what OakNorth is. It doesn't tell the CFO what they get. There's over <strong>£10,500 per year interest differential</strong> between £500,000 at a major high-street bank (~1.5% AER) and the same at OakNorth's business notice savings account (3.62% AER — verified May 2026). That number appears nowhere on the website. The calculator takes an afternoon to build. <em>(Verify live rates at oaknorth.co.uk/business-savings the morning of the interview.)</em></p>
+        <p><strong>Finding 3: 80% of lending acquisition from NACFB brokers — no systematic direct outbound.</strong><br>
+        The JD confirms this: it tasks the new hire with building the "outbound targeting strategy for commercial: sector selection, data strategy, and sequence design." It doesn't exist yet. And Allica Bank is actively cultivating those same NACFB broker relationships.</p>
+        <p><strong>Finding 4: No lifecycle campaign from account open to first deposit placed.</strong><br>
+        The JD flags: "the gap between account opening and first operational use." Business current accounts launched November 2023. There will be a cohort of accounts opened in 2023–2024 that have never placed an operational deposit. No activation sequence. The accounts exist. The deposits have not followed.</p>
+        <p><strong>Finding 5: Finance Automation product launching this quarter without demand generation.</strong><br>
+        OakNorth acquired Monite in March 2026. First capabilities are live Q2 2026. No product landing page, no launch email campaign, no announced advertising programme. Most immediate revenue risk: a new product with a clear ICP and no acquisition channel.</p>
+      </div>
+    </div>
+
+    <div class="card" id="fix-first">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">08</span>
+        <span class="card-title">"What I Would Fix First" — Ranked by Impact</span>
+        <span class="card-type type-market">Analysis</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><em>Use when asked: "If you were in this role from day one, where would you start?"</em></p>
+        <hr>
+        <p><strong>Priority 1: Sector-specific landing pages + interest rate calculator.</strong> Weeks 3–4. Zero cost to build. Healthcare and professional services first (highest-volume sectors from OakNorth's loan book). Each page: rate differential calculator, sector testimonials, FSCS £120k callout.</p>
+        <p><strong>Priority 2: CFO outbound targeting sequence — FSCS consolidation trigger.</strong> Weeks 5–6. Time-limited window. Target list from Companies House (businesses with £200k+ cash at Barclays or HSBC). 2-touch FCA-compliant sequence. Compliance sign-off in week 5.</p>
+        <p><strong>Priority 3: Monite Finance Automation demand generation.</strong> Weeks 7–8. Shortest window — product is live now, no campaign. ICP is identifiable: FDs at £5m–£50m companies posting for AP/AR manager roles. LinkedIn paid social + product landing page.</p>
+        <p><strong>Priority 4: Lifecycle activation campaign — account open to first deposit.</strong> Month 2. Requires internal data (dormant accounts list). Segment by size and sector. Sequence targeting FD, not founder. Goal: 15% of dormant accounts to first operational deposit placed.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: STAR BANK -->
+  <div class="section" id="acq">
+    <div class="section-title">STAR Bank — Acquisition Ownership</div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">09</span>
+        <span class="card-title">Acquisition Ownership — What They're Really Asking</span>
+        <span class="card-type type-intro">Intro</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>They want to know: have you <strong>owned</strong> a B2B acquisition target? Not supported someone who owns it. Not measured it. Owned it — with a number attached, accountability for hitting it, and freedom to make channel decisions.</p>
+        <h3>Predicted Questions</h3>
+        <ul>
+          <li>"Tell me about a B2B acquisition campaign you owned end to end."</li>
+          <li>"What was the hardest acquisition target you've hit? How did you hit it?"</li>
+          <li>"Give me an example of a time you had to make a channel investment decision with limited data."</li>
+          <li>"Tell me about a time you owned a CAC target, not just reported on one."</li>
+        </ul>
+        <div class="highlight green" style="margin-top:1rem"><strong>Say this first — then go into the STAR:</strong><br><br>
+        "The clearest example is Santander. The Business Banking campaign was failing. We were getting seven times fewer leads than we needed. I looked at every channel we were using. I found that LinkedIn was the right place to reach Finance Directors — but we were running the wrong ads with the wrong message. I rebuilt the campaign from scratch. I rewrote the copy, got Compliance to sign off, and rebuilt the targeting. The leads came back. We hit the target. That campaign helped bring in customers for a £30 million book of business. Let me walk you through what I did."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">10</span>
+        <span class="card-title">STAR 1 — Santander £30M Business Banking Campaign</span>
+        <span class="card-type type-primary">Primary</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <div class="highlight green"><em>Use for: Acquisition Ownership, Channel Strategy, Commercial Judgment</em></div>
+        <p><span class="star-label sl-s">Situation</span></p>
+        <p>"I joined Santander's Marketing Effectiveness team in January 2020. The Commercial Banking division had a target to grow Business Banking customer acquisition by ten percent in the year. The existing acquisition campaigns were delivering <strong>seven times below target</strong>. Seven times — not seven percent. The LinkedIn paid social campaigns targeting CFOs and Finance Directors were running generic creative with no sector-specific messaging. The landing pages were compliance documents. The CRM was not connected to campaign tracking. Nobody could tell you which channel acquired which customer."</p>
+        <p><span class="star-label sl-t">Task</span></p>
+        <p>"My role was formally 'effectiveness manager' — measurement and analysis. But the team needed someone to own the rebuild. I took the brief. The task: redesign the Business Banking acquisition approach, build a measurement system that works, and deliver the ten percent growth target."</p>
+        <p><span class="star-label sl-a">Action</span></p>
+        <p>"I rebuilt the approach in three phases. <strong>First: sector-specific creative.</strong> Identified the five sectors making up 60% of the Business Banking loan book — professional services, healthcare, property, hospitality, technology. Built separate LinkedIn creative for each. The messaging described the CFO's situation, not the product. <strong>Second: landing page redesign.</strong> Brought Compliance in at brief stage — agreed copy principles and rate accuracy rules before briefing the designer. Landing pages went from compliance documents to conversion pages without a campaign being blocked. <strong>Third: CRM integration and CAC measurement.</strong> Connected UTM parameters through the CRM so every acquired customer could be traced back to a channel, a creative, a sector. Built the first channel-level CAC dashboard the team had ever had."</p>
+        <p><span class="star-label sl-r">Result</span></p>
+        <p>Delivered the <strong>ten percent customer acquisition growth target</strong> for the Commercial Banking division. The LinkedIn campaign became the primary acquisition channel for Business Banking. The compliance-at-brief-stage process was adopted by three other product teams at Santander. CAC reduction: <strong>fifteen percent lower cost per acquired customer — £260,000 in annual savings.</strong></p>
+        <div class="highlight blue"><strong>OakNorth hook:</strong> "At OakNorth, the starting point is similar to Santander in January 2020. No systematic channel programme. No sector-specific pages. No CAC model. The difference: I know the order to fix it now. The Santander rebuild took six months because I was figuring it out as I went. At OakNorth it would take thirty days to diagnose and fifty-five days to have the first campaign live."</div>
+        <div class="highlight amber">⏱ 2 min 30 sec when spoken. Practice. Cut the 'three phases' detail if running long.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">11</span>
+        <span class="card-title">STAR 2 — BT: SMB Acquisition, 15% Revenue Growth</span>
+        <span class="card-type type-backup">Backup</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <div class="highlight blue"><em>Use when: they want a second example, or a more recent one</em></div>
+        <p>"At BT I own acquisition performance measurement and channel optimisation across paid search, paid social, and outbound for the SMB segment. Built the performance tracking from scratch — replaced seven conflicting weekly reports with one Tableau dashboard. Used that data to identify two channels running at 2.5× the CAC of the best-performing equivalent. Moved budget mid-quarter. Result: <strong>fifteen percent revenue increase, twenty-five percent lead acquisition improvement.</strong></p>
+        <div class="highlight blue"><strong>OakNorth hook:</strong> "The dashboard at BT is directly relevant to what the JD describes: 'maintain accurate performance dashboards, work with the data team to improve attribution visibility.' At OakNorth I'd build the same, adapted to deposits versus lending versus current account versus Finance Automation."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Channel Strategy -->
+  <div class="section" id="channel">
+    <div class="section-title">STAR Bank — Channel Strategy & Investment Decisions</div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">12</span>
+        <span class="card-title">Channel Strategy — What They're Really Asking</span>
+        <span class="card-type type-intro">Intro</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>Evidence of genuine decision-making: which channels do you invest in, which do you test, which do you cut — and what is the reasoning? Not "we tested everything." Specific decisions, specific reasoning, specific results.</p>
+        <h3>Predicted Questions</h3>
+        <ul>
+          <li>"Tell me about a time you had to cut a channel that other people were attached to."</li>
+          <li>"How do you decide where to put the next £50,000 in acquisition budget?"</li>
+          <li>"Give me an example of a channel investment decision that paid off."</li>
+          <li>"Have you ever been wrong about a channel? What happened?"</li>
+        </ul>
+        <div class="highlight green" style="margin-top:1rem"><strong>Say this first — then go into the STAR:</strong><br><br>
+        "At BT, two of our channels were costing two and a half times more than our best channel to get the same result. The team liked those channels — they had used them for years. I did not argue about it. I put the numbers in front of the commercial team. When you show people the cost difference in black and white, the conversation changes quickly. We moved the budget in the second quarter. Revenue went up 15% that quarter. Let me walk you through what that looked like."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">13</span>
+        <span class="card-title">STAR 3 — BT: Q2 Budget Reallocation</span>
+        <span class="card-type type-primary">Primary</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><span class="star-label sl-s">Situation</span></p>
+        <p>"At BT the SMB acquisition programme ran across six channels. The headline aggregate CAC was within target. But the channel-level CAC model I'd built was hiding something. Two channels — display and programmatic — were generating leads at <strong>2.5 times the cost of LinkedIn paid social</strong>, with lower conversion quality."</p>
+        <p><span class="star-label sl-t">Task</span></p>
+        <p>"Make a budget reallocation recommendation for Q2 and present it to Commercial and Finance — who had historical attachment to the underperforming channels."</p>
+        <p><span class="star-label sl-a">Action</span></p>
+        <p>"Built the channel-level CAC model in SQL — spend, leads, conversion-to-customer, LTV by channel. Modelled three scenarios: cut entirely, reduce by 50%, maintain — with projected CAC impact of each. Recommended a 40% reduction in display and programmatic, with the freed budget moved to LinkedIn paid social. Finance and Commercial agreed."</p>
+        <p><span class="star-label sl-r">Result</span></p>
+        <p><strong>Q2 CAC improved fifteen percent versus Q1. Revenue up fifteen percent.</strong> LinkedIn paid social became the primary B2B acquisition channel. The quarterly investment review framework became the standard process.</p>
+        <div class="highlight blue"><strong>OakNorth hook:</strong> "The JD says 'define and own the channel mix strategy: which channels to invest in, which to test, which to cut — tied explicitly to CAC, deposit targets, and activation rates.' That's the same decision I made at BT. At OakNorth the first thing I'd build is the channel-level CAC model so decisions are based on data, not history."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">14</span>
+        <span class="card-title">STAR 4 — Santander: LinkedIn vs Display Shift</span>
+        <span class="card-type type-backup">Backup</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>"At Santander the Business Banking digital budget was split 60/40 in favour of display — that's how it had always been allocated. Attribution model showed LinkedIn paid social was driving 70% of pipeline from digital channels at a third of the cost per inquiry. Made the case to shift to 30/70 in favour of LinkedIn. Following the reallocation, <strong>digital acquisition conversion rates improved by twenty percent.</strong>"</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FCA COMPLIANCE -->
+  <div class="section" id="fca">
+    <div class="section-title">STAR Bank — FCA Compliance / Regulated Environment</div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">15</span>
+        <span class="card-title">FCA Compliance — What They're Really Asking</span>
+        <span class="card-type type-intro">Intro</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>Not "do you know what FCA stands for." They want: have you navigated financial promotions approval? Had a campaign blocked? Do you apply Consumer Duty at brief stage?</p>
+        <div class="highlight red"><strong>Table stakes for this role.</strong> Every prospect-facing asset is a financial promotion. Consumer Duty (2023) raised the bar. You must demonstrate this is already how you work.</div>
+        <h3>Predicted Questions</h3>
+        <ul>
+          <li>"Tell me about a time you had a campaign blocked by Compliance."</li>
+          <li>"How do you ensure FCA compliance is built in from the start, not added at the end?"</li>
+          <li>"Have you ever pushed back on a Compliance decision?"</li>
+          <li>"What do you know about Consumer Duty and how does it affect copy?"</li>
+        </ul>
+        <div class="highlight green" style="margin-top:1rem"><strong>Say this first — then go into the STAR:</strong><br><br>
+        "At Santander, three campaigns got stopped in one quarter. Not because the ideas were bad. Because we were writing the copy first and bringing Compliance in at the end. I changed the process. I brought Compliance into the brief meeting — at the very start, before anyone wrote a single word. We agreed upfront on what we could and could not say. After that, no campaigns were stopped in my last 18 months there. The same process spread to two other product teams. At OakNorth, every prospect-facing asset is a financial promotion. I already work this way."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">16</span>
+        <span class="card-title">STAR 5 — Santander: Financial Promotions Process Redesign</span>
+        <span class="card-type type-primary">Primary</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><span class="star-label sl-s">Situation</span></p>
+        <p>"In my first quarter at Santander, three Business Banking campaigns were blocked by Compliance after creative had already been produced. Consistent problem: copy was written after creative was finalised. Compliance found rate accuracy issues, claim substantiation gaps, Consumer Credit Act touchpoints — sent campaigns back. We'd spent money on creative that had to be redone and lost three to four weeks."</p>
+        <p><span class="star-label sl-t">Task</span></p>
+        <p>"Redesign the process so Compliance was a collaborator at the start, not a blocker at the end."</p>
+        <p><span class="star-label sl-a">Action</span></p>
+        <p>"Worked with the Compliance team to understand exactly what they checked. Built a compliance brief template: before any creative brief, it was checked against a list — is every rate quoted accurate to launch day? Is every claim substantiated with a named source? BCOBS disclosures applied? FSCS coverage stated correctly? The compliance brief went alongside the creative brief — not instead of it."</p>
+        <p><span class="star-label sl-r">Result</span></p>
+        <p>In the eighteen months after implementing this process, <strong>not one Business Banking campaign was blocked at creative stage.</strong> Zero. The process was adopted by two other product marketing teams at Santander.</p>
+        <div class="highlight blue"><strong>OakNorth hook:</strong> "Every campaign at OakNorth is a financial promotion. The Consumer Duty additions since 2023 have raised the bar. I'd apply the same process here: compliance at brief stage. The first thing I'd do with the Compliance team at OakNorth is agree the checklist — so I'm presenting campaigns that are already compliant, not asking for sign-off on campaigns that need rewriting."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">17</span>
+        <span class="card-title">STAR 6 — BT: Regulated SMB Messaging</span>
+        <span class="card-type type-backup">Backup</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>"At BT I've managed FCA-adjacent compliance for three and a half years — briefing Compliance on messaging principles before production, ensuring rate claims are accurate at launch, building review cycles into campaign timelines.</p>
+        <p>The specific thing BT reinforced: rate accuracy at launch. Digital campaigns update faster than the compliance review cycle. I built a process where rate-dependent copy is linked to a review trigger — if the product rate changes, the campaign copy is flagged before it goes live with the old rate.</p>
+        <div class="highlight blue"><strong>OakNorth hook:</strong> "OakNorth's variable savings rates (Easy Access, Notice accounts) track Bank of England base rate. If base rate moves, campaign copy must move with it. That review trigger needs to be built into the process from day one."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPOSIT ECONOMICS -->
+  <div class="section" id="deposits">
+    <div class="section-title">STAR Bank — Deposit Economics & Commercial Judgment</div>
+
+    <div class="card" id="deposit-plain-english">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">17B</span>
+        <span class="card-title">Deposit Economics — Understand It First (Plain English + Calculations)</span>
+        <span class="card-type type-cheat">Cheat Sheet</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <div class="highlight amber"><strong>Read this before Card 18.</strong> Card 18 has the scripted answers. This card explains what the words actually mean — so when you say them, you believe them.</div>
+
+        <h3 style="margin-top:1.4rem;">What Does a Bank Actually Do?</h3>
+        <p>A bank sits in the middle. It <strong>borrows money cheaply</strong> from savers — your business savings account. Then it <strong>lends that same money at a higher price</strong> to a property developer or a hospitality business. The gap between what it pays you and what it charges them is the bank's profit. That gap has a name.</p>
+
+        <h3 style="margin-top:1.4rem; color: #2563eb;">Term 1 — NIM (Net Interest Margin)</h3>
+        <p><strong>Like a kid:</strong> Imagine you borrow £10 from a friend at 1% interest, then lend that £10 to someone else at 7% interest. You earn 6p for free. That 6% gap — that is your margin. Banks call it NIM.</p>
+        <p><strong>OakNorth version:</strong> OakNorth pays a business saver <strong>3.62%</strong> per year. It lends that money to a property developer at roughly <strong>7–8%</strong>. The gap — approximately 4% — is OakNorth's NIM. On £7.2 billion of loans, every 0.1% of NIM improvement is worth roughly <strong>£7.2 million per year</strong>.</p>
+        <div class="highlight green" style="margin-top:0.6rem;">
+          <strong>Remember this sentence:</strong> "NIM is the gap between what OakNorth pays savers and what it charges borrowers. Every deposit acquired through marketing widens that gap by reducing the bank's average funding cost."
+        </div>
+
+        <h3 style="margin-top:1.4rem; color: #2563eb;">Term 2 — Retail Deposits vs Wholesale Funding</h3>
+        <p><strong>Like a kid:</strong> OakNorth needs money to lend. It can get it from two places. It can ask businesses to park their savings with them — that is retail deposits, and it costs 3.62% per year. Or it can borrow from other banks and institutions on the wholesale market — that costs more, roughly 5–5.5% per year.</p>
+        <p>Every time a business moves £1M of savings to OakNorth, OakNorth does not need to borrow that £1M from the wholesale market. It saves roughly <strong>1.4–2% per year</strong> on that £1M.</p>
+        <div class="highlight" style="background:#f0fdf4; border-left:3px solid #10b981; margin-top:0.6rem;">
+          <strong>Calculation:</strong><br>
+          Wholesale rate: ~5.0% &nbsp;|&nbsp; Deposit rate paid to customer: 3.62%<br>
+          Saving per year: 5.0% − 3.62% = <strong>1.38% per year</strong><br>
+          On £1M deposit: £1,000,000 × 1.38% = <strong>£13,800 saved per year</strong><br>
+          On £5M total deposits acquired: <strong>£69,000 saved per year</strong>
+        </div>
+
+        <h3 style="margin-top:1.4rem; color: #2563eb;">Term 3 — Weighted Average Cost of Funds</h3>
+        <p><strong>Like a kid:</strong> If you borrow half your money at 3% and half at 6%, your average cost is 4.5%. Banks calculate the average cost of every pound they have borrowed — from savers, from other banks, from investors. That average is their "cost of funds."</p>
+        <p>If more pounds come from cheap retail deposits (3.62%) and fewer come from expensive wholesale markets (5.5%), the average goes down. Lower average cost of funds = more profit on the same loan book. Marketing that acquires deposits <em>directly moves this number</em>.</p>
+
+        <h3 style="margin-top:1.4rem; color: #2563eb;">Term 4 — CAC (Customer Acquisition Cost)</h3>
+        <p><strong>Like a kid:</strong> You spend £50,000 on a campaign. You get 10 new business savings customers. CAC = £50,000 ÷ 10 = <strong>£5,000 per customer</strong>.</p>
+        <p>For lending, you calculate CAC against the loan margin over the loan term. For deposits, you calculate CAC against <strong>how long the deposit stays and how much it saves the bank per year</strong>. That is why deposit CAC works differently.</p>
+
+        <hr style="margin:1.4rem 0; border-color:#e5e7eb;">
+        <h3>The Three Calculations — Write These Down</h3>
+
+        <h4 style="margin-top:1rem; background:#eff6ff; padding:8px 12px; border-radius:6px;">Calculation 1 — The Acquisition Message (Rate Differential)</h4>
+        <div style="font-family:monospace; font-size:13px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:14px; margin-top:8px; line-height:1.9;">
+          OakNorth rate: &nbsp;&nbsp;&nbsp;&nbsp;3.62% AER<br>
+          High-street bank: ~1.50% AER (HSBC easy access, confirmed)<br>
+          Gap: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.62% − 1.50% = <strong>2.12% per year</strong><br>
+          <br>
+          On £500,000: &nbsp;&nbsp;£500,000 × 2.12% = £10,600/year → <strong>"over £10,500"</strong><br>
+          On £1,000,000: £1,000,000 × 2.12% = £21,200/year → <strong>"over £21,000"</strong>
+        </div>
+        <p style="margin-top:8px;"><strong>Plain English:</strong> A CFO with £500k sitting at HSBC earning 1.5% is giving up £10,600 per year. Moving it to OakNorth takes 20 minutes online. That number — £10,600 — is the acquisition message. Not "challenger bank." Not "great service." The number.</p>
+
+        <h4 style="margin-top:1.2rem; background:#eff6ff; padding:8px 12px; border-radius:6px;">Calculation 2 — ROI of a Deposit Campaign</h4>
+        <div style="font-family:monospace; font-size:13px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:14px; margin-top:8px; line-height:1.9;">
+          Campaign spend: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;£50,000<br>
+          New depositors acquired: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10 accounts<br>
+          Average deposit per account: &nbsp;&nbsp;£500,000<br>
+          Total new deposits: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;£5,000,000<br>
+          <br>
+          Wholesale funding rate saved: &nbsp;&nbsp;1.38%/year (5.0% − 3.62%)<br>
+          Annual NIM benefit: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;£5,000,000 × 1.38% = <strong>£69,000/year</strong><br>
+          <br>
+          Payback period: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;£50,000 ÷ £69,000 = <strong>under 9 months</strong><br>
+          If deposits stay 2 years: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;£138,000 return on £50,000 spend = <strong>2.8× ROI</strong><br>
+          If deposits stay 3 years: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;£207,000 return = <strong>4.1× ROI</strong>
+        </div>
+        <p style="margin-top:8px;"><strong>Say in the interview:</strong> "A £50,000 campaign that brings in £5M of business deposits pays back in under 9 months — assuming a 12-month average retention. After that it is pure NIM contribution."</p>
+
+        <h4 style="margin-top:1.2rem; background:#eff6ff; padding:8px 12px; border-radius:6px;">Calculation 3 — Why This Is a P&L Decision, Not a Marketing Budget Decision</h4>
+        <div style="font-family:monospace; font-size:13px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:14px; margin-top:8px; line-height:1.9;">
+          OakNorth loan book: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;£7.2bn<br>
+          Funded by retail deposits: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;£5.2bn<br>
+          Funded by wholesale/other: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;~£2.0bn<br>
+          <br>
+          If a campaign moves £10M from wholesale to marketing-acquired:<br>
+          Annual saving: £10,000,000 × 1.38% = <strong>£138,000/year</strong><br>
+          Over 3-year average deposit life: &nbsp;&nbsp;&nbsp;&nbsp;<strong>£414,000 P&L impact</strong> from one campaign
+        </div>
+        <p style="margin-top:8px;"><strong>The sentence that lands:</strong> "That is a measurable P&L line — not a marketing KPI. The marketing role at OakNorth sits on the funding cost line of the income statement, not just the brand awareness slide."</p>
+
+        <hr style="margin:1.4rem 0; border-color:#e5e7eb;">
+        <h3>Quick Cheat — If Your Mind Goes Blank</h3>
+        <table>
+          <tr><th>They ask</th><th>Your anchor number</th><th>Your anchor sentence</th></tr>
+          <tr><td>What is NIM?</td><td>~4% gap</td><td>"Gap between what OakNorth pays savers and charges borrowers."</td></tr>
+          <tr><td>Why do deposits matter?</td><td>£69,000/year</td><td>"£5M in deposits saves £69,000/year vs wholesale funding."</td></tr>
+          <tr><td>How do you measure ROI?</td><td>Under 9 months</td><td>"£50k campaign, £5M deposits, pays back in under 9 months."</td></tr>
+          <tr><td>What is the acquisition message?</td><td>£10,500</td><td>"£10,500 left on the table every year at a high-street bank."</td></tr>
+          <tr><td>How does deposit CAC differ?</td><td>Ongoing, not one-off</td><td>"Value compounds every month the deposit stays — not just on acquisition day."</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">18</span>
+        <span class="card-title">Deposit Economics — Study Before the Interview</span>
+        <span class="card-type type-intro">Intro</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <div class="highlight amber"><strong>Deeper probe than most candidates expect.</strong> They will test whether you understand NIM, deposit economics, and how acquisition connects to P&L.</div>
+        <h3>NIM Model — Know This</h3>
+        <table>
+          <tr><th>Item</th><th>Figure</th></tr>
+          <tr><td>OakNorth loan book</td><td>£7.2bn</td></tr>
+          <tr><td>Funded by retail deposits</td><td>£5.2bn</td></tr>
+          <tr><td>OakNorth Business Easy Access rate</td><td>2.35% AER (next business day, min £1)</td></tr>
+          <tr><td>OakNorth Notice 95-day rate</td><td>3.55% AER (min £50,000)</td></tr>
+          <tr><td>OakNorth Notice 125-day rate</td><td>3.62% AER (min £50,000)</td></tr>
+          <tr><td>OakNorth Fixed 12-month rate</td><td>3.80% AER (min £50,000)</td></tr>
+          <tr><td>Major high-street banks</td><td>~1.5% AER easy access</td></tr>
+          <tr><td>Annual gap on £500k — Notice 125-day vs Barclays</td><td>£10,600/year (3.62% − 1.5% × £500k)</td></tr>
+          <tr><td>Annual gap on £500k — Fixed 12-month vs Barclays</td><td>£11,500/year (3.80% − 1.5% × £500k)</td></tr>
+          <tr><td>Allica Fixed 12-month rate (competitor)</td><td>4.00% AER — higher than OakNorth</td></tr>
+          <tr><td>Allica Easy Access rate (competitor)</td><td>2.80% AER — higher than OakNorth's 2.35%</td></tr>
+          <tr><td>All rates verified</td><td>oaknorth.co.uk/business-banking/savings/ May 2026 — re-verify morning of interview</td></tr>
+        </table>
+        <p><strong>Why deposits matter to P&L:</strong> Growing deposits = lower cost of funds vs wholesale markets = better Net Interest Margin = higher profit. Every deposit acquired through marketing directly reduces OakNorth's weighted average cost of funds. The marketing role is a P&L line, not just a KPI.</p>
+        <h3>Predicted Questions</h3>
+        <ul>
+          <li>"How does CAC for deposits differ from CAC for lending?"</li>
+          <li>"Why does deposit volume matter to a bank's P&L?"</li>
+          <li>"How would you measure the ROI of a deposit acquisition campaign?"</li>
+        </ul>
+        <div class="highlight green" style="margin-top:1rem"><strong>Say this first — use for any deposit economics question:</strong><br><br>
+        "Deposit CAC is different because the value of a deposit does not stop on day one. It keeps reducing the bank's funding costs every month the deposit stays. OakNorth uses retail deposits to fund its loan book. Every business deposit acquired through marketing means OakNorth borrows less from the wholesale market — which costs more. So the ROI question is not just what did we spend to get this customer. It is how much does this deposit save the bank every year it stays. At OakNorth's current rate of 3.62% AER, a £500,000 deposit saves the bank money on funding costs while also paying the customer over £10,500 more per year than they would earn at a high-street bank. That number is the acquisition message."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">19</span>
+        <span class="card-title">"How Does Deposit Acquisition Connect to OakNorth's P&L?"</span>
+        <span class="card-type type-primary">Script</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>"OakNorth funds its loan book with a combination of retail deposits and wholesale funding. Wholesale funding costs more than deposits. So every deposit OakNorth acquires from a business customer directly reduces the bank's weighted average cost of funds. Lower cost of funds means better Net Interest Margin. Better NIM means more profit on the same loan book.</p>
+        <p>OakNorth's business notice savings account at 3.62% AER — that's the rate OakNorth pays the depositor. The spread between that rate and the lending rate on commercial loans is OakNorth's NIM. Growing that deposit base is not just a marketing KPI. It's a P&L line.</p>
+        <p>That's why the interest rate differential matters. Major high-street banks are at approximately 1.5% AER today. OakNorth is at 3.62%. On £500,000 in reserves that's <strong>over £10,500 per year</strong>. For a CFO running £1 million in operating cash, that's <strong>over £21,000 per year</strong> — a part-time finance hire or significant software spend. The acquisition message for deposits doesn't need to be about OakNorth's values. It needs to be: <em>here is the number. Here is what you are leaving at your current bank. Here is how easy it is to move it.</em></p>
+        <p>How I'd measure ROI: CAC per deposit acquired, average deposit size per customer, deposit retention at 6 and 12 months, and the NIM contribution of each acquired deposit cohort — tracked against campaign cost. If a campaign costs £50,000 and acquires deposits generating £200,000 in additional NIM annually, payback period is under 3 months."</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">20</span>
+        <span class="card-title">STAR 7 — Santander: £260K CAC Reduction</span>
+        <span class="card-type type-primary">Primary</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><span class="star-label sl-s">Situation</span></p>
+        <p>"At Santander, marketing team spent a significant budget across six acquisition channels. Aggregate CAC was tracked but nobody could tell which channel was responsible for which customer. CAC varied by 40% across channels but we didn't know which channels were responsible."</p>
+        <p><span class="star-label sl-a">Action</span></p>
+        <p>"Combined campaign spend, lead data, and CRM conversion records in SQL. Found three channels with 2.5× the cost of LinkedIn per acquired customer. Made three recommendations: cut display and direct mail, increase LinkedIn by 40%, increase direct mail to existing Santander current account holders — which had the highest conversion rate."</p>
+        <p><span class="star-label sl-r">Result</span></p>
+        <p><strong>Fifteen percent reduction in overall CAC — £260,000 in annual savings.</strong> Presented to CFO as a marketing efficiency win.</p>
+        <div class="highlight blue"><strong>OakNorth hook:</strong> "Step one at OakNorth is the same: build the channel-level model. Right now OakNorth doesn't have visibility into the cost of acquiring a deposit through each channel because broker referrals don't have a marketing cost attached. The model needs to include both marketing-attributed and BD-attributed deposits for a true picture."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BD ALIGNMENT -->
+  <div class="section" id="bd">
+    <div class="section-title">STAR Bank — BD Alignment / Sales-Led Model</div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">21</span>
+        <span class="card-title">BD Alignment — What They're Really Asking</span>
+        <span class="card-type type-intro">Intro</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>They want to know: have you worked alongside a BD team where marketing serves the commercial function? Do you know where marketing ends and BD begins? Have you made marketing performance visible to a sales team they actually trust?</p>
+        <div class="highlight"><strong>JD says:</strong> "Attend daily and weekly commercial reviews and bring marketing performance data, new campaign ideas, and channel intel."</div>
+        <h3>Predicted Questions</h3>
+        <ul>
+          <li>"Tell me about a time you had to align marketing with a sales team that didn't trust marketing."</li>
+          <li>"How do you decide what the BD team needs from marketing versus what marketing needs from BD?"</li>
+          <li>"Give me an example of a time you changed a campaign based on feedback from the commercial team."</li>
+        </ul>
+        <div class="highlight green" style="margin-top:1rem"><strong>Say this first — then go into the STAR:</strong><br><br>
+        "The fastest way to earn a sales team's trust is to make their job easier with something specific. Not a presentation about marketing's value. A tool they can use on Monday morning. At BT, the commercial team was using seven different reports and none of them agreed with each other. I built one shared view. I brought it to the weekly meeting and showed them what was happening by channel, in plain language. They stopped arguing about the numbers and started using the data to make decisions. Three and a half years later, that session is still running."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">22</span>
+        <span class="card-title">STAR 8 — BT: Weekly Trading Sessions & Single Source of Truth</span>
+        <span class="card-type type-primary">Primary</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><span class="star-label sl-s">Situation</span></p>
+        <p>"When I joined BT, Marketing, Finance, and Commercial were running three different versions of acquisition performance. All three showed different numbers for the same period. When Marketing said 'we delivered 25% more leads this quarter,' Finance would push back because revenue numbers didn't match. Trust had broken down."</p>
+        <p><span class="star-label sl-a">Action</span></p>
+        <p>"Built the Tableau dashboard in SQL and SAS — one data pull from CRM, one from campaign platforms, joined on customer ID. Started weekly trading sessions: every Monday, Marketing, Finance, and Commercial in the same call. I bring campaign data. Commercial brings conversion and close data. We look at which channels produce leads the BD team can actually convert. BD told me: 'LinkedIn leads convert at three times the rate of paid search leads — the finance directors are easier to talk to.' That insight went straight back into the channel allocation model."</p>
+        <p><span class="star-label sl-r">Result</span></p>
+        <p>Single source of truth replaced seven conflicting reports. <strong>Weekly sessions became a permanent operating model — three and a half years later they still run.</strong> Commercial team adopted the dashboard as their primary investment reference.</p>
+        <div class="highlight blue"><strong>OakNorth hook:</strong> "The JD says 'attend daily and weekly commercial reviews and bring marketing performance data, new campaign ideas, and channel intel.' At OakNorth I'd do exactly what I did at BT — sit in every BD review before I build anything. Understand what the commercial team knows about what converts. Build the campaign around that intelligence."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">23</span>
+        <span class="card-title">STAR 9 — Santander: BD Sequence and Campaign Consistency</span>
+        <span class="card-type type-backup">Backup</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>"At Santander I ensured inbound marketing messaging and outbound BD sequences said the same thing. In practice: the BD team's scripts were written two years earlier — before the sector-specific campaign strategy. LinkedIn campaigns were targeting CFOs with specific sector messages. When those CFOs called, the BD scripts didn't reference their sector at all. The prospect had been promised a sector-specific conversation and got a generic one.</p>
+        <p>I wrote six sector-specific objection-handling scripts based on what the BD team was actually hitting. Updated the email sequences to reference the same sector language the campaigns used.</p>
+        <p><strong>Result: conversion rate from inbound marketing lead to qualified opportunity improved by twenty percent</strong> in the quarter after the scripts were updated.</p>
+        <div class="highlight blue"><strong>OakNorth hook:</strong> "At OakNorth, the consistency gap will exist at launch — it always does when you're building an outbound channel alongside an existing BD team. Write the BD sequences at the same time as the campaign. Don't build the ad and let the BD team figure out the follow-up separately."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA LITERACY -->
+  <div class="section" id="data">
+    <div class="section-title">STAR Bank — Data Literacy</div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">24</span>
+        <span class="card-title">Data Literacy — What They're Really Asking</span>
+        <span class="card-type type-intro">Intro</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>Can you pull campaign reports, build a basic acquisition dashboard, and interpret funnel data <strong>without relying on an analyst for every question?</strong> The bar is: self-sufficient, not dependent.</p>
+        <p><strong>Your toolkit:</strong> SQL (advanced) · SAS (statistical) · Tableau · Adobe Analytics · GA4 · Salesforce · Pardot</p>
+        <h3>Predicted Questions</h3>
+        <ul>
+          <li>"Tell me about a dashboard you've built. What did it measure?"</li>
+          <li>"How do you track attribution across multiple acquisition channels?"</li>
+          <li>"What tools have you used for performance reporting?"</li>
+        </ul>
+        <div class="highlight green" style="margin-top:1rem"><strong>Say this first — use for any tools or data question:</strong><br><br>
+        "At BT I built the performance tracking system from scratch. Before I built it, the marketing team and the commercial team were using different numbers in the same meeting. I connected the data in SQL, built the views in Tableau, and created a daily report and a weekly summary — both from the same source. The commercial team stopped asking for separate reports and used ours instead. For tools: Salesforce as our CRM at BT, Pardot for automated email sequences, Apollo currently for prospect research and contact finding, SQL and Tableau for analytics. I haven't used Iterable specifically — but Pardot covers the same job."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">25</span>
+        <span class="card-title">STAR 10 — BT: Single Source of Truth From Scratch</span>
+        <span class="card-type type-primary">Primary</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>"When I joined BT the SMB acquisition programme had data everywhere and insight nowhere. Seven different weekly reports, each tracking something different, all showing different numbers.</p>
+        <p>Rebuilt the UTM tagging standard across all campaigns. Worked with IT to confirm the CRM was receiving source data correctly. Built the Tableau dashboard in SQL and SAS. Three views: daily operational (campaign performance, spend, leads), weekly management (channel CAC, conversion rates, week-on-week), quarterly planning (LTV by channel, CAC payback, budget scenario modelling).</p>
+        <p><strong>One dashboard replaced seven reports. Three and a half years later, it still runs.</strong></p>
+        <div class="highlight blue"><strong>OakNorth hook:</strong> "First data task at OakNorth: understand what's tracked, what's not, and what the gap between campaign platforms and the CRM is. Building the attribution model in the first thirty days means every investment decision from month two onwards is based on real data."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">26</span>
+        <span class="card-title">STAR 11 — Santander: SQL Attribution on £30-40M Budget</span>
+        <span class="card-type type-backup">Backup</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>"At Santander I built the attribution model in SQL — joined campaign spend data to lead records to CRM conversion records to customer LTV by product cohort. The join required matching on email address, postcode, and campaign date ranges because the data wasn't set up for this type of analysis.</p>
+        <p>The insight: customers acquired through LinkedIn had a higher product attachment rate — more likely to take a second product — than customers acquired through broker referrals. That's the kind of insight that changes a strategy, not just a quarter's budget."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCT GTM -->
+  <div class="section" id="gtm">
+    <div class="section-title">STAR Bank — Product GTM & Feature Launches</div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">27</span>
+        <span class="card-title">Product GTM — What They're Really Asking</span>
+        <span class="card-type type-intro">Intro</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>Evidence that Jean can <strong>own</strong> a product launch — not support one. Release planning, positioning, channel strategy, compliance coordination. The Monite Finance Automation product is the most immediate test.</p>
+        <h3>Predicted Questions</h3>
+        <ul>
+          <li>"Tell me about a product launch you owned. What was the process?"</li>
+          <li>"How do you approach positioning for a product with no existing market narrative?"</li>
+          <li>"Give me an example of a cross-functional launch that nearly went wrong."</li>
+        </ul>
+        <div class="highlight green" style="margin-top:1rem"><strong>Say this first — then go into the STAR:</strong><br><br>
+        "At Santander I owned the launch of a Fixed Rate business savings product. We had six weeks. I wrote the positioning, briefed the design team, built the landing page, coordinated with Compliance and Legal, and ran the email campaign to existing customers. Every team had a different timeline. I ran a weekly launch meeting that kept everyone moving at the same pace. We launched on time. Email open rates were 30% higher than average. At OakNorth, the most urgent equivalent is Monite — the Finance Automation product is launching this quarter with no demand generation programme yet. That would be my first product launch here."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">28</span>
+        <span class="card-title">STAR 12 — Santander: Business Savings Product Launch</span>
+        <span class="card-type type-primary">Primary</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><span class="star-label sl-s">Situation</span></p>
+        <p>"At Santander we were launching a new Fixed Rate ISA for business customers — a product that didn't exist in our range. Launch timeline: six weeks."</p>
+        <p><span class="star-label sl-a">Action</span></p>
+        <p>"Owned the full marketing execution. Positioned it around accessibility versus Big Four — lower minimum deposit, online-only application, 'your business cash in a Fixed Rate ISA in under twenty minutes.' Brought Compliance in before briefing design team. Built the landing page through four iterations — each focused on one thing: what does the CFO get, in numbers. Segmented the existing customer base and wrote six email variants by business size segment."</p>
+        <p><span class="star-label sl-r">Result</span></p>
+        <p>Launched on schedule. Email campaign drove a <strong>thirty percent higher open rate</strong> than Santander business email average. Product acquired customers in the first quarter above internal target.</p>
+        <div class="highlight blue"><strong>OakNorth hook:</strong> "The Monite Finance Automation product is the immediate equivalent — live this quarter with no demand generation programme. ICP is identifiable: FDs at companies with £5m to £50m turnover posting for AP/AR manager roles. The launch plan I'd build follows the same structure: ICP targeting, compliance-cleared copy, product landing page, email to existing customers, LinkedIn paid social."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">29</span>
+        <span class="card-title">STAR 13 — BT: New Product Messaging Across Channels</span>
+        <span class="card-type type-backup">Backup</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>"At BT I manage messaging across paid search, paid social, and landing pages when new SMB products launch. Built a message audit calendar: quarterly review of all live campaign copy against live product specifications. Every mismatch is flagged before it becomes a compliance issue.</p>
+        <div class="highlight blue"><strong>OakNorth hook:</strong> "With savings products linked to Bank of England base rate, the message audit calendar is essential at OakNorth. If base rate moves, the campaign copy moves. That process needs to be built from day one."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIFECYCLE -->
+  <div class="section" id="lifecycle">
+    <div class="section-title">STAR Bank — Lifecycle & Activation Campaigns</div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">30</span>
+        <span class="card-title">Lifecycle & Activation — What They're Really Asking</span>
+        <span class="card-type type-intro">Intro</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>The JD explicitly calls out <strong>"the gap between account opening and first operational use."</strong> They know they have accounts that never activated. They want someone who has designed activation campaigns — not just acquisition campaigns — and who understands the difference.</p>
+        <h3>Predicted Questions</h3>
+        <ul>
+          <li>"Tell me about a lifecycle campaign you designed to improve activation rates."</li>
+          <li>"How do you approach re-engaging customers who opened an account but never used it?"</li>
+          <li>"What's the difference between an acquisition campaign and an activation campaign?"</li>
+        </ul>
+        <div class="highlight green" style="margin-top:1rem"><strong>Say this first — then go into the STAR:</strong><br><br>
+        "Acquisition and activation are two different problems. Acquisition brings someone in the door. Activation means they actually use what they signed up for. At Santander, we had customers who opened a business savings account and never placed a deposit. I pulled the list, segmented it by company size, and built a short email sequence aimed at the Finance Director — not the founder who opened the account. The founder cares about the product. The Finance Director cares about yield, admin, and FSCS protection. Within 90 days, 15% of those dormant accounts placed their first deposit. At OakNorth, the JD specifically mentions this gap. I have already solved it."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">31</span>
+        <span class="card-title">STAR 14 — Santander: Account Open to First Operational Use</span>
+        <span class="card-type type-primary">Primary</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><span class="star-label sl-s">Situation</span></p>
+        <p>"At Santander, Business Banking accounts were being opened and then going dormant. Account open. No transactions. No deposit placed. Marketing claimed the acquisition. Product team said the customer hadn't activated. Both were right."</p>
+        <p><span class="star-label sl-a">Action</span></p>
+        <p>"First, defined activation — not 'any transaction' but first deposit of £1,000+, or first use of a lending product, or first accounts receivable transaction. Segmented the dormant account list by three variables: company size, sector, and who opened the account — founder versus Finance Director. FDs who opened accounts were usually blocked by an operational barrier, usually payment rail migration. Built three activation sequences, one per segment. The FD segment got a step-by-step guide to moving the first standing order and direct debit, with a relationship manager available for the transition week."</p>
+        <p><span class="star-label sl-r">Result</span></p>
+        <p><strong>Activation campaign moved fifteen percent of the dormant account cohort to first operational use within ninety days.</strong> The relationship manager offer in the FD sequence had significantly higher engagement.</p>
+        <div class="highlight blue"><strong>OakNorth hook:</strong> "The JD specifically mentions: 'develop segment-specific activation sequences for lending-mandated accounts that have never used BB operationally.' I've built this exact campaign. At OakNorth the segmentation will differ — sector, loan size, FD versus founder — but the methodology is identical."</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">32</span>
+        <span class="card-title">STAR 15 — BT: Re-engagement for Non-Converted Prospects</span>
+        <span class="card-type type-backup">Backup</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p>"At BT I designed re-engagement for SMB prospects who entered the funnel but didn't convert. Built three sequences based on where in the funnel they dropped off: friction sequence (abandoned application), price sequence (got to a quote but didn't proceed), timing sequence (clicked and left — triggered at 30, 60, 90 days). <strong>Application-to-activation rate improved by eight percent</strong> in the first quarter after launch."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMERCIAL PROGRAMMES -->
+  <div class="section" id="programmes">
+    <div class="section-title">STAR Bank — Commercial Programmes (Honest Bridge Answer)</div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">33</span>
+        <span class="card-title">Commercial Programmes — The Honest Answer</span>
+        <span class="card-type type-pushback">Bridge</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <div class="highlight green" style="margin-bottom:1rem"><strong>Say this first — be honest, then bridge to adjacent experience:</strong><br><br>
+        "I want to be straight with you here. I have not built a formal introducer programme from the ground up. What I have done is work closely with broker and intermediary data — at Santander, I tracked which broker relationships brought in the highest-value customers and fed that back into how we allocated marketing support. The skills are the same: source attribution, partner performance tracking, and reporting back to the referral source. Building the programme structure from scratch is the new part. At OakNorth, the NACFB broker channel drives 80% of lending. I would start by mapping the top 20 brokers by volume, then build the measurement framework before we formalise the agreement."</div>
+        <div class="highlight amber"><strong>Do not fabricate a formal introducer programme.</strong> Interviewers can tell. The honest bridge answer is stronger than a fabricated story.</div>
+        <p>"I want to be direct on this one: I haven't built a formal introducer programme from scratch, end to end. I have significant experience in the adjacent capabilities — and I'd rather name that clearly.</p>
+        <p><strong>What I have done:</strong> At Santander, Business Banking acquisition was 80% broker-driven — similar to OakNorth's current position. Part of my attribution model work was understanding which NACFB broker relationships were producing the highest-value customers. I built the broker performance analysis: which brokers, which sectors, which deal size, which conversion rate from referral to completed facility. That data was used by the BD team to prioritise which broker relationships to invest in.</p>
+        <p>At BT, I've managed partner marketing relationships and tracked performance by source — revenue per referred customer, close rate, and LTV.</p>
+        <p><strong>What building it at OakNorth would require — and where I sit:</strong> Step one (performance analysis of existing referral sources) — I've done this. Step two (commercial model — flat fee, percentage of deposits, tiered rate card) — that's a commercial decision, but I own the tracking and attribution. Step three (technical infrastructure — referral tracking platform, commission calculation, partner-facing reporting) — that's a new build; I'd partner with the data and product team on the platform while owning the commercial model and performance measurement.</p>
+        <p>I'm honest that step three is the part I haven't done before. Steps one and two are in my toolkit. I'd be transparent about where I'm learning."</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">34</span>
+        <span class="card-title">Affiliate & Comparison Site Strategy</span>
+        <span class="card-type type-backup">Supplement</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><em>Use if they probe: "What would you do with comparison sites and affiliates?"</em></p>
+        <p>"For savings products specifically, comparison sites are the highest-leverage affiliate channel. Moneyfacts, Savings Champion, and MoneySuperMarket are where CFOs go when they've decided to move cash — not where they find OakNorth first, but where they validate the decision. OakNorth's business notice savings rate at 3.62% AER (verified May 2026) is competitive. The question is whether it's visible on those platforms and whether the listing is current. Low-cost audit, immediate impact.</p>
+        <p>For professional services introducers — accountants, solicitors, IFAs — this is a month three build. Comparison site and Raisin relationship first. Professional services introducer programme is the month three build, not month one."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 90-DAY PLAN -->
+  <div class="section" id="plan90">
+    <div class="section-title">90-Day Plan & 12-Month Roadmap</div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">35</span>
+        <span class="card-title">First 90 Days — What I'd Build and When</span>
+        <span class="card-type type-plan">Plan</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><em>Use when asked: "If you were in this role from day one, what would you do?" or "What does your first 90 days look like?"</em></p>
+        <hr>
+        <h3>Days 1–30: Diagnose and Map → Deliverable: "State of Acquisition" One-Pager</h3>
+        <ul>
+          <li><strong>Weeks 1–2:</strong> Sit in every commercial review. No campaigns. Just listening. What does the BD team know that converts? What objections are CFOs raising? What sectors are easiest to close?</li>
+          <li><strong>Week 3:</strong> Channel-level CAC audit. What does it cost to acquire a business savings account via each current source? What's tracked, what's not?</li>
+          <li><strong>Week 4:</strong> Competitive audit. What Allica Bank, Revolut Business, and Starling are doing in paid search, LinkedIn, and content for the £1m–£100m CFO segment. Where are the gaps OakNorth can own?</li>
+          <li><strong>Day 30 deliverable:</strong> "State of Acquisition" one-pager presented to the Head of Marketing. Five findings. Priority order for what to fix and why.</li>
+        </ul>
+        <h3>Days 31–60: Fix the Quick Wins → Deliverable: First Campaign Live</h3>
+        <ul>
+          <li><strong>Week 5:</strong> Two sector-specific landing pages. Healthcare and professional services (highest-volume loan book segments). Each page: interest rate differential calculator, sector testimonials, FSCS £120k callout. Compliance brief written alongside the creative brief — sign-off before launch.</li>
+          <li><strong>Week 6:</strong> CFO outbound targeting sequence — FSCS consolidation trigger. Target list from Companies House (businesses with £200k+ cash at Barclays or HSBC). Two-touch FCA-compliant sequence. Compliance sign-off in week 5.</li>
+          <li><strong>Weeks 7–8:</strong> Monite Finance Automation demand generation. Product landing page, email to existing OakNorth customers, LinkedIn paid social targeting FDs at £5m–£50m businesses. This is the launch with the shortest window.</li>
+          <li><strong>Day 55 deliverable:</strong> First acquisition campaign live. Day 60: campaign data available for first review.</li>
+        </ul>
+        <h3>Days 61–90: Build the Infrastructure → Deliverable: Attribution Live + Activation Running + Introducer Spec</h3>
+        <ul>
+          <li><strong>Month 3 first half:</strong> Lifecycle activation campaign. Pull dormant accounts from 2023–2024. Segment by company size and sector. Sequence targeting the FD — not just the founder. Goal: move 15% of dormant accounts to first operational deposit placed.</li>
+          <li><strong>Month 3 second half:</strong> Introducer programme spec. Map existing NACFB broker relationships. Identify top 20 by volume. Build the commercial model — flat fee, percentage of deposits, volume tiers. Present the spec, not the finished programme.</li>
+          <li><strong>Attribution model:</strong> All marketing-attributed channels in one dashboard. Channel CAC, conversion rate, application-to-activation rate, deposit volume per customer.</li>
+          <li><strong>Day 90 deliverable:</strong> One acquisition campaign with measurable results. Activation campaign running. Introducer spec in review. Attribution dashboard live.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" id="roadmap">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">36</span>
+        <span class="card-title">12-Month Roadmap — Q2 to Q4</span>
+        <span class="card-type type-plan">Roadmap</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><strong>Q2 (Months 4–6): Scale + test affiliates + launch referral programme.</strong> Scale the channel programme. Add two sector-specific landing pages per month — care homes, hospitality, green energy, property development (next highest-volume loan book segments). First affiliate partnership: ensure OakNorth's Business Notice and Fixed Term Deposit rates appear prominently on Moneyfacts and Savings Champion. Launch referral programme (simple version first — existing OakNorth business customers refer a CFO, both receive a rate benefit).</p>
+        <p><strong>Q3 (Months 7–9): Sector deepening + introducer programme live.</strong> Sector pages at eight — covering all major OakNorth lending verticals, each with sector-specific testimonials, rate calculator, compliance callouts. Introducer programme live for first cohort of professional services firms. Monthly performance review with Commercial team.</p>
+        <p><strong>Q4 (Months 10–12): Attribution maturity + full-year acquisition review.</strong> Multi-touch attribution model — first-touch vs last-touch vs revenue-weighted. Marketing-attributed vs BD-attributed vs broker-attributed deposits clearly separated. Present the first full-year acquisition cost analysis: total spend, total deposits acquired, average deposit size, activation rate, NIM contribution per cohort.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div class="section" id="questions">
+    <div class="section-title">Smart Questions for the Interviewer</div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">37</span>
+        <span class="card-title">Questions to Ask — Ask 3 to 4, Read the Room</span>
+        <span class="card-type type-plan">Questions</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <div class="q-card">
+          <p>"The Monite Finance Automation product — is there a demand generation launch brief already in place that I'd be inheriting, or is building that one of the first things I'd be doing?"</p>
+          <p class="q-why">Why ask: shows you've done your research on the Q2 launch, demonstrates you understand the urgency.</p>
+        </div>
+        <div class="q-card">
+          <p>"How is deposit acquisition currently attributed between marketing-contributed and BD-contributed? Is there a measurement framework already in place, or is that being built?"</p>
+          <p class="q-why">Why ask: signals you'll build the attribution infrastructure. Calibrates the starting point.</p>
+        </div>
+        <div class="q-card">
+          <p>"Allica Bank's model is built around intercepting NACFB broker relationships before OakNorth sees them. Is outbound outreach to NACFB brokers in scope for this role, or does that sit purely with Commercial?"</p>
+          <p class="q-why">Why ask: demonstrates competitive intelligence. Shows you understand the broker concentration risk.</p>
+        </div>
+        <div class="q-card">
+          <p>"The FSCS limit increase in December 2025 was a structural tailwind for deposit acquisition. Has the team been able to run any targeted campaigns using that as a trigger, or is that still in the backlog?"</p>
+          <p class="q-why">Why ask: tests whether they've captured the opportunity — and positions you as the person who would.</p>
+        </div>
+        <div class="q-card">
+          <p>"What does success look like at the end of this contract? If you were reviewing this role in six months, what would make you say it worked?"</p>
+          <p class="q-why">Why ask: gets the hiring manager to articulate the real KPIs — often different from the JD. The answer tells you exactly what to deliver.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAPS -->
+  <div class="section" id="traps">
+    <div class="section-title">Traps to Avoid</div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">38</span>
+        <span class="card-title">6 Traps to Avoid in This Interview</span>
+        <span class="card-type type-pushback">Traps</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <p><strong>Trap 1: Framing yourself as a measurement person.</strong><br>Your titles say "Effectiveness Manager" and "Performance and Effectiveness Manager." Don't let the title define the narrative. The work was acquisition ownership. Use those words: "I owned the acquisition campaign." "I made the channel investment decision." "I owned the CAC target."</p>
+        <hr>
+        <p><strong>Trap 2: Underselling Santander because it was 2020–2022.</strong><br>Santander is your strongest story for this role. Don't apologise for the dates. The B2B banking, FCA compliance, BD alignment, and CAC measurement are directly relevant. The skills are the same.</p>
+        <hr>
+        <p><strong>Trap 3: Making the commercial programmes gap a crisis.</strong><br>You don't have direct experience building a formal introducer programme. That's honest. The honest bridge answer — attribution experience at Santander, partner tracking at BT — is stronger than a fabricated story.</p>
+        <hr>
+        <p><strong>Trap 4: Over-explaining deposit economics.</strong><br>Say it clearly once. "Growing the deposit base reduces OakNorth's cost of funds and improves NIM — every deposit we acquire through marketing is a P&L improvement, not just a metric." Then move on. Don't lecture.</p>
+        <hr>
+        <p><strong>Trap 5: Forgetting the OakNorth hook.</strong><br>Every answer ends by connecting back to a specific OakNorth fact. The Revolut banking licence (11 March 2026). The Monite launch (Q2 2026). The £10,500+ interest differential on £500k. The 80% broker dependence. The FSCS £120k window. Generic hooks fail.</p>
+        <hr>
+        <p><strong>Trap 6: Running over on timing.</strong><br>Every answer is 2–3 minutes maximum. The Santander £30M story is the longest — practice it at 2:30. Use the timer at the top of this page.</p>
+      </div>
+    </div>
+
+    <!-- MOCK PUSHBACKS -->
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">39</span>
+        <span class="card-title">Mock Pushbacks — Handle These Calmly</span>
+        <span class="card-type type-pushback">Pushbacks</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <div class="highlight amber">
+          <strong>Pushback: "Your most recent work was at BT — a telco, not a bank."</strong><br>
+          "The B2B banking acquisition work is Santander — 2020 to 2022. £30M Business Banking campaign, FCA-compliant copy, coordinating with Compliance and Risk at brief stage, working alongside a BD team. BT added commercial judgment and channel strategy at scale. OakNorth gets both."
+        </div>
+        <div class="highlight amber">
+          <strong>Pushback: "This is a contractor role — are you committed to meaningful impact in a short timeframe?"</strong><br>
+          "Contractors work better in build phases precisely because they move faster. No onboarding bureaucracy, no first-thirty-days politics. I'd have the channel audit done by day twenty and the first campaign live by day fifty-five. The 90-day plan I've outlined is the plan I'd bring in on day one."
+        </div>
+        <div class="highlight amber">
+          <strong>Pushback: "You've been mostly on the measurement side — owning a CAC target is different from measuring one."</strong><br>
+          "At Santander, I didn't just measure the £30M Business Banking campaign — I designed it, briefed the creative, coordinated compliance, owned the landing pages, and reported to the CFO on whether we hit the target. At BT, I made the Q2 budget reallocation decision — moved money across channels mid-quarter. I understand both sides of the dashboard."
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="section" id="pitch">
+    <div class="section-title">Closing</div>
+
+    <div class="card">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">40</span>
+        <span class="card-title">"Why Should We Hire You?" — 60-Second Pitch</span>
+        <span class="card-type type-closer">Closer</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <div class="highlight red">⏱ Under 60 seconds. Practice with the timer. Say this until it sounds natural, not rehearsed.</div>
+        <p>"Three things.</p>
+        <p><strong>First: I've done this exact job at Santander.</strong> B2B Business Banking acquisition in a regulated banking environment, FCA-compliant campaigns, working alongside a BD team, owning a CAC target — not measuring one. The work you're hiring for is the work I built from scratch at Santander. Seven times performance improvement. £260,000 in annual CAC savings. Ten percent customer acquisition growth for the Commercial Banking division.</p>
+        <p><strong>Second: I've built the measurement infrastructure that makes the function permanent.</strong> The channel CAC model, the attribution dashboard, the single source of truth that Marketing and BD both use. At BT it outlasted my tenure — three and a half years later that dashboard still runs. At OakNorth the marketing function should outlast this contract. I build infrastructure that survives.</p>
+        <p><strong>Third: I understand the competitive window you're in.</strong> Revolut got their banking licence in March. Allica is intercepting your broker relationships. The FSCS limit change in December opened a door that most CFOs in your target segment haven't been told about yet. The person you hire needs to understand all three signals and build campaigns around them from day one. <em>I'm the one who does.</em>"</p>
+        <div class="highlight amber">⏱ Target: 55 seconds. Under 60 is the requirement.</div>
+      </div>
+    </div>
+
+    <div class="card" id="perspective">
+      <div class="card-header" onclick="toggle(this)">
+        <span class="card-num">41</span>
+        <span class="card-title">Interviewer Perspective — What Makes the Hiring Manager Say Yes</span>
+        <span class="card-type type-plan">Insight</span>
+        <span class="card-chevron">›</span>
+      </div>
+      <div class="card-body">
+        <div class="highlight amber"><strong>⚠️ Confirm interviewer name before going in.</strong> Hugo Oliveira Sousa left November 2025. The framing below is valid for any senior OakNorth marketing leader — update the name once confirmed.</div>
+        <h3>What the Hiring Manager Fears About Candidates</h3>
+        <ul>
+          <li>Someone who's done measurement but has never owned an acquisition number — will spend six months building dashboards and never launch a campaign.</li>
+          <li>Someone who doesn't understand FCA financial promotions — will have campaigns blocked every time.</li>
+          <li>Someone who thinks contractor work means taking time to figure things out — this role needs output in thirty days.</li>
+          <li>Someone who talks about "channels" but can't name a specific channel mix decision they've made and why.</li>
+          <li>Someone who treats marketing as a support function for BD — not a revenue driver in its own right.</li>
+          <li>Someone who can't connect deposit acquisition to NIM and the P&L — this is a finance-literate environment.</li>
+        </ul>
+        <h3>What Makes the Hiring Manager Say Yes Immediately</h3>
+        <ul>
+          <li>Candidate uses NIM language unprompted: "deposit acquisition is a P&L line, not a marketing KPI."</li>
+          <li>Candidate names OakNorth's specific competitive threats without being prompted — Revolut banking licence, Allica broker interception, FSCS consolidation window.</li>
+          <li>Candidate understands FD vs founder — who actually makes the cash management decision in the £1m–£100m segment.</li>
+          <li>Candidate names a specific data finding that changed a channel allocation decision.</li>
+          <li>Candidate demonstrates compliance is already in how they work — not something they learn on the job.</li>
+          <li>Candidate has a 90-day plan naming specific OakNorth products, specific target segments, specific metrics.</li>
+          <li>Candidate can answer: "If you were here on day one, what would you do first?" with a named campaign and a named target list.</li>
+        </ul>
+        <div class="highlight blue">
+          <strong>The question the hiring manager asks themselves after the interview:</strong><br>
+          "Could this person have a campaign live by day 55 — and report it to the board in a way that makes sense?"<br><br>
+          <strong>Your goal:</strong> Make them answer yes — because you've shown them exactly what campaign it would be, who the audience is, what the compliance process looks like, and what the CAC model will measure it.
+        </div>
+        <p style="margin-top:20px;font-size:12px;color:var(--text-muted);text-align:center;">Interview prep by Jean Mundabi Fala · Private document · OakNorth Bank 2026</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// TOGGLE CARDS
+function toggle(header) {
+  const card = header.parentElement;
+  card.classList.toggle('open');
+  updateNav();
+}
+
+function expandAll() {
+  document.querySelectorAll('.card').forEach(c => c.classList.add('open'));
+}
+
+function collapseAll() {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('open'));
+}
+
+// THEME
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = event.target;
+  if (html.getAttribute('data-theme') === 'light') {
+    html.removeAttribute('data-theme');
+    btn.textContent = '☀ Light';
+  } else {
+    html.setAttribute('data-theme', 'light');
+    btn.textContent = '☾ Dark';
+  }
+}
+
+// NAV ACTIVE
+function updateNav() {
+  const sections = document.querySelectorAll('.section, .card');
+  const navLinks = document.querySelectorAll('nav a');
+  let current = '';
+  sections.forEach(s => {
+    const top = s.getBoundingClientRect().top;
+    if (top < 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+}
+window.addEventListener('scroll', updateNav);
+
+// TIMER
+let timerInterval = null;
+let timerSeconds = 0;
+let timerTarget = 0;
+let timerRunning = false;
+
+function setTimer(seconds) {
+  resetTimer();
+  timerTarget = seconds;
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  document.getElementById('timerLabel').textContent = 'Target: ' + (m > 0 ? m + 'min ' : '') + (s > 0 ? s + 'sec' : '');
+}
+
+function startTimer() {
+  const btn = document.getElementById('startBtn');
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    btn.textContent = '▶ Start';
+    return;
+  }
+  timerRunning = true;
+  btn.textContent = '⏸ Pause';
+  timerInterval = setInterval(() => {
+    timerSeconds++;
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerSeconds = 0;
+  document.getElementById('startBtn').textContent = '▶ Start';
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+  const d = document.getElementById('timerDisplay');
+  const m = Math.floor(timerSeconds / 60);
+  const s = timerSeconds % 60;
+  d.textContent = m + ':' + String(s).padStart(2, '0');
+  d.className = 'timer-display';
+  if (timerRunning) {
+    if (timerTarget > 0 && timerSeconds > timerTarget) {
+      d.classList.add('overtime');
+    } else if (timerRunning) {
+      d.classList.add('running');
+    }
+  }
+}
+</script>
+</body>
+</html>

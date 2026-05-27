@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SME Finance Health Check | OakNorth Business Banking — MDB</title>
+<style>
+  :root {
+    --navy: #1a2744;
+    --green: #00a651;
+    --light-green: #e8f7ee;
+    --white: #ffffff;
+    --light-gray: #f4f6fb;
+    --mid-gray: #64748b;
+    --dark: #0f172a;
+    --red: #dc2626;
+    --amber: #d97706;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--light-gray); color: var(--dark); line-height: 1.65; }
+
+  .page-header { background: var(--navy); color: white; padding: 56px 48px 48px; text-align: center; }
+  .page-header .eyebrow { display: inline-block; background: rgba(0,166,81,0.2); color: var(--green); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 12px; border-radius: 4px; margin-bottom: 16px; }
+  .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; line-height: 1.2; }
+  .page-header p { color: #94a3b8; font-size: 1rem; max-width: 560px; margin: 0 auto; }
+
+  .quiz-wrap { max-width: 700px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* Progress */
+  .progress-bar-wrap { margin-bottom: 32px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--mid-gray); margin-bottom: 8px; }
+  .progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width 0.4s ease; }
+
+  /* Question card */
+  .question-card { background: white; border-radius: 16px; padding: 36px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); display: none; }
+  .question-card.active { display: block; }
+  .q-num { font-size: 0.75rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .q-text { font-size: 1.15rem; font-weight: 700; color: var(--dark); margin-bottom: 8px; line-height: 1.4; }
+  .q-sub { font-size: 0.875rem; color: var(--mid-gray); margin-bottom: 28px; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option-btn { background: var(--light-gray); border: 2px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; font-size: 0.92rem; color: var(--dark); cursor: pointer; text-align: left; transition: all 0.15s; display: flex; align-items: center; gap: 12px; }
+  .option-btn:hover { border-color: var(--green); background: var(--light-green); }
+  .option-btn.selected { border-color: var(--green); background: var(--light-green); color: var(--dark); font-weight: 600; }
+  .option-btn .opt-icon { width: 28px; height: 28px; border-radius: 50%; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: var(--mid-gray); flex-shrink: 0; transition: all 0.15s; }
+  .option-btn.selected .opt-icon { background: var(--green); color: white; }
+
+  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; }
+  .btn-back { background: none; border: 2px solid #e2e8f0; color: var(--mid-gray); padding: 10px 20px; border-radius: 8px; font-size: 0.875rem; cursor: pointer; }
+  .btn-back:hover { border-color: var(--mid-gray); }
+  .btn-next { background: var(--navy); color: white; padding: 12px 28px; border-radius: 8px; font-size: 0.9rem; font-weight: 700; cursor: pointer; border: none; opacity: 0.4; pointer-events: none; transition: opacity 0.15s; }
+  .btn-next.enabled { opacity: 1; pointer-events: all; }
+
+  /* Email gate */
+  #email-gate { display: none; }
+  #email-gate.active { display: block; }
+  .email-gate-card { background: white; border-radius: 16px; padding: 40px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); text-align: center; }
+  .email-gate-card h2 { font-size: 1.5rem; font-weight: 800; color: var(--navy); margin-bottom: 10px; }
+  .email-gate-card p { font-size: 0.92rem; color: var(--mid-gray); margin-bottom: 28px; }
+  .input-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 12px; }
+  .input-row input { flex: 1; min-width: 200px; padding: 14px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.92rem; outline: none; }
+  .input-row input:focus { border-color: var(--green); }
+  .btn-submit { background: var(--green); color: white; padding: 14px 28px; border-radius: 8px; font-size: 0.92rem; font-weight: 700; cursor: pointer; border: none; }
+  .privacy-note { font-size: 0.75rem; color: #94a3b8; }
+
+  /* Results */
+  #results { display: none; }
+  #results.active { display: block; }
+  .results-card { background: white; border-radius: 16px; padding: 40px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+  .score-display { text-align: center; margin-bottom: 36px; }
+  .score-circle { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .score-circle .score-val { font-size: 2.2rem; font-weight: 900; line-height: 1; }
+  .score-circle .score-max { font-size: 0.75rem; font-weight: 600; margin-top: 2px; }
+  .score-high { background: var(--light-green); }
+  .score-high .score-val, .score-high .score-max { color: var(--green); }
+  .score-mid { background: #fef3c7; }
+  .score-mid .score-val, .score-mid .score-max { color: var(--amber); }
+  .score-low { background: #fee2e2; }
+  .score-low .score-val, .score-low .score-max { color: var(--red); }
+  .score-label-text { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
+  .score-sub-text { font-size: 0.875rem; color: var(--mid-gray); }
+  .findings-list { margin-top: 20px; }
+  .finding-item { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid #f1f5f9; }
+  .finding-item:last-child { border-bottom: none; }
+  .finding-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+  .icon-red { background: #fee2e2; color: var(--red); }
+  .icon-amber { background: #fef3c7; color: var(--amber); }
+  .icon-green { background: var(--light-green); color: var(--green); }
+  .finding-item h5 { font-size: 0.9rem; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
+  .finding-item p { font-size: 0.83rem; color: var(--mid-gray); }
+  .results-cta { background: var(--navy); border-radius: 12px; padding: 28px; margin-top: 28px; text-align: center; }
+  .results-cta p { color: #94a3b8; font-size: 0.875rem; margin-bottom: 16px; }
+  .results-cta a { display: inline-block; background: var(--green); color: white; padding: 14px 32px; border-radius: 8px; font-size: 0.92rem; font-weight: 700; text-decoration: none; }
+
+  .footer { background: var(--navy); color: #64748b; text-align: center; padding: 20px; font-size: 0.78rem; margin-top: 0; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="eyebrow">SME Finance Health Check</div>
+  <h1>Is your business banking working as hard as your business does?</h1>
+  <p>8 questions. 3 minutes. Find out exactly where your current banking relationship is costing you — and what the switch to OakNorth would look like for your specific situation.</p>
+</div>
+
+<div class="quiz-wrap">
+
+  <!-- Progress -->
+  <div class="progress-bar-wrap">
+    <div class="progress-label">
+      <span id="progress-text">Question 1 of 8</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="question-card active" id="q1">
+    <div class="q-num">Question 1 of 8</div>
+    <div class="q-text">How much does your business hold in operating reserves or business savings right now?</div>
+    <div class="q-sub">This tells us the scale of your yield opportunity and FSCS coverage picture.</div>
+    <div class="options">
+      <button class="option-btn" data-q="1" data-val="0" onclick="selectOption(this)"><div class="opt-icon">A</div> Under £50,000</button>
+      <button class="option-btn" data-q="1" data-val="1" onclick="selectOption(this)"><div class="opt-icon">B</div> £50,000 to £100,000</button>
+      <button class="option-btn" data-q="1" data-val="2" onclick="selectOption(this)"><div class="opt-icon">C</div> £100,000 to £500,000</button>
+      <button class="option-btn" data-q="1" data-val="3" onclick="selectOption(this)"><div class="opt-icon">D</div> Over £500,000</button>
+    </div>
+    <div class="nav-row"><div></div><button class="btn-next" id="next-q1" onclick="nextQ(1)">Next →</button></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-card" id="q2">
+    <div class="q-num">Question 2 of 8</div>
+    <div class="q-text">Where are those reserves held right now?</div>
+    <div class="q-sub">We'll calculate the exact interest differential when we show your results.</div>
+    <div class="options">
+      <button class="option-btn" data-q="2" data-val="3" onclick="selectOption(this)"><div class="opt-icon">A</div> Barclays or HSBC (Big Four)</button>
+      <button class="option-btn" data-q="2" data-val="2" onclick="selectOption(this)"><div class="opt-icon">B</div> Starling, Monzo, or another challenger bank</button>
+      <button class="option-btn" data-q="2" data-val="1" onclick="selectOption(this)"><div class="opt-icon">C</div> Spread across multiple banks for FSCS protection</button>
+      <button class="option-btn" data-q="2" data-val="0" onclick="selectOption(this)"><div class="opt-icon">D</div> Already at OakNorth or a high-rate alternative</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="backQ(2)">← Back</button><button class="btn-next" id="next-q2" onclick="nextQ(2)">Next →</button></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-card" id="q3">
+    <div class="q-num">Question 3 of 8</div>
+    <div class="q-text">When did you last review your business savings rate against the market?</div>
+    <div class="q-sub">The December 2025 FSCS limit change and rate environment shift have made this review more material than usual.</div>
+    <div class="options">
+      <button class="option-btn" data-q="3" data-val="3" onclick="selectOption(this)"><div class="opt-icon">A</div> Over a year ago — or never</button>
+      <button class="option-btn" data-q="3" data-val="2" onclick="selectOption(this)"><div class="opt-icon">B</div> 6 to 12 months ago</button>
+      <button class="option-btn" data-q="3" data-val="1" onclick="selectOption(this)"><div class="opt-icon">C</div> In the last 6 months</button>
+      <button class="option-btn" data-q="3" data-val="0" onclick="selectOption(this)"><div class="opt-icon">D</div> Actively reviewing right now</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="backQ(3)">← Back</button><button class="btn-next" id="next-q3" onclick="nextQ(3)">Next →</button></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-card" id="q4">
+    <div class="q-num">Question 4 of 8</div>
+    <div class="q-text">Has your business needed a commercial lending decision in the last 2 years?</div>
+    <div class="q-sub">Acquisition finance, working capital, expansion — we want to understand your lending experience.</div>
+    <div class="options">
+      <button class="option-btn" data-q="4" data-val="0" onclick="selectOption(this)"><div class="opt-icon">A</div> No, we haven't needed external finance recently</button>
+      <button class="option-btn" data-q="4" data-val="1" onclick="selectOption(this)"><div class="opt-icon">B</div> Yes — and we were happy with how it was handled</button>
+      <button class="option-btn" data-q="4" data-val="2" onclick="selectOption(this)"><div class="opt-icon">C</div> Yes — but the process was slower than we needed</button>
+      <button class="option-btn" data-q="4" data-val="3" onclick="selectOption(this)"><div class="opt-icon">D</div> Yes — and we lost time or opportunity because of delays</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="backQ(4)">← Back</button><button class="btn-next" id="next-q4" onclick="nextQ(4)">Next →</button></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="question-card" id="q5">
+    <div class="q-num">Question 5 of 8</div>
+    <div class="q-text">How does your finance team currently manage accounts payable and accounts receivable?</div>
+    <div class="q-sub">This tells us whether OakNorth's bank-native finance automation (Monite) would eliminate a current pain point.</div>
+    <div class="options">
+      <button class="option-btn" data-q="5" data-val="0" onclick="selectOption(this)"><div class="opt-icon">A</div> Fully automated — it runs itself</button>
+      <button class="option-btn" data-q="5" data-val="1" onclick="selectOption(this)"><div class="opt-icon">B</div> Xero or QuickBooks integrated with our bank</button>
+      <button class="option-btn" data-q="5" data-val="2" onclick="selectOption(this)"><div class="opt-icon">C</div> Manual process or spreadsheets — it takes significant time</button>
+      <button class="option-btn" data-q="5" data-val="3" onclick="selectOption(this)"><div class="opt-icon">D</div> We're about to hire for this function or just did</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="backQ(5)">← Back</button><button class="btn-next" id="next-q5" onclick="nextQ(5)">Next →</button></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="question-card" id="q6">
+    <div class="q-num">Question 6 of 8</div>
+    <div class="q-text">What is your primary concern about moving cash reserves to a challenger bank?</div>
+    <div class="q-sub">We want to know which objection matters most to you — so we can address it specifically in your results.</div>
+    <div class="options">
+      <button class="option-btn" data-q="6" data-val="1" onclick="selectOption(this)"><div class="opt-icon">A</div> Regulatory safety — is a challenger bank as safe as Barclays?</button>
+      <button class="option-btn" data-q="6" data-val="2" onclick="selectOption(this)"><div class="opt-icon">B</div> Operational disruption — direct debits, supplier payments</button>
+      <button class="option-btn" data-q="6" data-val="2" onclick="selectOption(this)"><div class="opt-icon">C</div> Audit and governance — explaining the switch to our board or auditors</button>
+      <button class="option-btn" data-q="6" data-val="0" onclick="selectOption(this)"><div class="opt-icon">D</div> No major concerns — I just haven't had time to act</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="backQ(6)">← Back</button><button class="btn-next" id="next-q6" onclick="nextQ(6)">Next →</button></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="question-card" id="q7">
+    <div class="q-num">Question 7 of 8</div>
+    <div class="q-text">How does your NACFB broker or accountant currently influence your banking choices?</div>
+    <div class="q-sub">Understanding your adviser relationships helps us know what kind of introduction would be most useful.</div>
+    <div class="options">
+      <button class="option-btn" data-q="7" data-val="1" onclick="selectOption(this)"><div class="opt-icon">A</div> We go to a NACFB broker for all lending decisions</button>
+      <button class="option-btn" data-q="7" data-val="1" onclick="selectOption(this)"><div class="opt-icon">B</div> Our accountant or IFA recommends banking relationships</button>
+      <button class="option-btn" data-q="7" data-val="2" onclick="selectOption(this)"><div class="opt-icon">C</div> We evaluate banks directly — no intermediary</button>
+      <button class="option-btn" data-q="7" data-val="0" onclick="selectOption(this)"><div class="opt-icon">D</div> Mix of both, depending on the decision</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="backQ(7)">← Back</button><button class="btn-next" id="next-q7" onclick="nextQ(7)">Next →</button></div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="question-card" id="q8">
+    <div class="q-num">Question 8 of 8</div>
+    <div class="q-text">When is your next banking relationship review or cash position review likely to happen?</div>
+    <div class="q-sub">This tells us which window is most relevant for your results.</div>
+    <div class="options">
+      <button class="option-btn" data-q="8" data-val="3" onclick="selectOption(this)"><div class="opt-icon">A</div> Right now or in the next 30 days</button>
+      <button class="option-btn" data-q="8" data-val="2" onclick="selectOption(this)"><div class="opt-icon">B</div> Next 1 to 3 months</button>
+      <button class="option-btn" data-q="8" data-val="1" onclick="selectOption(this)"><div class="opt-icon">C</div> Next 3 to 6 months</button>
+      <button class="option-btn" data-q="8" data-val="0" onclick="selectOption(this)"><div class="opt-icon">D</div> No set timeline — it's event-driven</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="backQ(8)">← Back</button><button class="btn-next" id="next-q8" onclick="showEmailGate()">See My Results →</button></div>
+  </div>
+
+  <!-- EMAIL GATE -->
+  <div id="email-gate">
+    <div class="email-gate-card">
+      <h2>Your results are ready.</h2>
+      <p>Enter your details to see your SME Finance Health Score, what your yield gap is on your current reserves, and the specific OakNorth products most relevant to your situation.</p>
+      <div class="input-row">
+        <input type="text" id="gate-name" placeholder="First name" />
+        <input type="email" id="gate-email" placeholder="Work email" />
+      </div>
+      <div class="input-row">
+        <input type="text" id="gate-company" placeholder="Company name" />
+      </div>
+      <button class="btn-submit" onclick="showResults()">Show My Results</button>
+      <p class="privacy-note" style="margin-top:12px;">OakNorth will not add you to any mailing list. Your results are specific to your answers. MDB Growth Capital uses this to route your scorecard to the right specialist.</p>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="results-card">
+      <div class="score-display">
+        <div class="score-circle" id="score-circle">
+          <span class="score-val" id="score-val">—</span>
+          <span class="score-max">/ 24</span>
+        </div>
+        <div class="score-label-text" id="score-label">Calculating...</div>
+        <div class="score-sub-text" id="score-sub"></div>
+      </div>
+
+      <div class="findings-list" id="findings-list"></div>
+
+      <div class="results-cta">
+        <p>Your results have been noted. An OakNorth specialist will follow up with a tailored breakdown based on your sector and cash position — including a specific yield calculation for your actual reserve level.</p>
+        <a href="https://cal.com/jean-m-8f4kbr/15min" target="_blank">Book a 15-Minute Conversation</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /quiz-wrap -->
+
+<div class="footer">
+  OakNorth Bank is authorised by the PRA and regulated by the FCA. FSCS protection up to £120,000. Interest rates variable and subject to change. For UK Limited Companies and LLPs only.<br>
+  Mockup prepared by MDB Growth Capital. Strategy and GTM by Jean Mundabi Fala.
+</div>
+
+<script>
+  var answers = {};
+  var currentQ = 1;
+  var totalQ = 8;
+
+  function selectOption(btn) {
+    var q = btn.getAttribute('data-q');
+    // deselect all in this question
+    var siblings = document.querySelectorAll('[data-q="' + q + '"]');
+    siblings.forEach(function(s) { s.classList.remove('selected'); });
+    btn.classList.add('selected');
+    answers[q] = parseInt(btn.getAttribute('data-val'));
+    // enable next btn
+    var nextBtn = document.getElementById('next-q' + q);
+    if (nextBtn) { nextBtn.classList.add('enabled'); }
+    // enable show results btn for q8
+    var q8next = document.getElementById('next-q8');
+    if (q == '8' && q8next) { q8next.classList.add('enabled'); }
+  }
+
+  function updateProgress(qNum) {
+    var pct = Math.round(((qNum - 1) / totalQ) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-pct').textContent = pct + '%';
+    document.getElementById('progress-text').textContent = 'Question ' + qNum + ' of ' + totalQ;
+  }
+
+  function nextQ(currentQNum) {
+    if (answers[currentQNum] === undefined) return;
+    document.getElementById('q' + currentQNum).classList.remove('active');
+    var nextQNum = currentQNum + 1;
+    currentQ = nextQNum;
+    document.getElementById('q' + nextQNum).classList.add('active');
+    updateProgress(nextQNum);
+    window.scrollTo(0, 0);
+  }
+
+  function backQ(currentQNum) {
+    document.getElementById('q' + currentQNum).classList.remove('active');
+    var prevQNum = currentQNum - 1;
+    currentQ = prevQNum;
+    document.getElementById('q' + prevQNum).classList.add('active');
+    updateProgress(prevQNum);
+    window.scrollTo(0, 0);
+  }
+
+  function showEmailGate() {
+    if (answers['8'] === undefined) return;
+    document.getElementById('q8').classList.remove('active');
+    document.getElementById('email-gate').classList.add('active');
+    document.getElementById('progress-fill').style.width = '100%';
+    document.getElementById('progress-pct').textContent = '100%';
+    document.getElementById('progress-text').textContent = 'Almost done!';
+    window.scrollTo(0, 0);
+  }
+
+  function showResults() {
+    var name = document.getElementById('gate-name').value.trim() || 'you';
+    var email = document.getElementById('gate-email').value.trim();
+    if (!email) { alert('Please enter your work email to see your results.'); return; }
+
+    document.getElementById('email-gate').classList.remove('active');
+    document.getElementById('results').classList.add('active');
+
+    // Calculate score
+    var total = 0;
+    for (var k in answers) { total += answers[k]; }
+
+    var circle = document.getElementById('score-circle');
+    var valEl = document.getElementById('score-val');
+    var labelEl = document.getElementById('score-label');
+    var subEl = document.getElementById('score-sub');
+    valEl.textContent = total;
+
+    if (total >= 15) {
+      circle.className = 'score-circle score-high';
+      labelEl.textContent = 'High switching opportunity';
+      subEl.textContent = 'Your current banking setup has significant room to work harder for your business.';
+    } else if (total >= 8) {
+      circle.className = 'score-circle score-mid';
+      labelEl.textContent = 'Moderate opportunity — worth reviewing now';
+      subEl.textContent = 'There are 2 to 3 areas where a conversation with OakNorth would change the numbers for your business.';
+    } else {
+      circle.className = 'score-circle score-low';
+      labelEl.textContent = 'Your banking setup is reasonably optimised';
+      subEl.textContent = 'You may already be close to best-in-class. The main check is whether your rate and FSCS coverage are fully current.';
+    }
+
+    // Findings
+    var findings = [];
+    var q1 = answers['1'] || 0;
+    var q2 = answers['2'] || 0;
+    var q3 = answers['3'] || 0;
+    var q4 = answers['4'] || 0;
+    var q5 = answers['5'] || 0;
+
+    if (q1 >= 2 && q2 >= 2) {
+      findings.push({icon:'red', title:'Yield gap — immediate financial impact', body:'Based on your reserve level and current bank, you are likely leaving £4,000 to £11,500 per year in foregone interest income. OakNorth\'s Notice accounts (3.55–3.62% AER) and Fixed Term Deposits (3.65–3.80% AER) versus a Big Four rate of ~1.5% AER on your reserve level is the most immediate lever. Easy Access available at 2.35% AER if you need daily liquidity. Rates verified May 2026.'});
+    }
+    if (q3 >= 2) {
+      findings.push({icon:'amber', title:'Rate review is overdue — FSCS change adds urgency', body:'The FSCS limit increased to £120,000 in December 2025. If you reviewed your banking setup before this change, the FSCS coverage picture is different now. A review now captures a structural change the market hasn\'t fully priced into CFO behaviour yet.'});
+    }
+    if (q4 >= 2) {
+      findings.push({icon:'amber', title:'Lending speed — you have experienced the cost of delay', body:'OakNorth\'s average decision timeline is 2 to 4 weeks. For businesses where a lending delay costs commercial opportunity, this difference is material. 40%+ of OakNorth borrowers return for subsequent facilities — which means the relationship compounds.'});
+    }
+    if (q5 >= 2) {
+      findings.push({icon:'red', title:'Finance automation — bank-native AP/AR could eliminate this pain', body:'OakNorth\'s Monite product (launching Q2 2026) brings accounts payable, accounts receivable, and expense management natively into the banking interface. If your AP/AR process is manual or time-consuming, the switch eliminates the third-party integration gap entirely.'});
+    }
+    if (q2 >= 2 && q1 === 2) {
+      findings.push({icon:'amber', title:'FSCS coverage — you may be over-protecting', body:'If you are spreading deposits across multiple banks for FSCS coverage, the December 2025 limit increase to £120,000 means you need fewer relationships for the same protection level. Consolidating into OakNorth reduces admin and increases your rate at the same time.'});
+    }
+    if (findings.length === 0) {
+      findings.push({icon:'green', title:'Your current setup is reasonably optimised', body:'Based on your answers, you don\'t have an obvious gap that OakNorth would immediately change. The conversation worth having is whether your rate is specifically benchmarked against OakNorth\'s current Business Earn Vault rate for your reserve level.'});
+    }
+
+    var findingsEl = document.getElementById('findings-list');
+    findingsEl.innerHTML = '';
+    findings.forEach(function(f) {
+      var color = f.icon === 'red' ? 'icon-red' : f.icon === 'amber' ? 'icon-amber' : 'icon-green';
+      var icon = f.icon === 'red' ? '!' : f.icon === 'amber' ? '~' : '✓';
+      findingsEl.innerHTML += '<div class="finding-item"><div class="finding-icon ' + color + '">' + icon + '</div><div><h5>' + f.title + '</h5><p>' + f.body + '</p></div></div>';
+    });
+
+    document.getElementById('progress-text').textContent = 'Results ready';
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>

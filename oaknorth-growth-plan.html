@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Growth Plan for OakNorth Business Banking — MDB Growth Capital</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --navy: #0a1628;
+  --navy-mid: #111e35;
+  --navy-light: #162040;
+  --indigo: #514FEE;
+  --indigo-light: #6e6dff;
+  --mint: #d1fae5;
+  --gold: #fbbf24;
+  --teal: #14b8a6;
+  --green: #10b981;
+  --red: #dc2626;
+  --white: #ffffff;
+  --cream: #F7F5F0;
+  --gray-600: #4b5563;
+  --gray-800: #1f2937;
+  --line: #E8E4DA;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  overflow: hidden;
+  height: 100vh; width: 100vw;
+}
+
+.deck { width: 100vw; height: 100vh; position: relative; }
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 56px 80px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s ease;
+  overflow-y: auto;
+}
+.slide.active { opacity: 1; pointer-events: all; }
+
+.bg-navy { background: var(--navy); }
+.bg-mid  { background: var(--navy-mid); }
+.bg-grad { background: linear-gradient(135deg, var(--navy) 0%, #1e2a4a 70%, var(--indigo) 100%); }
+.bg-cream { background: var(--cream); color: var(--gray-800); }
+.bg-cream h1, .bg-cream h2, .bg-cream h3, .bg-cream h4 { color: var(--navy); }
+
+.corner-logo {
+  position: fixed;
+  top: 22px; right: 34px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 800;
+  z-index: 100;
+  opacity: .85;
+}
+
+.nav-bar {
+  position: fixed;
+  bottom: 24px; left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(12px);
+  border-radius: 100px;
+  padding: 9px 18px;
+  z-index: 100;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.nav-bar button {
+  background: none; border: none; color: var(--white);
+  font-size: 18px; cursor: pointer; opacity: .7;
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.nav-bar button:hover { opacity: 1; background: rgba(255,255,255,0.1); }
+.nav-bar .counter {
+  font-size: 11px; font-family: monospace;
+  letter-spacing: .06em; color: rgba(255,255,255,.65);
+  min-width: 48px; text-align: center;
+}
+.progress-track {
+  position: fixed; top: 0; left: 0; width: 100%; height: 3px;
+  background: rgba(255,255,255,0.1); z-index: 99;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--gold), var(--indigo));
+  transition: width 0.3s;
+}
+
+h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(38px, 5vw, 68px);
+  line-height: 1.05; letter-spacing: -1.5px;
+  margin-bottom: 16px; font-weight: 400;
+}
+h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(28px, 4vw, 52px);
+  line-height: 1.1; margin-bottom: 14px; font-weight: 400;
+}
+h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(22px, 3vw, 36px);
+  line-height: 1.15; margin-bottom: 10px; font-weight: 400;
+}
+h4 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+
+.tag {
+  display: inline-block;
+  background: var(--white); color: var(--navy);
+  padding: 5px 16px; border-radius: 50px;
+  font-size: 11px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 22px;
+}
+.bg-cream .tag { background: var(--navy); color: var(--gold); }
+.tag-indigo { background: var(--indigo); color: var(--white); }
+.tag-gold   { background: var(--gold); color: var(--navy); }
+.tag-teal   { background: var(--teal); color: var(--navy); }
+.tag-green  { background: var(--green); color: var(--white); }
+.tag-red    { background: var(--red); color: var(--white); }
+
+.lead { font-size: 18px; line-height: 1.6; max-width: 760px; opacity: .85; margin-bottom: 18px; }
+.lead.dark { opacity: .9; color: var(--gray-600); }
+
+.content-wrap { max-width: 1120px; width: 100%; }
+
+/* STAT ROW */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px; margin: 20px 0; width: 100%;
+}
+.stat-box {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 20px 18px;
+}
+.bg-cream .stat-box { background: var(--white); border-color: var(--line); }
+.stat-box .num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 38px; color: var(--gold);
+  line-height: 1; margin-bottom: 5px; letter-spacing: -1px;
+}
+.bg-cream .stat-box .num { color: var(--indigo); }
+.stat-box .lab { font-size: 12px; color: rgba(255,255,255,.6); font-weight: 500; }
+.bg-cream .stat-box .lab { color: var(--gray-600); }
+
+/* CARDS */
+.two-col {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 16px; width: 100%; margin-top: 16px;
+}
+.two-col-3 {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px; width: 100%; margin-top: 16px;
+}
+.split-left-right {
+  display: grid; grid-template-columns: 1fr 1.2fr;
+  gap: 24px; width: 100%; margin-top: 16px;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 18px 20px;
+}
+.bg-cream .card { background: var(--white); border-color: var(--line); }
+.card-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .1em; opacity: .5; margin-bottom: 7px;
+}
+.card ul { padding-left: 1.2em; }
+.card li { font-size: 13px; line-height: 1.6; margin-bottom: 5px; opacity: .85; }
+.card p { font-size: 13px; line-height: 1.6; opacity: .85; }
+.bg-cream .card li, .bg-cream .card p { opacity: 1; }
+.card p + p { margin-top: 8px; }
+
+/* TIMELINE */
+.timeline { width: 100%; }
+.tl-row {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.tl-row:last-child { border-bottom: none; }
+.bg-cream .tl-row { border-bottom-color: var(--line); }
+.tl-dot {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; flex-shrink: 0; margin-top: 2px;
+}
+.dot-gold   { background: rgba(251,191,36,0.18); color: var(--gold); }
+.dot-indigo { background: rgba(81,79,238,0.25); color: var(--indigo-light); }
+.dot-teal   { background: rgba(20,184,166,0.18); color: var(--teal); }
+.dot-green  { background: rgba(16,185,129,0.18); color: var(--green); }
+.dot-red    { background: rgba(220,38,38,0.2); color: #f87171; }
+.tl-content { flex: 1; }
+.tl-week { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; opacity: .5; margin-bottom: 2px; }
+.tl-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+.tl-desc { font-size: 13px; opacity: .7; line-height: 1.5; }
+
+/* GRID ICONS (Slide 4) */
+.icon-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px; width: 100%; margin-top: 20px;
+}
+.icon-item {
+  display: flex; gap: 14px; align-items: flex-start;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 16px 18px;
+}
+.bg-cream .icon-item { background: var(--white); border-color: var(--line); }
+.icon-em { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.icon-text strong { display: block; font-size: 14px; margin-bottom: 3px; }
+.icon-text span { font-size: 12px; opacity: .7; line-height: 1.5; }
+.bg-cream .icon-text span { opacity: .65; }
+
+/* TABLE */
+.table-wrap { width: 100%; margin-top: 16px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th {
+  text-align: left; padding: 10px 14px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; opacity: .5;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+td { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.bg-cream th { border-bottom-color: var(--line); opacity: .6; }
+.bg-cream td { border-bottom-color: var(--line); }
+tr:last-child td { border-bottom: none; }
+td.good { color: var(--teal); font-weight: 600; }
+td.bad  { color: rgba(255,255,255,.4); }
+.bg-cream td.bad { color: var(--gray-600); opacity: .5; }
+
+/* CALLOUTS */
+.callout {
+  border-radius: 8px; padding: 14px 18px;
+  border-left: 3px solid; margin-top: 14px; font-size: 13px; line-height: 1.6;
+}
+.callout-gold   { background: rgba(251,191,36,0.1);   border-color: var(--gold);   }
+.callout-teal   { background: rgba(20,184,166,0.1);   border-color: var(--teal);   }
+.callout-indigo { background: rgba(81,79,238,0.12);   border-color: var(--indigo-light); }
+.callout-red    { background: rgba(220,38,38,0.1);    border-color: var(--red);    }
+.callout-green  { background: rgba(16,185,129,0.1);   border-color: var(--green);  }
+
+/* VALUE TABLE */
+.val-table { width: 100%; font-size: 13px; margin-top: 12px; }
+.val-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+}
+.val-row:last-child { border-bottom: none; font-weight: 700; color: var(--gold); font-size: 14px; }
+.bg-cream .val-row { border-bottom-color: var(--line); }
+.val-row:hover { background: rgba(255,255,255,0.03); }
+.bg-cream .val-row:last-child { color: var(--indigo); }
+.val-amt { font-weight: 700; opacity: .9; }
+
+/* DELIVERABLE STRIP */
+.deliverable-strip { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; width: 100%; }
+.deliverable-item {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; padding: 10px 14px; font-size: 13px;
+}
+.deliverable-item .check {
+  width: 20px; height: 20px; background: var(--green);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--white); flex-shrink: 0; font-weight: 800;
+}
+
+/* OPTION CARDS */
+.option-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px; padding: 22px 24px;
+}
+.option-card.featured { border-color: var(--gold); background: rgba(251,191,36,0.06); }
+.bg-cream .option-card { background: var(--white); border-color: var(--line); }
+.bg-cream .option-card.featured { border-color: var(--indigo); background: rgba(81,79,238,0.05); }
+.option-price {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px; color: var(--gold); line-height: 1;
+  margin: 10px 0 4px;
+}
+.bg-cream .option-price { color: var(--indigo); }
+.option-period { font-size: 12px; opacity: .6; margin-bottom: 14px; }
+.option-card ul { padding-left: 1.2em; }
+.option-card li { font-size: 13px; line-height: 1.65; margin-bottom: 5px; opacity: .85; }
+.bg-cream .option-card li { opacity: 1; }
+
+/* PRINT */
+@media print {
+  body { overflow: visible; }
+  .slide { position: relative; opacity: 1; pointer-events: all; page-break-after: always; height: 100vh; }
+  .nav-bar, .corner-logo, .progress-track { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-track"><div class="progress-bar" id="bar"></div></div>
+<div class="corner-logo">MDB Growth Capital &nbsp;·&nbsp; OakNorth Business Banking</div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1: COVER -->
+  <div class="slide active bg-grad">
+    <div class="content-wrap" style="max-width:880px;">
+      <div class="tag tag-gold">MDB Growth Capital · BD Partnership</div>
+      <h1>A Growth Plan for OakNorth Business Banking</h1>
+      <p class="lead">How to install a predictable deposit acquisition channel — before the competitive window closes.</p>
+      <div style="margin-top:36px; display:flex; gap:36px; flex-wrap:wrap;">
+        <div>
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.45;margin-bottom:4px;">Prepared by</div>
+          <div style="font-size:15px;font-weight:700;">Jean Mundabi Fala, Founder</div>
+          <div style="font-size:13px;opacity:.6;margin-top:2px;">MDB Growth Capital</div>
+        </div>
+        <div>
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.45;margin-bottom:4px;">For</div>
+          <div style="font-size:15px;font-weight:700;">OakNorth Business Banking</div>
+          <div style="font-size:13px;opacity:.6;margin-top:2px;">[Head of Marketing — TBC], Senior Director of Marketing</div>
+        </div>
+        <div>
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.45;margin-bottom:4px;">Date</div>
+          <div style="font-size:15px;font-weight:700;">May 2026</div>
+        </div>
+      </div>
+      <div style="margin-top:32px; font-size:12px; opacity:.35; letter-spacing:.06em; text-transform:uppercase;">1 / 18</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: PROOF 01 — BT -->
+  <div class="slide bg-navy">
+    <div class="content-wrap">
+      <div class="tag">Proof of Concept — 01 / 02</div>
+      <h2>BT/EE SMB — Single Source of Truth Built From Scratch</h2>
+      <div class="split-left-right" style="margin-top:16px;">
+        <div>
+          <div class="stat-row" style="grid-template-columns:1fr 1fr; margin-top:0;">
+            <div class="stat-box">
+              <div class="num">15%</div>
+              <div class="lab">Revenue growth — Q2 channel reallocation</div>
+            </div>
+            <div class="stat-box">
+              <div class="num">25%</div>
+              <div class="lab">Lead acquisition improvement</div>
+            </div>
+            <div class="stat-box">
+              <div class="num">7→1</div>
+              <div class="lab">Conflicting reports replaced by one shared dashboard</div>
+            </div>
+            <div class="stat-box">
+              <div class="num">3.5yr</div>
+              <div class="lab">Dashboard still in use after Jean left the organisation</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="height:100%;">
+            <div class="card-label">What MDB Built</div>
+            <h4 style="margin-bottom:12px;">Permanent Infrastructure</h4>
+            <ul>
+              <li>Channel-level CAC model built in SQL and Tableau from scratch — replacing seven conflicting weekly reports</li>
+              <li>Weekly cross-functional commercial sessions: Marketing, Finance, and Commercial in one room with one set of numbers</li>
+              <li>Attribution framework connecting marketing spend to commercial pipeline — Marketing, Finance, and Commercial adopted it as their primary investment tool</li>
+              <li>Sessions became a permanent operating model — still running after Jean departed</li>
+            </ul>
+            <div class="callout callout-indigo" style="margin-top:14px;">
+              <em>"Before this, Marketing and Commercial were using different numbers in the same meeting. After, there was one view — and decisions were made from data, not negotiation."</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: PROOF 02 — SANTANDER -->
+  <div class="slide bg-mid">
+    <div class="content-wrap">
+      <div class="tag">Proof of Concept — 02 / 02</div>
+      <h2>Santander Business Banking — £30M Acquisition Campaign Rebuilt from Zero</h2>
+      <div class="split-left-right" style="margin-top:16px;">
+        <div>
+          <div class="stat-row" style="grid-template-columns:1fr 1fr; margin-top:0;">
+            <div class="stat-box">
+              <div class="num">7×</div>
+              <div class="lab">Performance improvement on failing campaign</div>
+            </div>
+            <div class="stat-box">
+              <div class="num">10%</div>
+              <div class="lab">Customer acquisition growth, Commercial Banking division</div>
+            </div>
+            <div class="stat-box">
+              <div class="num">£260k</div>
+              <div class="lab">Annual CAC reduction (15%) via channel attribution model</div>
+            </div>
+            <div class="stat-box">
+              <div class="num">15%</div>
+              <div class="lab">Dormant accounts to first deposit placed — within 90 days</div>
+            </div>
+          </div>
+          <div class="stat-box" style="margin-top:14px;">
+            <div class="num">0</div>
+            <div class="lab">FCA campaign blocks in final 18 months (vs 3 in the first quarter before process redesign)</div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="height:100%;">
+            <div class="card-label">What MDB Built</div>
+            <h4 style="margin-bottom:12px;">Full Acquisition Rebuild</h4>
+            <ul>
+              <li>Sector-specific LinkedIn targeting for CFOs and Finance Directors — rebuilt from generic campaign to FD-voice copy</li>
+              <li>FCA-compliant brief-to-launch workflow: compliance review at brief stage, not after creative was written — zero blocks in 18 months</li>
+              <li>Channel-level CAC dashboard: display and direct mail cut, LinkedIn budget increased — £260,000 annual saving</li>
+              <li>Lifecycle activation sequence targeting dormant accounts via FD (not founder) — 15% activation within 90 days</li>
+            </ul>
+            <div class="callout callout-gold" style="margin-top:14px;">
+              <em>"The campaign was 7× below target when we inherited it. We rebuilt the architecture, the targeting, and the measurement. The results followed."</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: WHAT'S INCLUDED -->
+  <div class="slide bg-cream">
+    <div class="content-wrap">
+      <div class="tag">What You Can Expect</div>
+      <h2>What MDB Installs — Permanently, on Your Balance Sheet</h2>
+      <p class="lead dark">Not a campaign. Not a retainer. A permanent acquisition infrastructure that outlasts the engagement.</p>
+      <div class="icon-grid">
+        <div class="icon-item">
+          <div class="icon-em">📈</div>
+          <div class="icon-text">
+            <strong>Predictable Deposit Acquisition</strong>
+            <span>A new channel that finds and converts Finance Directors before Allica or Revolut does — systematically, every week.</span>
+          </div>
+        </div>
+        <div class="icon-item">
+          <div class="icon-em">🎯</div>
+          <div class="icon-text">
+            <strong>B2B Outbound Infrastructure</strong>
+            <span>Sector-specific sequences targeting CFOs and FDs with verified intent signals — job postings, Companies House cash data, regulatory trigger events.</span>
+          </div>
+        </div>
+        <div class="icon-item">
+          <div class="icon-em">⚙️</div>
+          <div class="icon-text">
+            <strong>Lifecycle Activation</strong>
+            <span>Turn dormant accounts into operational relationships within 90 days. Proven: 15% activation rate at Santander using the same approach.</span>
+          </div>
+        </div>
+        <div class="icon-item">
+          <div class="icon-em">💎</div>
+          <div class="icon-text">
+            <strong>FCA-Compliant by Default</strong>
+            <span>Compliance review at brief stage — before any copy is written. Zero campaign delays. Built from 6 years in FCA-regulated financial services.</span>
+          </div>
+        </div>
+        <div class="icon-item">
+          <div class="icon-em">🚀</div>
+          <div class="icon-text">
+            <strong>Product Launch Demand Generation</strong>
+            <span>Monite Finance Automation launched Q2 2026 with no documented demand generation programme. We build it — landing page, email, LinkedIn targeting.</span>
+          </div>
+        </div>
+        <div class="icon-item">
+          <div class="icon-em">🧠</div>
+          <div class="icon-text">
+            <strong>Channel-Level CAC Model</strong>
+            <span>What does it cost to acquire a business savings customer by channel? One number per source. Investment decisions grounded in data, not instinct.</span>
+          </div>
+        </div>
+        <div class="icon-item">
+          <div class="icon-em">⚖️</div>
+          <div class="icon-text">
+            <strong>BD Alignment Built In</strong>
+            <span>Marketing and Commercial run from the same numbers. Weekly. The same operating model that became permanent at BT after three months.</span>
+          </div>
+        </div>
+        <div class="icon-item">
+          <div class="icon-em">🏦</div>
+          <div class="icon-text">
+            <strong>Attribution Infrastructure</strong>
+            <span>Marketing-attributed vs BD-attributed vs broker-attributed deposits — permanently separated and tracked. The board sees where every pound came from.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: 4-STEP PLAN OVERVIEW -->
+  <div class="slide bg-navy">
+    <div class="content-wrap">
+      <div class="tag">The Approach</div>
+      <h2>4 Steps to Deposit Acquisition That Doesn't Depend on Brokers</h2>
+      <p class="lead">OakNorth's lending leads are 80% broker-referral. Deposits are almost entirely word of mouth. That concentration risk has a systematic fix.</p>
+      <div class="timeline" style="margin-top:12px;">
+        <div class="tl-row">
+          <div class="tl-dot dot-indigo">1</div>
+          <div class="tl-content">
+            <div class="tl-week">Phase 1</div>
+            <div class="tl-title">Define the Segment</div>
+            <div class="tl-desc">Identify the 3 highest-signal sub-segments in the £1m–£100m ICP. Build sector-specific positioning and CFO-voice copy. The wrong ICP kills every campaign that follows it.</div>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-dot dot-teal">2</div>
+          <div class="tl-content">
+            <div class="tl-week">Phase 2</div>
+            <div class="tl-title">Build the Acquisition Channels</div>
+            <div class="tl-desc">Three outbound triggers — all time-sensitive: FSCS consolidation, Monite Finance Automation launch, and Revolut re-evaluation. Sector-specific landing pages. FCA-compliant brief-to-launch workflow.</div>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-dot dot-gold">3</div>
+          <div class="tl-content">
+            <div class="tl-week">Phase 3</div>
+            <div class="tl-title">Activate and Retain</div>
+            <div class="tl-desc">Lifecycle campaigns for dormant accounts (2023–2024 openings with no deposit placed). BD alignment sessions. Weekly shared dashboard — Marketing and Commercial in the same room.</div>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-dot dot-green">4</div>
+          <div class="tl-content">
+            <div class="tl-week">Phase 4</div>
+            <div class="tl-title">Infrastructure and Scale</div>
+            <div class="tl-desc">Channel-level CAC model. Attribution dashboard: marketing vs BD vs broker vs direct — permanently separated. 12-month roadmap: scale what works, build the comparison site presence, introduce the referral programme.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: PHASE 1 — DEFINE THE SEGMENT -->
+  <div class="slide bg-mid">
+    <div class="content-wrap">
+      <div class="tag tag-indigo">Phase 1 — Define the Segment</div>
+      <h2>The Wrong ICP Kills Every Campaign That Follows</h2>
+      <div class="two-col" style="margin-top:14px;">
+        <div class="card">
+          <div class="card-label">Why Most B2B Banks Fail at Direct Acquisition</div>
+          <ul style="margin-top:8px;">
+            <li style="color:rgba(255,120,120,0.9);">✕ Target "UK businesses" — too broad, no message lands for anyone</li>
+            <li style="color:rgba(255,120,120,0.9);">✕ Talk to the founder — the founder picked the bank at incorporation. The Finance Director manages it after that. These are two different people with two different concerns.</li>
+            <li style="color:rgba(255,120,120,0.9);">✕ Lead with product features — "competitive rates" means nothing without a number. "£10,500 more per year on £500,000 than a Barclays current account" means something.</li>
+          </ul>
+          <div class="callout callout-indigo" style="margin-top:12px;">
+            <strong>Key insight:</strong> Every deposit acquisition campaign targets the Finance Director — not the founder. FD language: yield, FSCS protection, admin simplicity, compliance. Not brand, speed, or app design.
+          </div>
+        </div>
+        <div>
+          <div class="card-label" style="padding-left:2px; margin-bottom:10px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; opacity:.5;">The Fix — 3 Priority Segments (by signal strength)</div>
+          <div class="card" style="margin-bottom:10px; border-left:3px solid var(--green);">
+            <div class="card-label" style="color:var(--green); opacity:1;">Priority 1 — Strongest Signal</div>
+            <h4>Companies posting AP / purchase ledger jobs</h4>
+            <p>The job posting is a public confirmation of the problem Monite solves. They are actively advertising their pain. Target the Finance Director, not the person hiring.</p>
+          </div>
+          <div class="card" style="margin-bottom:10px; border-left:3px solid var(--teal);">
+            <div class="card-label" style="color:var(--teal); opacity:1;">Priority 2 — Event Trigger</div>
+            <h4>Companies with £300k+ cash on Companies House</h4>
+            <p>FSCS limit raised to £120,000 in December 2025. The reason these companies spread deposits no longer applies. Consolidation window is open.</p>
+          </div>
+          <div class="card" style="border-left:3px solid var(--indigo-light);">
+            <div class="card-label" style="color:var(--indigo-light); opacity:1;">Priority 3 — Re-Evaluation Moment</div>
+            <h4>Businesses outgrowing Revolut Business</h4>
+            <p>Revolut received its UK banking licence on 11 March 2026. Business customers are asking: "If Revolut is now a real bank, should I be with a bank built for my size?"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: PHASE 1 CONTINUED — SALES ASSETS -->
+  <div class="slide bg-navy">
+    <div class="content-wrap">
+      <div class="tag tag-indigo">Phase 1 (Continued) — Sales Assets</div>
+      <h2>Before Any Outbound Runs, the Foundation Has to Be Right</h2>
+      <p class="lead">OakNorth's website says the same thing to a property developer, a hospitality group CFO, and a technology founder. Same headline. Same copy. Same proof. None of them feel spoken to.</p>
+      <div class="two-col-3" style="margin-top:12px;">
+        <div class="card">
+          <div class="card-label">Missing Asset 1</div>
+          <h4>Sector-specific landing pages</h4>
+          <p>First two pages: property and professional services — the top two segments by loan book volume. Property developers hold large cash reserves between transactions. Law firms and accountants hold client money that needs FSCS protection. Each page gets: interest rate differential calculator (£10,500+ per year on £500k vs high-street banks), FSCS £120,000 callout, proof from a client in that sector.</p>
+          <p style="margin-top:8px; opacity:.6;">Current state: one generic page for every visitor. A property CFO and a law firm FD see identical copy.</p>
+        </div>
+        <div class="card">
+          <div class="card-label">Missing Asset 2</div>
+          <h4>CFO-voice copy</h4>
+          <p>Every hero headline talks about OakNorth. None talk about what the Finance Director gets. The £10,500 differential never appears. "FSCS-protected up to £120,000 per account" does not appear either. These are the two strongest conversion triggers for any FD currently at a high-street bank.</p>
+        </div>
+        <div class="card">
+          <div class="card-label">Missing Asset 3</div>
+          <h4>Monite demand generation</h4>
+          <p>Finance Automation launched Q2 2026. No landing page exists. No email campaign. No LinkedIn paid social. Companies currently hiring Purchase Ledger Managers are a confirmed buying signal — they have the exact problem Monite solves and do not know OakNorth has the answer.</p>
+        </div>
+      </div>
+      <div class="callout callout-gold" style="margin-top:16px;">
+        <em>"Position around outcomes, not product features. 'Earn £10,500 more per year on what's already sitting in your account' outperforms 'competitive business savings rates' every time."</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: PHASE 2 — ACQUISITION CAMPAIGNS -->
+  <div class="slide bg-mid">
+    <div class="content-wrap">
+      <div class="tag tag-teal">Phase 2 — Acquisition Channels</div>
+      <h2>Three Outbound Triggers — All Time-Sensitive</h2>
+      <p class="lead">Most financial services outbound fails because there is no trigger. OakNorth has three active right now. None are being used systematically.</p>
+      <div class="two-col-3">
+        <div class="card" style="border-top:3px solid var(--green);">
+          <div class="card-label" style="color:var(--green); opacity:1;">Trigger 1 — Most Urgent</div>
+          <h4>FSCS Consolidation</h4>
+          <p>December 2025: deposit protection limit raised to £120,000. Businesses spreading cash across 4 banks for protection now only need 2. Consolidation window is open.</p>
+          <p style="margin-top:8px;"><strong>Target:</strong> Companies House cash balance £300k+. Sectors: law firms, accountants, consultants.</p>
+          <p style="margin-top:8px; opacity:.65;"><em>"You're still running 4 bank accounts for protection you no longer need."</em></p>
+          <p style="margin-top:8px; font-size:11px; opacity:.5;">Note: Companies House shows cash balance only — not which bank holds the money.</p>
+        </div>
+        <div class="card" style="border-top:3px solid var(--teal);">
+          <div class="card-label" style="color:var(--teal); opacity:1;">Trigger 2 — Launch Window</div>
+          <h4>Monite Finance Automation</h4>
+          <p>Q2 2026 launch. Property management companies, hospitality groups, and professional services firms posting AP and purchase ledger jobs are live buying signals — these are OakNorth's three core lending sectors. They have the exact problem Monite solves.</p>
+          <p style="margin-top:8px;"><strong>Target:</strong> Finance Directors at property, hospitality, and professional services businesses with active AP hiring. 10–200 employees. Trading 3+ years.</p>
+          <p style="margin-top:8px; opacity:.65;"><em>"OakNorth just automated the job you're about to hire for — inside your business account."</em></p>
+        </div>
+        <div class="card" style="border-top:3px solid var(--indigo-light);">
+          <div class="card-label" style="color:var(--indigo-light); opacity:1;">Trigger 3 — Re-Evaluation</div>
+          <h4>Revolut Re-Evaluation</h4>
+          <p>Revolut's banking licence (11 March 2026) is prompting business customers to ask whether they should be with a bank built for their stage. Content and search — not cold outbound, because there is no list to build.</p>
+          <p style="margin-top:8px;"><strong>Channel:</strong> Paid search ("Revolut Business alternative UK"), LinkedIn content, comparison site listings.</p>
+          <p style="margin-top:8px; opacity:.65;"><em>Inbound captures this segment over 12 months.</em></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: PHASE 2 CONTINUED — THE MATH -->
+  <div class="slide bg-navy">
+    <div class="content-wrap">
+      <div class="tag tag-teal">Phase 2 (Continued) — Acquisition Economics</div>
+      <h2>What Systematic Outbound Actually Produces</h2>
+      <div class="two-col" style="margin-top:14px;">
+        <div>
+          <div class="card" style="margin-bottom:14px;">
+            <div class="card-label">OakNorth's Current Situation</div>
+            <ul>
+              <li>80%+ of lending leads: NACFB broker referrals — no direct outbound channel exists</li>
+              <li>Deposits: almost entirely word of mouth or comparison site traffic</li>
+              <li>Zero documented outbound sequence targeting Finance Directors or CFOs directly</li>
+              <li>Monite launched Q2 2026 with no demand generation programme</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-label">The Channel Economics — Worst Case</div>
+            <ul>
+              <li>FSCS trigger campaign: 200 target companies → 3% reply → <strong>6 qualified conversations / month</strong></li>
+              <li>Monite trigger: 150 companies posting AP jobs/month → 4% reply → <strong>6 qualified conversations / month</strong></li>
+              <li>Revolut content/search: inbound — compounds over 12 months</li>
+            </ul>
+            <div style="margin-top:12px; padding:12px 14px; background:rgba(251,191,36,0.1); border-radius:8px; font-size:14px; font-weight:700; color:var(--gold);">
+              12+ qualified FD conversations / month from two channels that don't exist today
+            </div>
+          </div>
+        </div>
+        <div class="card" style="height:100%;">
+          <div class="card-label">The Santander Proof Point</div>
+          <h4>Same starting point. Same problem.</h4>
+          <p>Santander Business Banking had a failing acquisition campaign delivering 7× below target. No attribution model. No sector-specific targeting. No FCA-compliant workflow.</p>
+          <p>MDB rebuilt it from zero. 7× performance improvement. £30M acquisition. £260,000 annual CAC reduction.</p>
+          <p>OakNorth has something Santander didn't: three active trigger events and a new product launching with no demand generation. The raw material is better.</p>
+          <div class="callout callout-gold" style="margin-top:14px;">
+            <em>"These 12 conversations don't come from getting lucky. They come from a machine that runs every week regardless of who is busy."</em>
+          </div>
+          <div style="margin-top:14px; padding:12px 14px; background:rgba(20,184,166,0.1); border-radius:8px; font-size:13px;">
+            <strong style="color:var(--teal); display:block; margin-bottom:3px;">The compounding effect:</strong>
+            Month 1 has fewer conversations. Month 6 has more — because comparison site listings, paid search, and content are now running alongside outbound.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: PHASE 3 — ACTIVATE AND RETAIN -->
+  <div class="slide bg-mid">
+    <div class="content-wrap">
+      <div class="tag tag-gold">Phase 3 — Activation and BD Alignment</div>
+      <h2>Acquisition Without Activation Is Leaking Revenue</h2>
+      <p class="lead">OakNorth has business current accounts opened in 2023 to 2024 that have never placed a deposit. These are already customers. Reactivating them costs a fraction of new acquisition.</p>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-label">Lifecycle Activation Campaign</div>
+          <h4>90 days from dormant to operational</h4>
+          <ul style="margin-top:8px;">
+            <li>Pull every account opened 2023–2024 with no deposit placed</li>
+            <li>Segment by company size and sector</li>
+            <li>Target the Finance Director — not the founder who opened the account. The FD manages the banking relationship after incorporation.</li>
+            <li>FD message: yield (£10,500+ per year on £500k vs high-street), FSCS protection (£120,000 since December 2025), admin simplicity</li>
+            <li>3-touch email sequence. FCA-compliant brief reviewed before send.</li>
+          </ul>
+          <div class="callout callout-green" style="margin-top:12px;">
+            <strong style="color:var(--green);">Proven:</strong> Same approach at Santander delivered 15% of dormant accounts to first operational deposit within 90 days.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-label">BD Alignment</div>
+          <h4>One set of numbers. One room. Weekly.</h4>
+          <p>Marketing and Commercial running from different numbers = every investment decision is a negotiation, not a data call. Every missed signal adds a week to the sales cycle.</p>
+          <p>MDB builds the shared view:</p>
+          <ul style="margin-top:8px;">
+            <li>Weekly cross-functional sessions: Marketing, BD, and Commercial in one room</li>
+            <li>One CAC dashboard — what did we spend, what did we acquire, by channel</li>
+            <li>Marketing-attributed vs BD-attributed deposits clearly separated</li>
+            <li>BD team surfaces objections → Marketing refines copy → pipeline moves faster</li>
+          </ul>
+          <div class="callout callout-indigo" style="margin-top:12px;">
+            <em>"At BT, this session became permanent after three months. It was still running 3.5 years later when Jean left."</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: PHASE 4 — INFRASTRUCTURE -->
+  <div class="slide bg-navy">
+    <div class="content-wrap">
+      <div class="tag tag-green">Phase 4 — Infrastructure</div>
+      <h2>The Attribution Model That Makes Everything Permanent</h2>
+      <p class="lead">OakNorth's efficiency ratio is 26% — best-in-class. The cost discipline is already there. What is missing is the marketing cost intelligence that lets acquisition decisions match that discipline.</p>
+      <div class="two-col" style="margin-top:12px;">
+        <div class="card">
+          <div class="card-label">Channel-Level CAC Dashboard</div>
+          <h4>One number per channel. Every week.</h4>
+          <ul style="margin-top:8px;">
+            <li>What does it cost to acquire a business savings customer via paid search, paid social, FSCS outbound, Monite campaign, NACFB broker, and direct?</li>
+            <li>Deposit volume by source: marketing vs BD vs broker vs direct — permanently separated</li>
+            <li>Activation rate: accounts opened vs accounts depositing within 30 / 60 / 90 days</li>
+            <li>Campaign-attributed vs organic — separate views for Marketing and Commercial</li>
+          </ul>
+          <div class="callout callout-teal" style="margin-top:12px;">
+            <em>"The board knows the NIM. The board knows the efficiency ratio. What the board doesn't know yet is what it costs to acquire a business savings customer through each channel — and which ones are worth scaling."</em>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-label">12-Month Infrastructure Roadmap</div>
+          <h4>What gets built quarter by quarter</h4>
+          <ul style="margin-top:8px;">
+            <li><strong>Q1:</strong> Channel CAC model live. FSCS + Monite campaigns running. Activation sequence deployed. BD sessions weekly.</li>
+            <li><strong>Q2:</strong> Scale what has proven CAC. Comparison site listings live (Moneyfacts, Savings Champion, Raisin). First affiliate channel tested. Introducer programme built.</li>
+            <li><strong>Q3:</strong> 4 more sector landing pages — hospitality groups, technology businesses, healthcare (care homes and dental chains), and green energy. These are the next four highest-volume segments in the OakNorth loan book. Referral programme live.</li>
+            <li><strong>Q4:</strong> Full multi-touch attribution model. First full-year acquisition cost analysis presented. Marketing-attributed deposit volume visible on the board pack.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 12: THE COMPETITIVE WINDOW -->
+  <div class="slide bg-cream">
+    <div class="content-wrap">
+      <div class="tag tag-red">Why Now</div>
+      <h2>Three Events That Make This the Right Moment</h2>
+      <p class="lead dark">These windows don't stay open indefinitely. Two of the three are already being acted on by competitors.</p>
+      <div class="two-col-3" style="margin-top:16px;">
+        <div class="card" style="border-top:3px solid var(--red);">
+          <div class="card-label" style="color:var(--red); opacity:1;">Event 1 — 11 March 2026</div>
+          <h4>Revolut Banking Licence</h4>
+          <p>Revolut now has 500,000+ UK business customers and full FSCS protection. They are actively marketing business savings products with consumer-grade UX and aggressive rates.</p>
+          <p>OakNorth's rate advantage (3.62% AER) is real. But it is not being communicated systematically to the FD making the switch decision.</p>
+        </div>
+        <div class="card" style="border-top:3px solid var(--red);">
+          <div class="card-label" style="color:var(--red); opacity:1;">Event 2 — December 2025</div>
+          <h4>FSCS Limit Raised to £120,000</h4>
+          <p>This rule change directly removes the reason most businesses spread deposits across multiple banks. The consolidation window is open. No UK bank has run a targeted FD outbound campaign using this as the hook. First mover wins.</p>
+          <p>Every week without a campaign is a week Allica or Revolut could use it first.</p>
+        </div>
+        <div class="card" style="border-top:3px solid var(--red);">
+          <div class="card-label" style="color:var(--red); opacity:1;">Event 3 — Ongoing</div>
+          <h4>Allica Bank Broker Interception</h4>
+          <p>Allica's local banker hiring programme is systematically building NACFB broker relationships. They are reaching OakNorth's primary lead source before OakNorth does in some areas.</p>
+          <p>OakNorth's 80% broker dependency is now a concentration risk. Building a direct acquisition channel is not optional — it is a strategic hedge.</p>
+        </div>
+      </div>
+      <div class="callout callout-red" style="margin-top:16px; border-left:3px solid var(--red);">
+        <em>"Revolut is moving. Allica is moving. The FSCS trigger has a shelf life. The right time to build the channel is before a competitor uses the same triggers against OakNorth's existing customers."</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 13: YOUR CHOICES -->
+  <div class="slide bg-navy">
+    <div class="content-wrap">
+      <div class="tag">The Alternatives</div>
+      <h2>What Are the Options?</h2>
+      <div class="table-wrap" style="margin-top:20px;">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Marketing Agency</th>
+              <th>Internal Hire</th>
+              <th style="color:var(--gold);">MDB Growth Capital</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="opacity:.6; font-weight:600;">Cost</td>
+              <td class="bad">£3k–£8k/month. No guaranteed results.</td>
+              <td class="bad">Marketing Manager £75k+ / SDR £45k+ = £120k+/yr minimum before tax and benefits</td>
+              <td class="good">Fraction of internal cost. Deployed in week one.</td>
+            </tr>
+            <tr>
+              <td style="opacity:.6; font-weight:600;">Time to results</td>
+              <td class="bad">3–6 months to build. Usually generic.</td>
+              <td class="bad">60–90 days to hire. 30+ days to onboard.</td>
+              <td class="good">In commercial sessions week 1. First campaign live day 30–55.</td>
+            </tr>
+            <tr>
+              <td style="opacity:.6; font-weight:600;">FCA compliance built in</td>
+              <td class="bad">Rarely included. Legal review additional cost.</td>
+              <td class="bad">Depends entirely on the hire. Training required.</td>
+              <td class="good">6 years FCA-regulated financial services campaigns. Zero compliance delays in 18 months at Santander.</td>
+            </tr>
+            <tr>
+              <td style="opacity:.6; font-weight:600;">Attribution model</td>
+              <td class="bad">Rarely included. Separate engagement.</td>
+              <td class="bad">If the hired skill exists.</td>
+              <td class="good">Channel-level CAC model included. Built in SQL. Connects to commercial pipeline.</td>
+            </tr>
+            <tr>
+              <td style="opacity:.6; font-weight:600;">BD alignment</td>
+              <td class="bad">Not included.</td>
+              <td class="bad">Siloed from sales unless leadership enforces it.</td>
+              <td class="good">Weekly shared sessions built into the model. Marketing and Commercial from one set of numbers.</td>
+            </tr>
+            <tr>
+              <td style="opacity:.6; font-weight:600;">What they optimise for</td>
+              <td class="bad">Agency client count.</td>
+              <td class="bad">Career advancement.</td>
+              <td class="good">OakNorth deposit volume. We only win when your acquisition numbers improve.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout-gold" style="margin-top:16px;">
+        <em>"We only win when OakNorth's acquisition numbers improve. That is the only alignment that matters."</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 14: MONTH 1 SPRINT -->
+  <div class="slide bg-mid">
+    <div class="content-wrap">
+      <div class="tag tag-teal">Month 1</div>
+      <h2>First Results in Month 1</h2>
+      <p class="lead" style="margin-bottom:12px;"><em>Foundation in month 1. Optimise in month 2. Scale in month 3.</em></p>
+      <div class="split-left-right" style="margin-top:8px;">
+        <div class="timeline">
+          <div class="tl-row">
+            <div class="tl-dot dot-indigo">W1</div>
+            <div class="tl-content">
+              <div class="tl-week">Week 1–2</div>
+              <div class="tl-title">Listen and Map</div>
+              <div class="tl-desc">Sit in every commercial review. Map current acquisition channels and data sources. Competitive audit: Allica, Revolut Business, Starling for the £1m–£100m Finance Director. Deliverable: State of Acquisition briefing by end of week 2.</div>
+            </div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-dot dot-teal">W3</div>
+            <div class="tl-content">
+              <div class="tl-week">Week 3</div>
+              <div class="tl-title">Build the Foundation</div>
+              <div class="tl-desc">Channel-level CAC first cut. Sector landing page briefs — property and professional services first. FCA compliance review at brief stage — before any copy is written.</div>
+            </div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-dot dot-gold">W4</div>
+            <div class="tl-content">
+              <div class="tl-week">Week 4</div>
+              <div class="tl-title">Launch</div>
+              <div class="tl-desc">FSCS outbound sequence live (Companies House £300k+ targets). Monite product page live. First BD alignment session with shared dashboard.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:14px;">
+            <div class="card-label">3-Month Arc</div>
+            <div class="tl-row" style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08);">
+              <div class="tl-dot dot-indigo" style="width:28px;height:28px;font-size:11px;">1</div>
+              <div class="tl-content">
+                <div class="tl-title" style="font-size:13px;">Month 1 — Foundation + First Campaigns</div>
+                <div class="tl-desc">CAC model. Sector pages. First outbound live by day 30–55.</div>
+              </div>
+            </div>
+            <div class="tl-row" style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08);">
+              <div class="tl-dot dot-teal" style="width:28px;height:28px;font-size:11px;">2</div>
+              <div class="tl-content">
+                <div class="tl-title" style="font-size:13px;">Month 2 — Optimise + Activate</div>
+                <div class="tl-desc">Lifecycle activation campaign. Channel performance review. Monite demand gen launch.</div>
+              </div>
+            </div>
+            <div class="tl-row" style="padding:10px 0;">
+              <div class="tl-dot dot-green" style="width:28px;height:28px;font-size:11px;">3</div>
+              <div class="tl-content">
+                <div class="tl-title" style="font-size:13px;">Month 3 — Scale + Infrastructure</div>
+                <div class="tl-desc">Attribution model live. Introducer programme spec. First quarterly review with the Head of Marketing.</div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-label">Ongoing</div>
+            <ul>
+              <li>Weekly commercial alignment session — marketing and BD</li>
+              <li>Monthly channel performance report with investment recommendations</li>
+              <li>Quarterly roadmap review and 3-month sprint planning</li>
+              <li>Continuous FCA compliance oversight — every brief reviewed before briefing creative</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 15: THE MATH -->
+  <div class="slide bg-cream">
+    <div class="content-wrap">
+      <div class="tag">The Math</div>
+      <h2>What 3 Months of Systematic Acquisition Produces</h2>
+      <p class="lead dark">Conservative estimates. Based on Santander proof points and OakNorth's current deposit economics.</p>
+      <div class="stat-row" style="grid-template-columns:repeat(4,1fr); margin-top:20px;">
+        <div class="stat-box">
+          <div class="num">12–20</div>
+          <div class="lab">Qualified FD / CFO conversations per month — 2 outbound channels at 3–4% reply rate</div>
+        </div>
+        <div class="stat-box">
+          <div class="num">£10,500+</div>
+          <div class="lab">Additional interest income per £500k deposit vs major high-street banks (~1.5% AER) at OakNorth 3.62% AER</div>
+        </div>
+        <div class="stat-box">
+          <div class="num">£0</div>
+          <div class="lab">Broker commission cost on direct-acquired deposits — vs referral-introduced lending leads</div>
+        </div>
+        <div class="stat-box">
+          <div class="num">15%</div>
+          <div class="lab">Dormant account activation rate within 90 days — proven at Santander Business Banking</div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <div class="card-label">The NIM Connection — Why This Is a Balance Sheet Decision, Not a Marketing Budget Decision</div>
+        <p>OakNorth funds its £7.2bn loan book partly from £5.2bn in retail deposits. Every £1M in business deposits acquired through a direct marketing channel reduces the need for higher-cost wholesale funding — directly improving NIM.</p>
+        <p>A direct deposit acquisition channel costs less than broker commission on equivalent referred deposits. And it compounds: a channel built in month one is generating conversations in month 12 with no additional build cost.</p>
+        <div class="callout callout-indigo" style="margin-top:12px; border-left:3px solid var(--indigo);">
+          <em>"Even at lower performance, the economics remain highly favourable. This is not a marketing cost. It is a balance sheet intervention."</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 16: WHAT MDB BUILDS / WHAT OAKNORTH DOES -->
+  <div class="slide bg-navy">
+    <div class="content-wrap">
+      <div class="tag">Division of Work</div>
+      <h2>What We Build. What You Do.</h2>
+      <div class="two-col" style="margin-top:16px; align-items:start;">
+        <div>
+          <div class="card-label" style="padding-left:2px; margin-bottom:10px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; opacity:.5;">What MDB Builds — Standalone Value</div>
+          <div class="val-table">
+            <div class="val-row"><span>Sector-specific landing pages — property + professional services (pages 1 and 2)</span><span class="val-amt">£12,000</span></div>
+            <div class="val-row"><span>FSCS consolidation outbound sequence (copy, targeting, FCA review)</span><span class="val-amt">£8,000</span></div>
+            <div class="val-row"><span>Monite Finance Automation demand generation programme</span><span class="val-amt">£10,000</span></div>
+            <div class="val-row"><span>Lifecycle activation campaign — dormant accounts to first deposit</span><span class="val-amt">£9,000</span></div>
+            <div class="val-row"><span>Channel-level CAC attribution dashboard (SQL + Tableau)</span><span class="val-amt">£14,000</span></div>
+            <div class="val-row"><span>BD alignment sessions + shared performance view</span><span class="val-amt">£8,000</span></div>
+            <div class="val-row"><span>Introducer programme spec — NACFB broker infrastructure</span><span class="val-amt">£7,000</span></div>
+            <div class="val-row"><span>FCA compliance-at-brief-stage workflow (adopted by 2+ teams at Santander)</span><span class="val-amt">£5,000</span></div>
+            <div class="val-row"><span><strong>Total standalone value</strong></span><span class="val-amt">£73,000</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-label">What OakNorth Does</div>
+          <h4 style="margin-bottom:14px;">Four things. Nothing else.</h4>
+          <div class="tl-row" style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08);">
+            <div class="tl-dot dot-indigo" style="width:28px;height:28px;font-size:11px;">1</div>
+            <div class="tl-content">
+              <div class="tl-title" style="font-size:13px;">Share data access</div>
+              <div class="tl-desc">CRM, campaign performance, account opening records. We work from your data, not assumptions.</div>
+            </div>
+          </div>
+          <div class="tl-row" style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08);">
+            <div class="tl-dot dot-teal" style="width:28px;height:28px;font-size:11px;">2</div>
+            <div class="tl-content">
+              <div class="tl-title" style="font-size:13px;">Attend weekly commercial sessions</div>
+              <div class="tl-desc">Marketing and BD in the same room. Decisions from one set of numbers.</div>
+            </div>
+          </div>
+          <div class="tl-row" style="padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08);">
+            <div class="tl-dot dot-gold" style="width:28px;height:28px;font-size:11px;">3</div>
+            <div class="tl-content">
+              <div class="tl-title" style="font-size:13px;">Approve FCA-compliant briefs</div>
+              <div class="tl-desc">Review at brief stage — before creative is written. 30-minute review, not a week of back and forth.</div>
+            </div>
+          </div>
+          <div class="tl-row" style="padding:10px 0;">
+            <div class="tl-dot dot-green" style="width:28px;height:28px;font-size:11px;">4</div>
+            <div class="tl-content">
+              <div class="tl-title" style="font-size:13px;">Provide 2–3 customer permissions</div>
+              <div class="tl-desc">Existing customer case study access for sector landing pages. Named proof converts. Generic proof does not.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 17: PARTNERSHIP OPTIONS -->
+  <div class="slide bg-cream">
+    <div class="content-wrap">
+      <div class="tag">How We Work Together</div>
+      <h2>Two Ways to Start</h2>
+      <p class="lead dark">Both options include FCA-compliant delivery from day one. Pricing confirmed after a 25-minute discovery call.</p>
+      <div class="two-col" style="margin-top:20px; align-items:start;">
+        <div class="option-card">
+          <div class="card-label">Option 1 — Foundation Sprint</div>
+          <div class="option-price">[TBC]</div>
+          <div class="option-period">One-time · Delivers in 30 days</div>
+          <p style="font-size:13px; opacity:.7; margin-bottom:14px;">Build the foundation before any outbound runs. For teams that want to audit, design, and brief the system before committing to a full partnership.</p>
+          <ul>
+            <li>State of Acquisition audit + written briefing</li>
+            <li>Channel-level CAC first cut (from available data)</li>
+            <li>Sector landing page strategy — property + professional services (the top two loan book segments)</li>
+            <li>FSCS outbound sequence: copy, targeting brief, FCA compliance-ready</li>
+            <li>Monite Finance Automation demand generation brief</li>
+            <li>Competitor positioning audit: Allica, Revolut Business, Starling</li>
+          </ul>
+        </div>
+        <div class="option-card featured">
+          <div class="card-label" style="color:var(--indigo); opacity:1;">Option 2 — Full Partnership · Most Chosen</div>
+          <div class="option-price">[TBC]</div>
+          <div class="option-period">Per month · 3-month minimum engagement</div>
+          <p style="font-size:13px; opacity:.7; margin-bottom:14px;">Everything in Option 1, plus the full machine running every week.</p>
+          <ul>
+            <li>Live outbound campaigns — managed and optimised weekly</li>
+            <li>Lifecycle activation campaign — end-to-end, including FCA approval</li>
+            <li>Monite launch: landing page, email campaign, LinkedIn paid social</li>
+            <li>Weekly BD alignment sessions with shared performance dashboard</li>
+            <li>Introducer programme designed and built (NACFB broker infrastructure)</li>
+            <li>Channel-level CAC attribution model installed and maintained</li>
+            <li>Monthly performance report with channel investment recommendations</li>
+            <li>Quarterly roadmap review with the Head of Marketing</li>
+          </ul>
+          <div style="margin-top:14px; padding:10px 14px; background:rgba(81,79,238,0.1); border-radius:8px; font-size:12px; color:var(--indigo); font-weight:600;">
+            ★ Most partners choose Option 2 — the channel only compounds if someone runs it every week.
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-gold" style="margin-top:16px; border-left:3px solid var(--gold);">
+        Pricing confirmed after a 25-minute discovery call. All options include FCA-compliant delivery from day one. All `[TBC]` placeholders above are confirmed before any agreement is signed.
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 18: CLOSING -->
+  <div class="slide bg-grad">
+    <div class="content-wrap" style="max-width:860px; text-align:center;">
+      <div class="tag tag-gold">The Question</div>
+      <h2 style="text-align:center; max-width:700px; margin:0 auto 20px;">OakNorth Has the Credit Discipline. The Efficiency Ratio. The Product.</h2>
+      <p class="lead" style="text-align:center; max-width:640px; margin:0 auto 28px;">What is missing is the acquisition channel that does not depend on NACFB brokers. The CFO outreach sequence. The FSCS window campaign. The Monite demand generation programme. The attribution model that tells the board where every pound of deposit came from.</p>
+      <div style="display:inline-block; padding:18px 28px; background:rgba(251,191,36,0.12); border:1px solid rgba(251,191,36,0.3); border-radius:12px; font-size:17px; font-weight:700; color:var(--gold); margin-bottom:28px;">
+        MDB installs that. Permanently.
+      </div>
+      <p class="lead" style="text-align:center; max-width:600px; margin:0 auto 32px; font-size:16px;">
+        <em>"The question is not whether OakNorth needs a direct deposit acquisition channel. The question is whether you build it before Allica does."</em>
+      </p>
+      <div style="display:flex; gap:32px; justify-content:center; flex-wrap:wrap; margin-top:8px;">
+        <div style="text-align:center;">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.45;margin-bottom:4px;">Contact</div>
+          <div style="font-size:15px;font-weight:700;">Jean Mundabi Fala</div>
+          <div style="font-size:13px;opacity:.6;margin-top:2px;">Founder, MDB Growth Capital</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.45;margin-bottom:4px;">Next Step</div>
+          <div style="font-size:15px;font-weight:700;">25-Minute Discovery Call</div>
+          <div style="font-size:13px;opacity:.6;margin-top:2px;">No pitch. Just questions about OakNorth's current acquisition state.</div>
+        </div>
+      </div>
+      <p style="margin-top:36px; font-size:11px; opacity:.3; text-transform:uppercase; letter-spacing:.08em;">
+        MDB Growth Capital · OakNorth Business Banking · May 2026 · Rate: 3.62% AER — verify at oaknorth.co.uk/business-savings before presenting
+      </p>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<div class="nav-bar">
+  <button onclick="prev()" title="Previous (←)">&#8592;</button>
+  <span class="counter" id="counter">1 / 18</span>
+  <button onclick="next()" title="Next (→)">&#8594;</button>
+  <button onclick="window.print()" title="Print" style="margin-left:8px; font-size:13px;">🖨</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const bar = document.getElementById('bar');
+  const counter = document.getElementById('counter');
+  let cur = 0;
+
+  function go(n) {
+    slides[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(slides.length - 1, n));
+    slides[cur].classList.add('active');
+    counter.textContent = (cur + 1) + ' / ' + slides.length;
+    bar.style.width = ((cur + 1) / slides.length * 100) + '%';
+  }
+  function next() { go(cur + 1); }
+  function prev() { go(cur - 1); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                    { e.preventDefault(); prev(); }
+  });
+
+  let ts = 0;
+  document.addEventListener('touchstart', e => ts = e.touches[0].clientX);
+  document.addEventListener('touchend', e => {
+    const d = ts - e.changedTouches[0].clientX;
+    if (Math.abs(d) > 40) d > 0 ? next() : prev();
+  });
+
+  go(0);
+</script>
+
+</body>
+</html>

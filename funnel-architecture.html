@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OakNorth — Funnel Architecture | MDB Growth Capital</title>
+<style>
+  :root {
+    --navy: #1a2744;
+    --green: #00a651;
+    --light-green: #e8f7ee;
+    --white: #ffffff;
+    --light-gray: #f4f6fb;
+    --mid-gray: #64748b;
+    --dark: #0f172a;
+    --red: #dc2626;
+    --amber: #d97706;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--light-gray); color: var(--dark); line-height: 1.6; }
+  .header { background: var(--navy); color: white; padding: 48px 40px; }
+  .header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+  .header p { color: #94a3b8; font-size: 1rem; }
+  .badge { display: inline-block; background: var(--green); color: white; padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+  .section-title { font-size: 1.5rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .section-sub { color: var(--mid-gray); margin-bottom: 28px; font-size: 0.95rem; }
+
+  /* Funnel Cascade */
+  .funnel-cascade { margin-bottom: 48px; }
+  .funnel-stage { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 4px; overflow: hidden; }
+  .stage-header { display: grid; grid-template-columns: 160px 1fr 1fr 1fr; gap: 0; }
+  .stage-label { background: var(--navy); color: white; padding: 20px 24px; display: flex; flex-direction: column; justify-content: center; }
+  .stage-label .stage-name { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8; margin-bottom: 4px; }
+  .stage-label .stage-title { font-size: 1.1rem; font-weight: 700; }
+  .stage-label .stage-q { font-size: 0.8rem; color: #64748b; margin-top: 4px; font-style: italic; }
+  .col { padding: 20px 24px; border-left: 1px solid #f1f5f9; }
+  .col-header { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mid-gray); margin-bottom: 10px; }
+  .col-today .col-header { color: var(--red); }
+  .col-install .col-header { color: var(--green); }
+  .col-missing .col-header { color: var(--amber); }
+  .col ul { padding-left: 0; list-style: none; }
+  .col ul li { font-size: 0.85rem; color: var(--mid-gray); margin-bottom: 6px; padding-left: 16px; position: relative; }
+  .col ul li::before { content: "•"; position: absolute; left: 0; }
+  .col-today ul li::before { content: "✕"; color: var(--red); font-weight: 700; }
+  .col-install ul li::before { content: "✓"; color: var(--green); font-weight: 700; }
+  .col-missing ul li::before { content: "!"; color: var(--amber); font-weight: 700; }
+
+  /* Score badges */
+  .score-strip { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+  .score-card { background: white; border-radius: 10px; padding: 20px 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); flex: 1; min-width: 160px; text-align: center; }
+  .score-num { font-size: 2.2rem; font-weight: 800; }
+  .score-label { font-size: 0.78rem; color: var(--mid-gray); margin-top: 4px; }
+  .score-status { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 6px; }
+  .score-red .score-num { color: var(--red); }
+  .score-red .score-status { color: var(--red); }
+  .score-amber .score-num { color: var(--amber); }
+  .score-amber .score-status { color: var(--amber); }
+  .score-green .score-num { color: var(--green); }
+  .score-green .score-status { color: var(--green); }
+
+  /* Growth Loops */
+  .loops { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 48px; }
+  .loop-card { background: white; border-radius: 12px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-top: 4px solid var(--green); }
+  .loop-num { font-size: 0.7rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .loop-card h3 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 16px; }
+  .loop-steps { display: flex; flex-direction: column; gap: 8px; }
+  .loop-step { display: flex; align-items: flex-start; gap: 10px; }
+  .step-arrow { flex-shrink: 0; width: 22px; height: 22px; background: var(--light-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: var(--green); margin-top: 2px; }
+  .loop-step p { font-size: 0.82rem; color: var(--mid-gray); }
+
+  /* Connector arrows */
+  .stage-connector { text-align: center; font-size: 1.2rem; color: var(--mid-gray); padding: 4px 0; }
+
+  /* Revenue model */
+  .revenue-model { background: white; border-radius: 12px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 40px; }
+  .rev-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 20px; }
+  .rev-item { padding: 20px; background: var(--light-gray); border-radius: 8px; }
+  .rev-item h4 { font-size: 0.9rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .rev-item p { font-size: 0.83rem; color: var(--mid-gray); }
+  .rev-item .rev-num { font-size: 1.6rem; font-weight: 800; color: var(--green); margin-bottom: 4px; }
+
+  .footer { background: var(--navy); color: #94a3b8; text-align: center; padding: 24px; font-size: 0.85rem; margin-top: 48px; }
+  @media (max-width: 700px) {
+    .stage-header { grid-template-columns: 1fr; }
+    .loops { grid-template-columns: 1fr; }
+    .rev-grid { grid-template-columns: 1fr; }
+    .score-strip { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="badge">Funnel Architecture</div>
+    <h1>OakNorth — Business Banking Acquisition Funnel Architecture</h1>
+    <p>Prepared by MDB Growth Capital for [Head of Marketing — confirm name before interview] | May 2026</p>
+  </div>
+</div>
+<div class="container">
+
+  <div class="score-strip">
+    <div class="score-card score-red">
+      <div class="score-num">38</div>
+      <div class="score-label">Attraction Score</div>
+      <div class="score-status">Critical Leak</div>
+    </div>
+    <div class="score-card score-red">
+      <div class="score-num">42</div>
+      <div class="score-label">Alignment Score</div>
+      <div class="score-status">Major Leak</div>
+    </div>
+    <div class="score-card score-amber">
+      <div class="score-num">55</div>
+      <div class="score-label">Activation Score</div>
+      <div class="score-status">Moderate Leak</div>
+    </div>
+    <div class="score-card score-red">
+      <div class="score-num">45</div>
+      <div class="score-label">Overall AAA Score</div>
+      <div class="score-status">High Priority</div>
+    </div>
+    <div class="score-card score-green">
+      <div class="score-num">£10,600</div>
+      <div class="score-label">Annual yield gap per SME</div>
+      <div class="score-status">Core argument</div>
+    </div>
+  </div>
+
+  <div class="section-title">Funnel Cascade — Today vs What MDB Installs</div>
+  <p class="section-sub">Three stages, three columns. What happens now, what changes when MDB is installed, and what is missing today.</p>
+
+  <div class="funnel-cascade">
+
+    <!-- ToFu -->
+    <div class="funnel-stage">
+      <div class="stage-header">
+        <div class="stage-label">
+          <div class="stage-name">Top of Funnel</div>
+          <div class="stage-title">Attract</div>
+          <div class="stage-q">Who finds OakNorth?</div>
+        </div>
+        <div class="col col-today">
+          <div class="col-header">Today</div>
+          <ul>
+            <li>Broker referrals drive 80%+ of lending leads</li>
+            <li>Raisin and comparison sites drive savings deposits</li>
+            <li>Zero direct-to-CFO outbound programme</li>
+            <li>Blog content targets general "business finance" — not CFO pain moments</li>
+            <li>No sector-specific acquisition pages for hospitality, healthcare, professional services</li>
+            <li>No paid media reaching SME CFO/FD decision-makers directly</li>
+          </ul>
+        </div>
+        <div class="col col-install">
+          <div class="col-header">After MDB Install</div>
+          <ul>
+            <li>25-company Tier 1 targeting database (Companies House cash surplus signals + CFO/FD contact resolution)</li>
+            <li>23+ Monite prospects identified from Indeed AP/AR postings</li>
+            <li>FSCS tailwind email sequence reaching CFOs in switching window</li>
+            <li>NACFB broker engagement programme (15 contacts, London and South East)</li>
+            <li>LinkedIn content flywheel targeting SME CFO audience directly</li>
+            <li>Companies House PVP intelligence: new FD appointments in target sectors within 45 days</li>
+          </ul>
+        </div>
+        <div class="col col-missing">
+          <div class="col-header">What Is Missing</div>
+          <ul>
+            <li>No outbound channel to reach CFOs before broker touches them</li>
+            <li>No paid social targeting Finance Directors by company size and sector</li>
+            <li>No PPC for FSCS-related search queries</li>
+            <li>No sector landing pages (hospitality banking, healthcare banking)</li>
+            <li>No regular content publishing targeting CFO pain moments</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-connector">▼</div>
+
+    <!-- MoFu -->
+    <div class="funnel-stage">
+      <div class="stage-header">
+        <div class="stage-label">
+          <div class="stage-name">Mid Funnel</div>
+          <div class="stage-title">Align</div>
+          <div class="stage-q">Why OakNorth over Allica?</div>
+        </div>
+        <div class="col col-today">
+          <div class="col-header">Today</div>
+          <ul>
+            <li>"Business banking for companies with ambition" — applies to every bank</li>
+            <li>No yield calculator on the website</li>
+            <li>No CFO-voice testimonials from named SME clients</li>
+            <li>FSCS protection mentioned as a footnote, not a headline</li>
+            <li>Rate comparisons absent — a CFO cannot quickly see the £10,600 gap</li>
+            <li>Compliance-first copy suppresses commercial arguments</li>
+          </ul>
+        </div>
+        <div class="col col-install">
+          <div class="col-header">After MDB Install</div>
+          <ul>
+            <li>SME CFO acquisition landing page — OakNorth brand, CFO voice, 15 sections minimum</li>
+            <li>Yield calculator embedded: shows exact annual gain versus Barclays/HSBC at CFO's actual cash level</li>
+            <li>Sector-specific proof points (hospitality, healthcare, professional services)</li>
+            <li>FSCS comparison: OakNorth vs Big Four in plain language</li>
+            <li>Old Way vs New Way: "Barclays ~1.5% for 10 years" vs "OakNorth Notice 125-day 3.62% AER"</li>
+            <li>3 video testimonial placeholders: named FDs with sector and outcome attribution</li>
+          </ul>
+        </div>
+        <div class="col col-missing">
+          <div class="col-header">What Is Missing</div>
+          <ul>
+            <li>No acquisition landing page in SME CFO voice</li>
+            <li>No financial proof: rate comparison or yield calculator</li>
+            <li>No case studies from named SME clients in OakNorth's sectors</li>
+            <li>No objection handling for "is it safe to move deposits from a Big Four bank"</li>
+            <li>No Monite product page for Finance Directors evaluating AP/AR automation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-connector">▼</div>
+
+    <!-- BoFu -->
+    <div class="funnel-stage">
+      <div class="stage-header">
+        <div class="stage-label">
+          <div class="stage-name">Bottom of Funnel</div>
+          <div class="stage-title">Activate</div>
+          <div class="stage-q">Do they open an account?</div>
+        </div>
+        <div class="col col-today">
+          <div class="col-header">Today</div>
+          <ul>
+            <li>No lifecycle campaign from account open to first operational use</li>
+            <li>Cross-sell from lending to savings not happening systematically</li>
+            <li>Monite early access has no onboarding campaign</li>
+            <li>JD confirms: gap between account opening and first operational use is the specific brief</li>
+            <li>No nurture sequence for CFOs who express interest but are not yet ready</li>
+            <li>Lead scoring and hot-alert system absent</li>
+          </ul>
+        </div>
+        <div class="col col-install">
+          <div class="col-header">After MDB Install</div>
+          <ul>
+            <li>20-week nurture sequence: no pitch, pure value delivery to deposit prospects not yet ready</li>
+            <li>Existing borrower cross-sell email: OakNorth Notice/Fixed rates (3.62–3.80% AER) vs their operating account rate</li>
+            <li>Lead scoring system: cold/warm/hot buckets wired into CRM</li>
+            <li>Hot-alert: OakNorth commercial team notified when prospect crosses intent threshold</li>
+            <li>Monite early access onboarding sequence for Finance Directors post-signup</li>
+            <li>PVP scorecard: SME finance diagnostic qualifying deposit readiness</li>
+          </ul>
+        </div>
+        <div class="col col-missing">
+          <div class="col-header">What Is Missing</div>
+          <ul>
+            <li>No nurture layer for 95% of prospects not yet ready to switch</li>
+            <li>No systematic cross-sell from existing lending relationships to savings</li>
+            <li>No lead scoring or intent-based follow-up system</li>
+            <li>No Monite onboarding automation</li>
+            <li>No re-engagement for prospects who visited the site and left without converting</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-connector">▼</div>
+
+    <!-- Sale -->
+    <div class="funnel-stage">
+      <div class="stage-header">
+        <div class="stage-label">
+          <div class="stage-name">Post-Conversion</div>
+          <div class="stage-title">Retain and Expand</div>
+          <div class="stage-q">Do they stay and grow?</div>
+        </div>
+        <div class="col col-today">
+          <div class="col-header">Today</div>
+          <ul>
+            <li>40%+ repeat borrower rate (strong retention in lending)</li>
+            <li>Savings customers acquired via Raisin — low relationship depth</li>
+            <li>No documented cross-sell from savings to lending or vice versa</li>
+            <li>No referral activation from happy customers to CFO networks</li>
+          </ul>
+        </div>
+        <div class="col col-install">
+          <div class="col-header">After MDB Install</div>
+          <ul>
+            <li>Existing borrower database cross-sell campaign (near-zero CAC)</li>
+            <li>Referral activation: happy depositors introduce to CFO networks</li>
+            <li>Case study pipeline from direct acquisitions — content for the authority engine</li>
+            <li>Broker relationship programme creates two-directional referral flow</li>
+          </ul>
+        </div>
+        <div class="col col-missing">
+          <div class="col-header">What Is Missing</div>
+          <ul>
+            <li>No referral programme for business banking customers</li>
+            <li>No case study production from direct acquisition results</li>
+            <li>No expansion outreach (savings to lending to Monite cross-sell)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-title">Revenue Model — Why Fixing the Funnel Compounds</div>
+  <p class="section-sub">Every deposit account opened directly is an account OakNorth owns. No broker margin. No comparison site dependency.</p>
+
+  <div class="revenue-model">
+    <div class="rev-grid">
+      <div class="rev-item">
+        <div class="rev-num">£10,600</div>
+        <h4>Annual yield gap per SME on £500k</h4>
+        <p>OakNorth Notice 125-day at 3.62% AER versus Barclays Business at ~1.5% AER. This is the arithmetic argument the CFO cannot dispute once they see it. On a database of 25 target companies, the aggregate opportunity is £265,000 per year in incremental client yield — that is the switching incentive. (Rates verified oaknorth.co.uk/business-banking/savings/ May 2026.)</p>
+      </div>
+      <div class="rev-item">
+        <div class="rev-num">80%+</div>
+        <h4>Lending from broker referrals</h4>
+        <p>Every broker referral carries a margin cost. Every direct relationship opened through outbound is acquired at lower cost and with deeper OakNorth ownership. A 20-point reduction in broker dependence (80% to 60%) changes the lending unit economics permanently — without reducing total volume.</p>
+      </div>
+      <div class="rev-item">
+        <div class="rev-num">£35k to £50k</div>
+        <h4>AP/AR manager salary eliminated per Monite signup</h4>
+        <p>23+ UK companies in OakNorth's target sectors are actively hiring Accounts Payable or Accounts Receivable managers right now. Each posting signals a Finance Director about to spend £35,000 to £50,000 on headcount to solve a problem OakNorth's Monite product eliminates. OakNorth acquires the customer and saves the CFO a hire.</p>
+      </div>
+      <div class="rev-item">
+        <div class="rev-num">0%</div>
+        <h4>CAC on existing borrower cross-sell</h4>
+        <p>OakNorth has a 40%+ repeat borrower rate and thousands of existing lending relationships that have never been offered Business Earn Vault savings. A single email campaign to existing borrowers with operating cash at incumbent banks has near-zero acquisition cost and reaches the warmest possible audience — people who already trust OakNorth to hold their debt.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">3 Growth Feedback Loops</div>
+  <p class="section-sub">How direct acquisition compounds. Each loop reinforces the next — the channel gets cheaper and stronger with every account opened.</p>
+
+  <div class="loops">
+    <div class="loop-card">
+      <div class="loop-num">Loop 1</div>
+      <h3>Direct Deposit Acquisition Loop</h3>
+      <div class="loop-steps">
+        <div class="loop-step"><div class="step-arrow">1</div><p>MDB identifies CFOs with operating cash above £100k using Companies House signals and FSCS switching probability score</p></div>
+        <div class="loop-step"><div class="step-arrow">2</div><p>Outbound email sequence leads with £10,600 yield gap argument (3.62% Notice vs ~1.5% Barclays on £500k) — arithmetic, not marketing language</p></div>
+        <div class="loop-step"><div class="step-arrow">3</div><p>CFO opens Business Earn Vault. OakNorth earns the deposit relationship directly — no broker, no comparison site</p></div>
+        <div class="loop-step"><div class="step-arrow">4</div><p>Named CFO becomes case study. Case study becomes social proof on the acquisition landing page</p></div>
+        <div class="loop-step"><div class="step-arrow">5</div><p>Landing page converts the next cohort of CFOs at higher rates because proof now exists. CAC decreases per account.</p></div>
+      </div>
+    </div>
+    <div class="loop-card">
+      <div class="loop-num">Loop 2</div>
+      <h3>Broker Relationship Compound Loop</h3>
+      <div class="loop-steps">
+        <div class="loop-step"><div class="step-arrow">1</div><p>MDB builds NACFB broker engagement programme — Monite as new recommendation capability for their clients</p></div>
+        <div class="loop-step"><div class="step-arrow">2</div><p>Broker adds OakNorth to active panel. Considers OakNorth on every qualifying deal (average 3 to 5 per year)</p></div>
+        <div class="loop-step"><div class="step-arrow">3</div><p>OakNorth wins broker-referred deal. Borrower also presented with Business Earn Vault cross-sell</p></div>
+        <div class="loop-step"><div class="step-arrow">4</div><p>Borrower opens deposit account. OakNorth earns the full relationship (lending + savings) from one broker referral</p></div>
+        <div class="loop-step"><div class="step-arrow">5</div><p>OakNorth's case study from that relationship gives the next broker a concrete reason to recommend. Loop compounds.</p></div>
+      </div>
+    </div>
+    <div class="loop-card">
+      <div class="loop-num">Loop 3</div>
+      <h3>Authority Engine Trust Loop</h3>
+      <div class="loop-steps">
+        <div class="loop-step"><div class="step-arrow">1</div><p>LinkedIn content flywheel publishes CFO-relevant insight: FSCS calculator, Allica vs OakNorth comparison, Monite AP/AR automation primer</p></div>
+        <div class="loop-step"><div class="step-arrow">2</div><p>CFOs engage with content. Those not yet ready to switch enter the 20-week value-only nurture sequence</p></div>
+        <div class="loop-step"><div class="step-arrow">3</div><p>Lead scoring tracks intent signals. When a CFO crosses the hot threshold, OakNorth commercial team receives an alert</p></div>
+        <div class="loop-step"><div class="step-arrow">4</div><p>Commercial team calls a CFO who already understands the FSCS argument, has seen the yield calculator, and has mentally evaluated OakNorth. Conversion rates 3x a cold call.</p></div>
+        <div class="loop-step"><div class="step-arrow">5</div><p>Converted CFO shares OakNorth insight content with their network. Organic reach compounds. Loop starts again.</p></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="footer">
+  Mockup prepared by MDB Growth Capital. Strategy and GTM by Jean Mundabi Fala. | May 2026
+</div>
+</body>
+</html>

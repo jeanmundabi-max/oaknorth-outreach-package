@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OakNorth — Outreach Sequence | MDB Growth Capital</title>
+<style>
+  :root {
+    --navy: #1a2744;
+    --green: #00a651;
+    --light-green: #e8f7ee;
+    --white: #ffffff;
+    --light-gray: #f4f6fb;
+    --mid-gray: #64748b;
+    --dark: #0f172a;
+    --linkedin: #0a66c2;
+    --email-color: #00a651;
+    --amber: #d97706;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--light-gray); color: var(--dark); line-height: 1.6; }
+  .header { background: var(--navy); color: white; padding: 48px 40px; }
+  .header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+  .header p { color: #94a3b8; font-size: 1rem; }
+  .badge { display: inline-block; background: var(--green); color: white; padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+  .section-title { font-size: 1.5rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .section-sub { color: var(--mid-gray); margin-bottom: 28px; font-size: 0.95rem; }
+
+  /* Channel legend */
+  .legend { display: flex; gap: 20px; margin-bottom: 32px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--mid-gray); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .dot-email { background: var(--email-color); }
+  .dot-linkedin { background: var(--linkedin); }
+  .dot-pvp { background: var(--amber); }
+  .dot-nurture { background: #6366f1; }
+
+  /* Timeline */
+  .timeline-wrap { position: relative; }
+  .timeline-wrap::before { content: ""; position: absolute; left: 28px; top: 0; bottom: 0; width: 2px; background: #e2e8f0; }
+
+  .day-block { position: relative; padding-left: 72px; margin-bottom: 24px; }
+  .day-badge { position: absolute; left: 0; width: 56px; height: 56px; border-radius: 50%; background: var(--navy); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; line-height: 1.2; z-index: 1; }
+  .day-badge .day-num { font-size: 1rem; font-weight: 800; display: block; line-height: 1; }
+
+  .day-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .day-card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+  .channel-tag { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; padding: 3px 10px; border-radius: 4px; flex-shrink: 0; margin-top: 2px; }
+  .tag-email { background: #e8f7ee; color: var(--email-color); }
+  .tag-linkedin { background: #dbeafe; color: var(--linkedin); }
+  .tag-pvp { background: #fef3c7; color: var(--amber); }
+  .tag-nurture { background: #ede9fe; color: #6366f1; }
+  .tag-internal { background: #f1f5f9; color: var(--mid-gray); }
+
+  .day-card h4 { font-size: 1rem; font-weight: 700; color: var(--dark); flex: 1; }
+  .day-card p { font-size: 0.875rem; color: var(--mid-gray); margin-bottom: 8px; }
+  .day-card .email-preview { background: var(--light-gray); border-radius: 8px; padding: 14px 16px; margin-top: 10px; }
+  .email-preview .subject { font-size: 0.8rem; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+  .email-preview .preview-text { font-size: 0.8rem; color: var(--mid-gray); font-style: italic; }
+  .email-preview .pss { display: inline-block; background: var(--light-green); color: var(--green); font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 3px; margin-top: 6px; }
+
+  .script-block { background: var(--light-gray); border-radius: 8px; padding: 14px 16px; margin-top: 10px; font-size: 0.82rem; color: var(--mid-gray); border-left: 3px solid var(--linkedin); }
+
+  /* Nurture phase */
+  .nurture-block { background: white; border-radius: 12px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-top: 32px; border-left: 4px solid #6366f1; }
+  .nurture-block h3 { font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+  .nurture-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; }
+  .nurture-item { background: var(--light-gray); border-radius: 8px; padding: 14px; }
+  .nurture-item .week-label { font-size: 0.7rem; font-weight: 700; color: #6366f1; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .nurture-item p { font-size: 0.8rem; color: var(--mid-gray); }
+
+  /* Metrics */
+  .outcomes-row { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+  .outcome { flex: 1; min-width: 140px; background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); text-align: center; }
+  .outcome-num { font-size: 1.8rem; font-weight: 800; color: var(--green); }
+  .outcome-label { font-size: 0.78rem; color: var(--mid-gray); margin-top: 4px; }
+
+  .footer { background: var(--navy); color: #94a3b8; text-align: center; padding: 24px; font-size: 0.85rem; margin-top: 48px; }
+  @media (max-width: 600px) {
+    .nurture-grid { grid-template-columns: 1fr 1fr; }
+    .day-badge { width: 48px; height: 48px; }
+    .day-block { padding-left: 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div style="max-width:960px;margin:0 auto;">
+    <div class="badge">Outreach Sequence</div>
+    <h1>OakNorth — Multi-Channel Outreach Sequence</h1>
+    <p>Prepared by MDB Growth Capital for [Head of Marketing — TBC], Senior Director of Marketing | May 2026</p>
+  </div>
+</div>
+<div class="container">
+
+  <div class="outcomes-row">
+    <div class="outcome"><div class="outcome-num">10</div><div class="outcome-label">Days to first conversations</div></div>
+    <div class="outcome"><div class="outcome-num">3</div><div class="outcome-label">Channels: email + LinkedIn</div></div>
+    <div class="outcome"><div class="outcome-num">8 to 12</div><div class="outcome-label">Qualified deposit conversations (goal)</div></div>
+    <div class="outcome"><div class="outcome-num">20 weeks</div><div class="outcome-label">Nurture sequence for not-yet-ready</div></div>
+  </div>
+
+  <div class="section-title">Day-by-Day Multi-Channel Sequence</div>
+  <p class="section-sub">Email, LinkedIn DM, and nurture — each step on its day, each channel doing a different job.</p>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot dot-email"></div> Email outbound</div>
+    <div class="legend-item"><div class="legend-dot dot-linkedin"></div> LinkedIn direct message</div>
+    <div class="legend-item"><div class="legend-dot dot-pvp"></div> PVP intelligence delivery (pending Companies House lookup)</div>
+    <div class="legend-item"><div class="legend-dot dot-nurture"></div> Nurture sequence entry</div>
+  </div>
+
+  <div class="timeline-wrap">
+
+    <!-- Day 0 -->
+    <div class="day-block">
+      <div class="day-badge"><span class="day-num">0</span>Day</div>
+      <div class="day-card">
+        <div class="day-card-header">
+          <span class="channel-tag tag-linkedin">LinkedIn</span>
+          <h4>Text hook DM — establish the reason for the video</h4>
+        </div>
+        <p>Send before the video DM. Sets context. Earns the 80-second view.</p>
+        <div class="script-block">
+          "Hey [Name], saw your comment about building sustainable growth at OakNorth. Had an idea for turning the FSCS limit change into a direct acquisition sprint for Business Banking CFOs before Revolut converts those relationships passively. Sending a quick video shortly."
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 1 -->
+    <div class="day-block">
+      <div class="day-badge"><span class="day-num">1</span>Day</div>
+      <div class="day-card">
+        <div class="day-card-header">
+          <span class="channel-tag tag-linkedin">LinkedIn</span>
+          <h4>80-second video DM — Enterprise Landing Page Explanation Framework</h4>
+        </div>
+        <p>Walk the recipient through the SME CFO acquisition landing page MDB built for OakNorth. 7 blocks. Sales psychology, not design description. Ends on curiosity gap.</p>
+        <div class="script-block">
+          [0:00–0:08] Here's the page. But the important part isn't the design — it's what this page does before a CFO ever speaks to OakNorth's commercial team.<br><br>
+          [0:08–0:22] The page was built from OakNorth customer reviews, Trustpilot data, and the exact language SME CFOs use when they talk about switching banking relationships. Every section maps to a real fear or a real question.<br><br>
+          [0:22–0:36] The headline is: "Your reserves at Barclays are earning £10,600 less than they could be." That's not just wording — it's the yield differential between Barclays (~1.5% AER) and OakNorth's 125-day Notice Account (3.62% AER) on £500,000. Most CFOs in OakNorth's target band don't know this number. The page makes it impossible to ignore.<br><br>
+          [0:36–0:48] The page handles the objections upfront. Is it safe? FSCS-protected same as Barclays. Does it disrupt operations? Next-day access, no lock-in. What about my existing lending relationship? Additive — no need to switch your primary account.<br><br>
+          [0:48–0:58] By the time a CFO scrolls through this page, they've already seen the yield calculator, the FSCS comparison, and two named testimonials from Finance Directors in their sector. They arrive at the booking call pre-sold.<br><br>
+          [0:58–1:10] This page works as a paid acquisition destination, an outbound email landing page, and a broker leave-behind. Three acquisition channels, one asset, without needing a human involved every time.<br><br>
+          [1:10–1:20] There's also a much bigger strategy behind how we'd drive qualified CFOs and FDs specifically to this page — including the targeting database we built from Companies House. Worth showing you that too?
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 1 Email -->
+    <div class="day-block">
+      <div class="day-badge"><span class="day-num">1</span>Day</div>
+      <div class="day-card">
+        <div class="day-card-header">
+          <span class="channel-tag tag-email">Email 1</span>
+          <h4>Trigger angle — FSCS window and Revolut banking licence</h4>
+        </div>
+        <p>Goes to their email simultaneously with the LinkedIn video. Two-channel exposure day one.</p>
+        <div class="email-preview">
+          <div class="subject">Subject: Deposits before Revolut does.</div>
+          <div class="preview-text">OakNorth grew originations 33% in 2025 on referrals alone. That model usually hits a ceiling.</div>
+          <div style="margin-top:8px;font-size:0.82rem;color:var(--mid-gray);">[Name],<br><br>OakNorth grew originations 33% in 2025 on referrals alone. That model usually hits a ceiling.<br><br>The risk is that CFOs re-evaluating their deposits after the December FSCS change choose Revolut Business before your team reaches them. Revolut got full banking status in March. They have 500,000 existing business customers to convert.<br><br>We help you reach Finance Directors and CFOs already in a switching window before they consolidate operating cash elsewhere.<br><br>The accounts making that decision now will likely be settled before the FSCS window fully closes next year.<br><br>We handle the account research, outreach, and qualification so your team stays focused on new business relationships.<br><br>Worth showing you how we'd approach this for OakNorth?<br><br>Jean</div>
+          <span class="pss">PSS 87/100 — PASS</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 3 LinkedIn followup -->
+    <div class="day-block">
+      <div class="day-badge"><span class="day-num">3</span>Day</div>
+      <div class="day-card">
+        <div class="day-card-header">
+          <span class="channel-tag tag-linkedin">LinkedIn</span>
+          <h4>Follow-up DM — FSCS angle or Monite launch question</h4>
+        </div>
+        <p>Short. One question. Different angle from the video DM.</p>
+        <div class="script-block">
+          "[Name], sent over a quick video of the landing page mockup we built for OakNorth's CFO acquisition channel. Curious whether the FSCS angle or the Monite product launch campaign is more urgent for your Q2 targets. Worth a 15-minute conversation?"
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 4 Email 2 -->
+    <div class="day-block">
+      <div class="day-badge"><span class="day-num">4</span>Day</div>
+      <div class="day-card">
+        <div class="day-card-header">
+          <span class="channel-tag tag-email">Email 2</span>
+          <h4>Friction angle — Allica broker relationship threat</h4>
+        </div>
+        <p>Different angle from email 1. Speaks to broker dependence risk rather than the FSCS opportunity.</p>
+        <div class="email-preview">
+          <div class="subject">Subject: Allica's banker just had coffee with your broker.</div>
+          <div class="preview-text">Over 80% of OakNorth's lending arrives through broker referrals. Allica built a local banker network specifically to intercept those relationships.</div>
+          <div style="margin-top:8px;font-size:0.82rem;color:var(--mid-gray);">[Name],<br><br>Over 80% of OakNorth's lending arrives through broker referrals. Allica built a local banker network specifically to intercept those relationships before lenders even see the deal.<br><br>The risk is not that OakNorth loses on product. It is that CFOs and their brokers never compare OakNorth at all because Allica's relationship is already deeper.<br><br>We help you get directly in front of Finance Directors and CFOs in OakNorth's target sectors before they go to a broker first.<br><br>A few accounts opened directly means OakNorth earns those relationships without the broker margin.<br><br>We handle the targeting, outreach, and first qualification so your team stays focused on commercial conversations.<br><br>Worth showing you how we'd approach this for OakNorth?<br><br>Jean</div>
+          <span class="pss">PSS 85/100 — PASS</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 7 PVP (HOLD) -->
+    <div class="day-block">
+      <div class="day-badge"><span class="day-num">7</span>Day</div>
+      <div class="day-card">
+        <div class="day-card-header">
+          <span class="channel-tag tag-pvp">PVP Email</span>
+          <h4>Intelligence delivery — new Finance Director appointments in target sectors</h4>
+        </div>
+        <p style="color:var(--amber);font-weight:600;">Status: HOLD — Companies House appointments lookup not yet run. Deploy only after lookup confirms 10+ new FD appointments. Populate named_firms_found before sending.</p>
+        <div class="email-preview">
+          <div class="subject">Subject: 14 new Finance Directors in your sectors.</div>
+          <div class="preview-text">Pulled Companies House appointment filings this week across OakNorth's primary lending sectors.</div>
+          <div style="margin-top:8px;font-size:0.82rem;color:var(--mid-gray);">[Name],<br><br>Pulled Companies House appointment filings this week across OakNorth's primary lending sectors — hospitality, healthcare, and professional services.<br><br>14 businesses in the £5m to £50m range have appointed a new Finance Director or CFO in the last 45 days.<br><br>New FDs review all banking relationships in their first 90 days. That is OakNorth's window before those accounts settle with whoever shows up first.<br><br>I mapped the companies, their Companies House SIC codes, and the appointment dates.<br><br>Happy to send the list over if useful.<br><br>Jean</div>
+          <span class="pss" style="background:#fef3c7;color:var(--amber);">HOLD — Run lookup first</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 10 reply triage -->
+    <div class="day-block">
+      <div class="day-badge"><span class="day-num">10</span>Day</div>
+      <div class="day-card">
+        <div class="day-card-header">
+          <span class="channel-tag tag-internal">Internal</span>
+          <h4>Reply triage — categorise all responses</h4>
+        </div>
+        <p>Sort all email and LinkedIn responses into three buckets. Update campaign-ready.json status fields.</p>
+        <ul style="padding-left:18px;margin-top:8px;">
+          <li style="font-size:0.85rem;color:var(--mid-gray);margin-bottom:6px;"><strong>Interested:</strong> Book discovery call via cal.com/jean-m-8f4kbr/15min. Send sendable package PDF and landing page link in confirmation email.</li>
+          <li style="font-size:0.85rem;color:var(--mid-gray);margin-bottom:6px;"><strong>Neutral or no response to email 1:</strong> Continue to email 2 if not already sent. Enter 20-week nurture sequence.</li>
+          <li style="font-size:0.85rem;color:var(--mid-gray)"><strong>Interested in Monite (not deposits):</strong> Route to Monite AP/AR launch sequence. Different angle, same contact.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Day 14 Loom send -->
+    <div class="day-block">
+      <div class="day-badge"><span class="day-num">14</span>Day</div>
+      <div class="day-card">
+        <div class="day-card-header">
+          <span class="channel-tag tag-email">Email</span>
+          <h4>Sendable package delivery — for replies and interested prospects</h4>
+        </div>
+        <p>After a positive email reply or LinkedIn message, send the full sendable package: revenue brief + Loom video link + PVP scorecard link. No pitch. Confirmation that the work exists.</p>
+        <div class="script-block">
+          Subject: "OakNorth acquisition brief — 3 things we found"<br><br>
+          [Name] — as promised. The brief covers the FSCS rate differential (the arithmetic), the Monite product launch gap (the 23 companies), and what we built before reaching out.<br><br>
+          Revenue brief: [link to sendable HTML]<br>
+          3-minute video: [LOOM LINK]<br>
+          SME finance diagnostic: [pvp-scorecard link]<br><br>
+          15-minute call to decide where to start: cal.com/jean-m-8f4kbr/15min<br><br>
+          Jean
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 21 final touch -->
+    <div class="day-block">
+      <div class="day-badge"><span class="day-num">21</span>Day</div>
+      <div class="day-card">
+        <div class="day-card-header">
+          <span class="channel-tag tag-linkedin">LinkedIn</span>
+          <h4>Final LinkedIn touch — low friction close</h4>
+        </div>
+        <p>If no response to any touchpoint in 21 days. Last contact before entering long-term nurture.</p>
+        <div class="script-block">
+          "[Name] — last note. The FSCS targeting database is built and the Monite acquisition sequence is ready to run. If the timing isn't right this quarter, I'll check back in when the contractor hire is settled. Happy to send the 25-company CFO database over regardless — no strings. Jean"
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Nurture Phase -->
+  <div class="nurture-block">
+    <h3>20-Week Authority Engine Nurture Sequence</h3>
+    <p style="font-size:0.875rem;color:var(--mid-gray);margin-bottom:4px;">For all prospects who respond but are not yet ready to start. No pitches. Pure value. Converts OakNorth's attention into a 24-month pipeline.</p>
+    <div class="nurture-grid">
+      <div class="nurture-item">
+        <div class="week-label">Weeks 1 to 4</div>
+        <p>FSCS briefing: what the December change means for your sector. Benchmark data only. No ask.</p>
+      </div>
+      <div class="nurture-item">
+        <div class="week-label">Weeks 5 to 8</div>
+        <p>Allica market positioning update: what their local banker network means for OakNorth broker relationships.</p>
+      </div>
+      <div class="nurture-item">
+        <div class="week-label">Weeks 9 to 12</div>
+        <p>Monite product category primer: bank-native AP/AR versus Xero + separate bank workflow. Use cases by sector.</p>
+      </div>
+      <div class="nurture-item">
+        <div class="week-label">Weeks 13 to 20</div>
+        <p>Case studies from direct CFO acquisition results. Named businesses, deposit amounts, timeline from outreach to account open. The proof loop closes.</p>
+      </div>
+    </div>
+    <div style="margin-top:20px;padding:14px 16px;background:var(--light-gray);border-radius:8px;">
+      <p style="font-size:0.82rem;color:var(--mid-gray);"><strong>Lead scoring trigger:</strong> When a prospect opens 3+ emails in the nurture sequence or clicks the yield calculator link, they cross the hot threshold. OakNorth commercial team receives a hot alert with full contact details, engagement history, and the specific content they engaged with. The call begins where the nurture left off — not from scratch.</p>
+    </div>
+  </div>
+
+</div>
+<div class="footer">
+  Mockup prepared by MDB Growth Capital. Strategy and GTM by Jean Mundabi Fala. | May 2026
+</div>
+</body>
+</html>

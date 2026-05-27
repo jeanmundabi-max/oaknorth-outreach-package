@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revolut Business — Competitor Ad Audit | AAA Diagnostic</title>
+<style>
+  :root {
+    --bg: #0a0a0f; --surface: #13131a; --border: #1e1e2e; --accent: #f97316;
+    --green: #22c55e; --red: #ef4444; --amber: #f59e0b; --text: #e2e8f0; --muted: #64748b; --card: #0f0f18;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; font-size: 15px; line-height: 1.6; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+  .audit-header { border-bottom: 1px solid var(--border); padding-bottom: 32px; margin-bottom: 40px; }
+  .audit-label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+  .audit-header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+  .audit-header .sub { color: var(--muted); font-size: 14px; }
+  .meta-row { display: flex; gap: 32px; margin-top: 20px; flex-wrap: wrap; }
+  .meta-item .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .meta-item .value { font-size: 15px; font-weight: 600; margin-top: 2px; }
+  .scores-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+  .score-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+  .score-card .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .score-card .score { font-size: 2.5rem; font-weight: 800; }
+  .score-card .score-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .score-red { color: var(--red); } .score-amber { color: var(--amber); } .score-green { color: var(--green); }
+  .score-bar-wrap { margin-top: 10px; background: var(--border); border-radius: 4px; height: 6px; overflow: hidden; }
+  .score-bar { height: 100%; border-radius: 4px; }
+  .bar-red { background: var(--red); } .bar-amber { background: var(--amber); } .bar-green { background: var(--green); }
+  .section { margin-bottom: 48px; }
+  .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .finding-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+  .finding-card.critical { border-left: 3px solid var(--red); }
+  .finding-card.warning { border-left: 3px solid var(--amber); }
+  .finding-card.positive { border-left: 3px solid var(--green); }
+  .finding-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 2px 8px; border-radius: 4px; margin-bottom: 8px; }
+  .badge-critical { background: rgba(239,68,68,0.15); color: var(--red); }
+  .badge-warning { background: rgba(245,158,11,0.15); color: var(--amber); }
+  .badge-positive { background: rgba(34,197,94,0.15); color: var(--green); }
+  .finding-title { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .finding-body { color: #94a3b8; font-size: 14px; line-height: 1.6; }
+  .finding-body strong { color: var(--text); }
+  .finding-evidence { margin-top: 10px; font-size: 13px; background: var(--surface); border-radius: 6px; padding: 10px 14px; color: #7dd3fc; font-family: 'Menlo', monospace; }
+  .aaa-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  .aaa-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .aaa-card h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .aaa-card .aaa-score { font-size: 2rem; font-weight: 800; margin: 8px 0; }
+  .aaa-card p { font-size: 13px; color: #94a3b8; line-height: 1.5; }
+  .aaa-card ul { margin-top: 10px; padding-left: 16px; }
+  .aaa-card ul li { font-size: 13px; color: #94a3b8; margin-bottom: 4px; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; }
+  th { background: var(--surface); text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  td { padding: 14px 16px; font-size: 14px; border-top: 1px solid var(--border); }
+  td.num { font-weight: 700; }
+  .choke-point { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 24px; margin-bottom: 32px; }
+  .choke-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--red); margin-bottom: 8px; }
+  .choke-point h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+  .choke-point p { color: #94a3b8; font-size: 14px; }
+  .intel-box { background: rgba(249,115,22,0.08); border: 1px solid rgba(249,115,22,0.3); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .intel-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 12px; }
+  .intel-box ul { padding-left: 18px; }
+  .intel-box ul li { font-size: 14px; color: #e2e8f0; margin-bottom: 8px; line-height: 1.5; }
+  .action-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; margin-bottom: 10px; display: flex; gap: 16px; align-items: flex-start; }
+  .action-num { background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; flex-shrink: 0; margin-top: 2px; }
+  .action-body { } .action-title { font-weight: 700; margin-bottom: 4px; } .action-desc { font-size: 13px; color: #94a3b8; }
+  .callout { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.3); border-radius: 10px; padding: 20px; margin-bottom: 24px; }
+  .callout-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green); margin-bottom: 8px; }
+  .footer { border-top: 1px solid var(--border); margin-top: 60px; padding-top: 24px; text-align: center; color: var(--muted); font-size: 13px; }
+  .ad-sample { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 10px; font-size: 13px; }
+  .ad-platform-tag { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; margin-bottom: 6px; }
+  .tag-meta { background: rgba(24,119,242,0.2); color: #60a5fa; }
+  .tag-li { background: rgba(14,118,168,0.2); color: #38bdf8; }
+  .ad-copy { color: #94a3b8; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="audit-header">
+    <div class="audit-label">Competitor Ad Intelligence — OakNorth Interview Prep</div>
+    <h1>Revolut Business — Paid Media AAA Audit</h1>
+    <div class="sub">Meta Ad Library + LinkedIn Ad Library &nbsp;·&nbsp; Scraped 27 May 2026 &nbsp;·&nbsp; 20 ads, 3 landing pages</div>
+    <div class="meta-row">
+      <div class="meta-item"><div class="label">Total Ads</div><div class="value">20</div></div>
+      <div class="meta-item"><div class="label">Meta Library</div><div class="value">15</div></div>
+      <div class="meta-item"><div class="label">LinkedIn</div><div class="value">5 (EU only)</div></div>
+      <div class="meta-item"><div class="label">Landing Pages</div><div class="value">3</div></div>
+      <div class="meta-item"><div class="label">UK Banking Licence</div><div class="value">March 2026</div></div>
+      <div class="meta-item"><div class="label">Business Customers</div><div class="value">800,000+</div></div>
+    </div>
+  </div>
+
+  <!-- Scores -->
+  <div class="scores-grid">
+    <div class="score-card">
+      <div class="label">Overall AAA</div>
+      <div class="score score-amber">5.5<span style="font-size:1.2rem">/10</span></div>
+      <div class="score-sub">Strong brand, wrong message for deposits</div>
+      <div class="score-bar-wrap"><div class="score-bar bar-amber" style="width:55%"></div></div>
+    </div>
+    <div class="score-card">
+      <div class="label">Attraction</div>
+      <div class="score score-amber">6.5<span style="font-size:1.2rem">/10</span></div>
+      <div class="score-sub">FX message specific, deposit angle absent</div>
+      <div class="score-bar-wrap"><div class="score-bar bar-amber" style="width:65%"></div></div>
+    </div>
+    <div class="score-card">
+      <div class="label">Alignment</div>
+      <div class="score score-amber">5.0<span style="font-size:1.2rem">/10</span></div>
+      <div class="score-sub">Generic landing page, no rate, no FSCS</div>
+      <div class="score-bar-wrap"><div class="score-bar bar-amber" style="width:50%"></div></div>
+    </div>
+    <div class="score-card">
+      <div class="label">Activation</div>
+      <div class="score score-amber">5.0<span style="font-size:1.2rem">/10</span></div>
+      <div class="score-sub">Low friction but no savings-specific CTA</div>
+      <div class="score-bar-wrap"><div class="score-bar bar-amber" style="width:50%"></div></div>
+    </div>
+  </div>
+
+  <!-- Key callout -->
+  <div class="callout">
+    <div class="callout-label">Strategic Intelligence for OakNorth</div>
+    <p style="font-size:15px;font-weight:600;margin-bottom:8px;">Revolut is NOT advertising deposits or savings in the UK. Their FSCS licence is invisible in their paid media.</p>
+    <p style="font-size:14px;color:#94a3b8;">Despite getting their full UK banking licence in March 2026 — making them FSCS-protected for the first time — Revolut is running zero UK deposit or savings acquisition campaigns. Their paid media is entirely FX, international payments, and account management. <strong style="color:#e2e8f0;">OakNorth's deposit acquisition window is open right now.</strong> Revolut's 800,000 business customers have not been actively pushed toward treating Revolut as their primary savings vehicle.</p>
+  </div>
+
+  <!-- Choke point -->
+  <div class="choke-point">
+    <div class="choke-label">Biggest Choke Point</div>
+    <h3>Alignment — Revolut's landing page is about app features. A CFO looking for somewhere to park £500k doesn't see a rate, a yield comparison, or an FSCS mention.</h3>
+    <p>The primary Revolut Business landing page: "This is business banking. The all-in-one business account." No rate. No FSCS. No savings product. It's an acquisition page for current account sign-ups, not for deposit movement. A CFO who clicked "high exchange markups" ad arrives to a page about bank account features — misaligned from the start.</p>
+  </div>
+
+  <!-- AAA Layers -->
+  <div class="section">
+    <div class="section-title">AAA Layer Analysis</div>
+    <div class="aaa-grid">
+      <div class="aaa-card">
+        <h3>Attraction</h3>
+        <div class="aaa-score score-amber">6.5/10</div>
+        <p>Three distinct messages across Meta ads — FX markups, all-in-one account (800k+ social proof), and admin automation. Better creative diversity than Allica. UGC/influencer ads mixed in (lifestyle content). LinkedIn: EU-language only — no UK-targeted LinkedIn ad campaigns found.</p>
+        <ul>
+          <li>✅ FX message is specific and pain-based</li>
+          <li>✅ 800,000+ companies — strong social proof number</li>
+          <li>✅ Multiple distinct messages (FX / scale / automation)</li>
+          <li>❌ Zero UK LinkedIn campaigns — no B2B acquisition on LinkedIn in UK</li>
+          <li>❌ No deposit/savings acquisition messaging anywhere</li>
+          <li>❌ No FSCS mention in any ad (March 2026 licence not used)</li>
+          <li>❌ No sector-specific targeting</li>
+        </ul>
+      </div>
+      <div class="aaa-card">
+        <h3>Alignment</h3>
+        <div class="aaa-score score-amber">5.0/10</div>
+        <p>Landing page "This is business banking / The all-in-one business account" is completely generic. No rate, no FSCS, no savings product mention. FX ads send traffic to the same generic homepage — no FX-specific landing page. No testimonials on any page.</p>
+        <ul>
+          <li>❌ LP headline doesn't match any specific ad promise</li>
+          <li>❌ No rate or savings product anywhere on landing pages</li>
+          <li>❌ No FSCS protection messaging on any LP</li>
+          <li>❌ 0 testimonials across all 3 pages</li>
+          <li>✅ Star ratings present (3/3 pages — Trustpilot integration)</li>
+          <li>✅ Low page load friction (13 CTAs vs Allica's 69)</li>
+        </ul>
+      </div>
+      <div class="aaa-card">
+        <h3>Activation</h3>
+        <div class="aaa-score score-amber">5.0/10</div>
+        <p>Low-friction page (13 CTAs, 0 form fields) — "Sign Up" / "Open your Business account" CTAs are clear and low commitment. But the entire page is oriented toward current account opening, not savings/deposit movement. No calculator, no rate comparison, no yield estimate.</p>
+        <ul>
+          <li>✅ Low friction — few CTAs, clear action</li>
+          <li>✅ "Sign Up" / "Open account" — low commitment ask</li>
+          <li>❌ No savings-specific CTA — no "Calculate your returns"</li>
+          <li>❌ No FSCS protection near CTA</li>
+          <li>❌ No deposit rate comparison</li>
+          <li>❌ No guarantee or trust seal specific to deposits</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Platform breakdown -->
+  <div class="section">
+    <div class="section-title">Platform Breakdown</div>
+    <table>
+      <thead>
+        <tr><th>Platform</th><th>Ads</th><th>Creative Diversity</th><th>Primary Messages</th><th>Destination</th><th>Score</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Meta Ad Library</strong></td>
+          <td class="num">15</td>
+          <td class="num score-green">5+ messages<br><span style="font-size:11px;color:var(--muted)">Higher than Allica</span></td>
+          <td>FX markups; 800k+ companies; admin automation; Terminal; UGC lifestyle content</td>
+          <td>revolut.com/business/ (all ads)</td>
+          <td class="num score-amber">6/10</td>
+        </tr>
+        <tr>
+          <td><strong>LinkedIn</strong></td>
+          <td class="num score-red">5 <span style="font-size:11px">(EU only)</span></td>
+          <td class="num score-red">EU languages<br><span style="font-size:11px;color:var(--red)">Not UK-targeted</span></td>
+          <td>Hungarian: expense management. Spanish: spend control. No UK-English LinkedIn ads found.</td>
+          <td>revolut.com/hu-HU/ and /es-ES/ (non-UK)</td>
+          <td class="num score-red">2/10</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Key Findings -->
+  <div class="section">
+    <div class="section-title">Top Findings by Impact</div>
+
+    <div class="finding-card critical">
+      <div class="finding-badge badge-critical">Critical — Strategic Gap</div>
+      <div class="finding-title">Revolut Is Not Advertising Deposits — At All</div>
+      <div class="finding-body">Revolut got their full UK banking licence in March 2026. They are now FSCS-protected. This is the single most significant regulatory event for OakNorth's deposit acquisition threat — and <strong>Revolut is not running a single UK ad about it.</strong> No deposit rate. No FSCS protection angle. No "your money is now safe here" campaign. The 800,000 existing business customers have not been pushed toward moving their reserves to Revolut savings. <strong>This is OakNorth's window.</strong></div>
+    </div>
+
+    <div class="finding-card critical">
+      <div class="finding-badge badge-critical">Critical — LinkedIn Gap</div>
+      <div class="finding-title">Revolut Has Zero UK LinkedIn Business Banking Campaigns</div>
+      <div class="finding-body">All 5 LinkedIn ads found are in Hungarian and Spanish — EU-market campaigns bleeding into the UK ad library. There are <strong>no UK-English LinkedIn campaigns</strong> for Revolut Business. LinkedIn is where Finance Directors and CFOs spend professional time. Revolut is entirely absent from this channel for UK B2B acquisition. OakNorth running LinkedIn campaigns targeting FDs and CFOs by sector has zero paid competition from Revolut on that platform right now.</div>
+      <div class="finding-evidence">LinkedIn ads: "Egyszerűsítse kiadásait..." (Hungarian — expense management) | "Simplifica la gestión..." (Spanish — spend management)</div>
+    </div>
+
+    <div class="finding-card warning">
+      <div class="finding-badge badge-warning">High — Attraction</div>
+      <div class="finding-title">FX is the Core Message — Revolut Is Attracting International-Payments Buyers, Not Deposit Savers</div>
+      <div class="finding-body">The single most common Meta ad message is "Tired of high currency exchange markups?" — this attracts businesses that do international transactions, not businesses looking to optimise their cash reserves. The segment of companies Revolut is acquiring through paid channels are <strong>different people</strong> from the CFOs OakNorth targets for deposits. This further reduces the direct competitive overlap in paid acquisition channels.</div>
+    </div>
+
+    <div class="finding-card warning">
+      <div class="finding-badge badge-warning">High — Alignment</div>
+      <div class="finding-title">Landing Page Has No Rate, No Savings Product, No FSCS</div>
+      <div class="finding-body">The primary landing page (revolut.com/business/) headline: "This is business banking. The all-in-one business account." No mention of savings rates. No mention of FSCS protection. No yield comparison. If a CFO somehow arrived here looking for deposit information, they would find nothing specific. The page is built for account sign-ups (current accounts), not deposit acquisition.</div>
+    </div>
+
+    <div class="finding-card positive">
+      <div class="finding-badge badge-positive">Positive — Attraction</div>
+      <div class="finding-title">Better Creative Diversity Than Allica — 5+ Distinct Messages</div>
+      <div class="finding-body">Revolut uses FX, scale (800k+), admin automation, Terminal/POS, and UGC lifestyle content — five genuinely different acquisition angles. The "800,000+ companies" proof number is strong social proof. However, all messages converge on current account sign-ups rather than specific product acquisition.</div>
+    </div>
+
+    <div class="finding-card positive">
+      <div class="finding-badge badge-positive">Positive — Activation</div>
+      <div class="finding-title">Low-Friction Landing Experience Compared to Allica</div>
+      <div class="finding-body">13 CTAs vs Allica's 69. Zero form fields on the landing page (Allica has 143). The sign-up flow is cleaner and less overwhelming. Revolut has invested in conversion optimisation for their core product (current account sign-ups) — just not for deposit acquisition.</div>
+    </div>
+  </div>
+
+  <!-- Ad Samples -->
+  <div class="section">
+    <div class="section-title">Representative Ad Copy</div>
+    <div class="ad-sample">
+      <span class="ad-platform-tag tag-meta">Meta — Primary FX Message</span>
+      <div class="ad-copy">"Tired of high currency exchange markups? Try Revolut Business — the smart way to do business globally. Fees and T&Cs apply."</div>
+    </div>
+    <div class="ad-sample">
+      <span class="ad-platform-tag tag-meta">Meta — Social Proof / Scale</span>
+      <div class="ad-copy">"Experience why 800,000+ companies use Revolut Business — and why 30,000+ new ones join every month. Open a Business account now."</div>
+    </div>
+    <div class="ad-sample">
+      <span class="ad-platform-tag tag-meta">Meta — Admin Automation</span>
+      <div class="ad-copy">"Tired of tedious financial admin? Pay bills in a click, manage invoices end-to-end, and more with Revolut Business."</div>
+    </div>
+    <div class="ad-sample">
+      <span class="ad-platform-tag tag-li">LinkedIn — Hungarian (EU only — no UK campaign found)</span>
+      <div class="ad-copy">"Egyszerűsítse kiadásait a Revolut Business egyedi kártyalimitjeivel, valós idejű jóváhagyással és automata adminisztrációval." (Simplify expenses with Revolut Business custom card limits, real-time approval and automated administration.)</div>
+    </div>
+  </div>
+
+  <!-- Cross-Platform Gap -->
+  <div class="section">
+    <div class="section-title">Cross-Platform Gap Analysis vs OakNorth Opportunity</div>
+    <table>
+      <thead>
+        <tr><th>Message / Channel</th><th>Revolut Presence</th><th>OakNorth Opportunity</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>UK deposit / savings acquisition</td>
+          <td style="color:var(--red)">❌ Zero ads</td>
+          <td>Run targeted deposit acquisition campaigns NOW — zero paid competition from Revolut in this channel</td>
+        </tr>
+        <tr>
+          <td>FSCS protection messaging</td>
+          <td style="color:var(--red)">❌ Not used despite March 2026 licence</td>
+          <td>OakNorth can be the first challenger bank to run "FSCS-protected, 3.35% AER" campaigns before Revolut wakes up</td>
+        </tr>
+        <tr>
+          <td>UK LinkedIn B2B campaigns</td>
+          <td style="color:var(--red)">❌ Zero UK-English campaigns</td>
+          <td>LinkedIn is entirely open — FDs and CFOs on LinkedIn are not seeing any Revolut Business banking ads</td>
+        </tr>
+        <tr>
+          <td>Sector-specific messaging</td>
+          <td style="color:var(--red)">❌ Zero segmentation</td>
+          <td>Property, professional services, hospitality — all unaddressed by Revolut's paid campaigns</td>
+        </tr>
+        <tr>
+          <td>FX / international payments</td>
+          <td style="color:var(--green)">✅ Dominant message</td>
+          <td>Revolut owns this message — OakNorth should not compete here directly</td>
+        </tr>
+        <tr>
+          <td>Current account sign-ups</td>
+          <td style="color:var(--green)">✅ Active spend</td>
+          <td>Revolut owns this too — OakNorth's play is deposits and savings, not current accounts</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- OakNorth Intelligence -->
+  <div class="section">
+    <div class="section-title">OakNorth Interview Intelligence — What This Means</div>
+    <div class="intel-box">
+      <div class="intel-label">Strategic Takeaways for Interview &amp; BD Outreach</div>
+      <ul>
+        <li><strong>The "Revolut threat" in the research brief is real but not yet expressed in paid media.</strong> The threat is passive — existing Revolut customers staying with Revolut for deposits now that FSCS applies — not active acquisition. Revolut is not running campaigns to pull CFOs away from OakNorth. They're relying on inertia, not outbound. OakNorth's outbound channel would be the first mover in actively targeting the switching moment.</li>
+        <li><strong>LinkedIn is an open field for OakNorth.</strong> No UK LinkedIn campaigns from Revolut. No UK LinkedIn campaigns from Allica (their LinkedIn is one banker's email). If OakNorth runs sector-specific LinkedIn campaigns targeting Finance Directors and CFOs, they have zero paid competition from the two most relevant challengers. This is the exact argument for why LinkedIn acquisition investment has a high return right now.</li>
+        <li><strong>Revolut's 800,000 customers are not being told to use Revolut for savings.</strong> The passive threat: Revolut will capture deposits from CFOs who bank there already and notice the FSCS notification. The active counter: OakNorth reaching those same CFOs with a specific rate comparison ("You're on Revolut. Here's what your reserves could earn elsewhere.") before Revolut runs that campaign themselves.</li>
+        <li><strong>FX is Revolut's moat — don't compete there.</strong> "Better international payments" is Revolut's message and it owns that space. OakNorth's deposit acquisition messaging should never compete on FX. OakNorth's angle is yield on cash reserves and sector expertise — completely different buyer motivation.</li>
+        <li><strong>Revolut will eventually run a deposits campaign.</strong> Getting the licensing was the hard part. Running a "your deposits are now FSCS protected — earn X% AER" campaign is a marketing decision they haven't made yet. OakNorth's six-to-twelve month window closes the day Revolut turns that campaign on. The current audit finds they haven't started yet as of May 2026.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Action Plan -->
+  <div class="section">
+    <div class="section-title">What OakNorth Should Do While Revolut Is Asleep</div>
+    <div class="action-item">
+      <div class="action-num">1</div>
+      <div class="action-body">
+        <div class="action-title">Run LinkedIn campaigns now — the channel is completely open</div>
+        <div class="action-desc">Finance Directors and CFOs on LinkedIn are not seeing a single UK business banking deposit campaign from Revolut or Allica. OakNorth running sector-specific LinkedIn ads (property CFOs, professional services FDs) with a specific rate and FSCS message would be the only player in that channel.</div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">2</div>
+      <div class="action-body">
+        <div class="action-title">Target Revolut business customers directly — before Revolut does</div>
+        <div class="action-desc">A CFO who banks on Revolut for operations has just received the FSCS protection notification. They're asking "where should my reserves sit?" OakNorth can answer that question before Revolut runs their own campaign. Target: businesses using Revolut for international payments, looking for somewhere better for their GBP cash reserves.</div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">3</div>
+      <div class="action-body">
+        <div class="action-title">Use the FSCS window as the explicit switching trigger</div>
+        <div class="action-desc">Revolut has not used their FSCS licence to run a UK deposit campaign. OakNorth's angle: "FSCS-protected up to £120,000. 3.35% AER. Next-day access." The switching trigger is there — the CFO just needs to know OakNorth is offering it. Revolut's silence on deposits is OakNorth's loudest opportunity.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Strategy &amp; GTM research by Jean Mundabi Fala &nbsp;·&nbsp; MDB Growth Capital &nbsp;·&nbsp; Competitor intelligence for OakNorth interview prep, May 2026
+  </div>
+
+</div>
+</body>
+</html>

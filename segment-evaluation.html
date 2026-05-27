@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OakNorth — How I Would Build the Target List</title>
+<style>
+  :root {
+    --bg: #0f0f13;
+    --surface: #18181f;
+    --surface2: #1f1f2a;
+    --border: #2a2a38;
+    --text: #e8e8f0;
+    --text-muted: #888899;
+    --accent: #6c5ce7;
+    --green: #00b894;
+    --blue: #0984e3;
+    --amber: #fdcb6e;
+    --red: #d63031;
+    --green-dim: rgba(0,184,148,0.12);
+    --blue-dim: rgba(9,132,227,0.12);
+    --amber-dim: rgba(253,203,110,0.12);
+    --red-dim: rgba(214,48,49,0.12);
+    --accent-dim: rgba(108,92,231,0.15);
+    --nav-w: 230px;
+    --radius: 10px;
+  }
+  [data-theme="light"] {
+    --bg: #f5f5f8;
+    --surface: #ffffff;
+    --surface2: #f0f0f5;
+    --border: #dddde8;
+    --text: #1a1a2e;
+    --text-muted: #666688;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.7;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    width: var(--nav-w);
+    min-width: var(--nav-w);
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    height: 100vh;
+    position: fixed;
+    top: 0; left: 0;
+    overflow-y: auto;
+    padding: 0 0 40px 0;
+    z-index: 100;
+  }
+  .nav-header {
+    padding: 20px 16px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .nav-role {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  nav a:hover {
+    color: var(--text);
+    border-left-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .nav-section {
+    padding: 16px 16px 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .priority-badge {
+    display: inline-block;
+    font-size: 9px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-weight: 700;
+    margin-left: auto;
+  }
+  .pb-p1 { background: var(--green-dim); color: var(--green); }
+  .pb-p2 { background: var(--blue-dim); color: var(--blue); }
+  .pb-p3 { background: var(--amber-dim); color: var(--amber); }
+  .pb-p4 { background: rgba(136,136,153,0.15); color: var(--text-muted); }
+
+  /* MAIN */
+  main {
+    margin-left: var(--nav-w);
+    flex: 1;
+    padding: 0 32px 80px;
+    max-width: 860px;
+  }
+  .topbar {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 50;
+    margin-bottom: 0;
+  }
+  .topbar-title {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+  .btn:hover { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    padding: 48px 0 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .hero-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .hero h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 14px;
+  }
+  .hero p {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 620px;
+    line-height: 1.7;
+  }
+  .hero-meta {
+    margin-top: 20px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .hero-meta-item strong {
+    color: var(--text);
+    display: block;
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  /* PRIORITY SUMMARY TABLE */
+  .priority-summary {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 40px;
+  }
+  .priority-summary h3 {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .priority-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .priority-row:last-child { border-bottom: none; }
+  .priority-num {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .pn-1 { background: var(--green-dim); color: var(--green); }
+  .pn-2 { background: var(--blue-dim); color: var(--blue); }
+  .pn-3 { background: var(--amber-dim); color: var(--amber); }
+  .pn-4 { background: rgba(136,136,153,0.15); color: var(--text-muted); }
+  .priority-row-text { flex: 1; }
+  .priority-row-text strong { font-size: 14px; display: block; }
+  .priority-row-text span { font-size: 12px; color: var(--text-muted); }
+  .channel-tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .ct-outbound { background: var(--green-dim); color: var(--green); }
+  .ct-content  { background: var(--blue-dim); color: var(--blue); }
+  .ct-compare  { background: var(--amber-dim); color: var(--amber); }
+
+  /* SEGMENT CARDS */
+  .segment-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 32px;
+    overflow: hidden;
+  }
+  .segment-card.c1 { border-top: 3px solid var(--green); }
+  .segment-card.c2 { border-top: 3px solid var(--blue); }
+  .segment-card.c3 { border-top: 3px solid var(--amber); }
+  .segment-card.c4 { border-top: 3px solid #555566; }
+
+  .segment-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .seg-num {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .sn-1 { background: var(--green-dim); color: var(--green); }
+  .sn-2 { background: var(--blue-dim); color: var(--blue); }
+  .sn-3 { background: var(--amber-dim); color: var(--amber); }
+  .sn-4 { background: rgba(136,136,153,0.15); color: var(--text-muted); }
+
+  .seg-header-text { flex: 1; }
+  .seg-priority {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .sp-1 { color: var(--green); }
+  .sp-2 { color: var(--blue); }
+  .sp-3 { color: var(--amber); }
+  .sp-4 { color: var(--text-muted); }
+  .seg-title {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .seg-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 5px;
+  }
+
+  .segment-body {
+    padding: 22px 24px 26px;
+  }
+  .seg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 660px) { .seg-grid { grid-template-columns: 1fr; } }
+
+  .info-block {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .info-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .info-block p, .info-block li { font-size: 14px; line-height: 1.65; }
+  .info-block ul { padding-left: 1.2em; }
+  .info-block li { margin-bottom: 5px; }
+  .info-block p + p { margin-top: 8px; }
+
+  .say-box {
+    border-radius: 8px;
+    padding: 16px 18px;
+    border-left: 3px solid;
+    margin-top: 16px;
+  }
+  .sb-1 { background: var(--green-dim); border-color: var(--green); }
+  .sb-2 { background: var(--blue-dim); border-color: var(--blue); }
+  .sb-3 { background: var(--amber-dim); border-color: var(--amber); }
+  .sb-4 { background: rgba(136,136,153,0.08); border-color: #555566; }
+
+  .say-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.75;
+  }
+  .say-box p { font-size: 14px; line-height: 1.7; font-style: italic; }
+
+  .why-now {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 16px;
+  }
+  .why-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .why-now p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .why-now p strong { color: var(--text); }
+
+  /* NOTE */
+  .note-box {
+    background: var(--accent-dim);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .note-box strong { color: var(--accent); }
+
+  footer {
+    margin-top: 60px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 768px) {
+    nav { display: none; }
+    main { margin-left: 0; padding: 0 16px 60px; }
+    .hero h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+<nav>
+  <div class="nav-header">
+    <div class="nav-logo">OakNorth</div>
+    <div class="nav-role">Target Segment Strategy<br>Jean Mundabi Fala</div>
+  </div>
+  <div class="nav-section">Overview</div>
+  <a href="#overview">Priority Summary</a>
+  <div class="nav-section">The Four Segments</div>
+  <a href="#p1">1 — Companies Hiring for Paperwork <span class="priority-badge pb-p1">First</span></a>
+  <a href="#p2">2 — Spreading Cash Across Banks <span class="priority-badge pb-p2">Second</span></a>
+  <a href="#p3">3 — Losing Money Without Knowing <span class="priority-badge pb-p3">Later</span></a>
+  <a href="#p4">4 — Grew Out of Revolut <span class="priority-badge pb-p4">Build</span></a>
+  <div class="nav-section">Back</div>
+  <a href="OakNorth-Interview-Prep-2026-05.html">← Interview Prep</a>
+  <a href="oaknorth-90-day-plan.html">← 90-Day Plan</a>
+</nav>
+
+<main>
+  <div class="topbar">
+    <span class="topbar-title">OakNorth — Targeting Strategy · May 2026</span>
+    <div>
+      <button class="btn" onclick="toggleTheme()">Light / Dark</button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-label">Pre-Interview Research — Jean Mundabi Fala</div>
+    <h1>How I Would Build OakNorth's Target List</h1>
+    <p>Before this interview, I looked at who OakNorth's Business Banking product is right for — and how to find those people before the competition does. There are four groups worth targeting. They are not all the same. Here is how I would rank them, how to find them, and what to say to each one.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Prepared by</strong>Jean Mundabi Fala</div>
+      <div class="hero-meta-item"><strong>Date</strong>May 2026</div>
+      <div class="hero-meta-item"><strong>Purpose</strong>OakNorth — Senior Growth Marketing Manager</div>
+    </div>
+  </div>
+
+  <!-- PRIORITY SUMMARY -->
+  <div class="priority-summary" id="overview">
+    <h3>At a Glance — Which Segment to Target First</h3>
+    <div class="priority-row">
+      <div class="priority-num pn-1">1</div>
+      <div class="priority-row-text">
+        <strong>Companies About to Hire Someone for Paperwork</strong>
+        <span>They have a confirmed problem right now. The job posting proves it.</span>
+      </div>
+      <span class="channel-tag ct-outbound">Outbound</span>
+    </div>
+    <div class="priority-row">
+      <div class="priority-num pn-2">2</div>
+      <div class="priority-row-text">
+        <strong>Companies Spreading Their Money Across Too Many Banks</strong>
+        <span>The December 2025 rule change opened a clear window.</span>
+      </div>
+      <span class="channel-tag ct-outbound">Outbound</span>
+    </div>
+    <div class="priority-row">
+      <div class="priority-num pn-3">3</div>
+      <div class="priority-row-text">
+        <strong>Companies Losing Money Without Knowing It</strong>
+        <span>Real opportunity — but they need to find you, not the other way round.</span>
+      </div>
+      <span class="channel-tag ct-compare">Comparison sites</span>
+    </div>
+    <div class="priority-row">
+      <div class="priority-num pn-4">4</div>
+      <div class="priority-row-text">
+        <strong>Companies That Grew Out of Revolut</strong>
+        <span>Worth targeting — but with content, not cold email.</span>
+      </div>
+      <span class="channel-tag ct-content">Content / SEO</span>
+    </div>
+  </div>
+
+  <!-- SEGMENT 1 -->
+  <div class="segment-card c1" id="p1">
+    <div class="segment-header">
+      <div class="seg-num sn-1">1</div>
+      <div class="seg-header-text">
+        <div class="seg-priority sp-1">Priority 1 — Strongest Signal</div>
+        <div class="seg-title">Companies About to Hire Someone for Paperwork</div>
+        <div class="seg-sub">Businesses posting jobs for finance admin staff — the Monite connection</div>
+      </div>
+    </div>
+    <div class="segment-body">
+      <div class="seg-grid">
+        <div class="info-block">
+          <div class="info-label">Who They Are</div>
+          <p>These are businesses posting jobs for someone to manage their invoices and payments. They want to hire because their finance team is drowning in manual work — chasing invoices, matching receipts, approving payments by hand.</p>
+          <p>They have a confirmed problem right now. The job posting proves it.</p>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Why OakNorth Can Help Right Now</div>
+          <p>OakNorth acquired a product called Monite in March 2026. Monite automates that same work — inside the business bank account.</p>
+          <p>Most of these companies do not know this product exists yet. That is the window.</p>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">How to Find Them</div>
+        <ul>
+          <li>Go to job sites: Indeed, Reed, LinkedIn Jobs</li>
+          <li>Search for: <strong>"accounts payable manager"</strong>, <strong>"purchase ledger"</strong>, <strong>"finance systems manager"</strong></li>
+          <li>Filter: UK companies, posted in the last 90 days, 10 to 200 employees</li>
+          <li>Check the company on Companies House — confirm they have been trading for 3 or more years</li>
+          <li>Find the Finance Director on LinkedIn — that is who to contact, not the person who posted the job</li>
+        </ul>
+      </div>
+
+      <div class="say-box sb-1">
+        <div class="say-label">What to Say</div>
+        <p>"I saw you are hiring a Purchase Ledger Manager. OakNorth just released a product that automates that work inside your business account. Most companies hiring for this role have not heard about it yet. Happy to send details if useful."</p>
+      </div>
+
+      <div class="why-now">
+        <div class="why-icon">⚡</div>
+        <p><strong>Why this is Priority 1:</strong> These companies have a confirmed problem right now. The job posting is public proof. You are not guessing — they are advertising the problem themselves. That is the strongest outbound signal you can have.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEGMENT 2 -->
+  <div class="segment-card c2" id="p2">
+    <div class="segment-header">
+      <div class="seg-num sn-2">2</div>
+      <div class="seg-header-text">
+        <div class="seg-priority sp-2">Priority 2 — Good Timing Window</div>
+        <div class="seg-title">Companies Spreading Their Money Across Too Many Banks</div>
+        <div class="seg-sub">Businesses that split deposits for FSCS protection — and no longer need to</div>
+      </div>
+    </div>
+    <div class="segment-body">
+      <div class="seg-grid">
+        <div class="info-block">
+          <div class="info-label">Who They Are</div>
+          <p>These are businesses that split their cash across several banks. They did this to protect their money. The old UK deposit protection limit was £85,000 per bank. A company with £400,000 in cash would spread it across multiple accounts to stay protected.</p>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Why This Changed</div>
+          <p>In December 2025, the UK raised the deposit protection limit to £120,000 per bank. These companies no longer need to split their money. But most have not simplified yet. They are still running 4 or 5 bank accounts for a reason that no longer applies.</p>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">How to Find Them</div>
+        <ul>
+          <li>Use the <strong>Companies House API</strong> — it is free and public</li>
+          <li>Search for companies with <strong>£300,000 or more in cash</strong> on their balance sheet</li>
+          <li>Focus on sectors that hold more cash than average: law firms, accountants, consultants, tech companies</li>
+          <li>Find the Finance Director or CFO on LinkedIn — that is who makes this decision</li>
+          <li><strong>Important:</strong> Companies House shows how much cash a company holds. It does NOT show which bank the money is in. Do not claim to know their bank.</li>
+        </ul>
+      </div>
+
+      <div class="say-box sb-2">
+        <div class="say-label">What to Say</div>
+        <p>"The UK deposit protection limit went up to £120,000 in December 2025. A lot of businesses are still spreading their cash across several banks for protection they no longer need. OakNorth pays one of the highest rates in the market — over £10,500 extra per year on £500,000 compared to most high-street banks."</p>
+      </div>
+
+      <div class="why-now">
+        <div class="why-icon">📅</div>
+        <p><strong>Why this is Priority 2:</strong> The December 2025 rule change is the hook. Without a specific recent event like this, the outbound message is much harder to land. This window will not stay open forever.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEGMENT 3 -->
+  <div class="segment-card c3" id="p3">
+    <div class="segment-header">
+      <div class="seg-num sn-3">3</div>
+      <div class="seg-header-text">
+        <div class="seg-priority sp-3">Priority 3 — Right Message, Wrong Channel for Cold Outbound</div>
+        <div class="seg-title">Companies Losing Money Without Knowing It</div>
+        <div class="seg-sub">Businesses with cash earning almost nothing at Barclays or HSBC</div>
+      </div>
+    </div>
+    <div class="segment-body">
+      <div class="seg-grid">
+        <div class="info-block">
+          <div class="info-label">Who They Are</div>
+          <p>These are businesses with a lot of cash sitting in a current account at a big high-street bank earning very little. OakNorth pays much more. But these companies have not moved because nobody has shown them what the difference actually means in pounds per year.</p>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Why Cold Email Does Not Work Here</div>
+          <p>There is no specific event that made this urgent today. The rate gap has always existed. A cold email without a trigger feels random. These companies respond when they are already searching for a better rate — not when you approach them out of nowhere.</p>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">How to Reach Them Instead</div>
+        <ul>
+          <li><strong>Comparison sites:</strong> Moneyfacts, Savings Champion, Raisin. Finance Directors go here when they have already decided to move their cash.</li>
+          <li><strong>Paid search:</strong> Buy keywords like "best business savings account UK." Be first when they go looking.</li>
+          <li><strong>Sector-specific landing pages:</strong> A healthcare Finance Director landing on a page written for healthcare businesses converts. A generic page does not.</li>
+        </ul>
+      </div>
+
+      <div class="say-box sb-3">
+        <div class="say-label">What to Say</div>
+        <p>Nothing — let them come to you. The job here is to make OakNorth very easy to find when they are already looking. Be first on comparison sites. Be first in search results. Be on the page they land on when they search for a better rate.</p>
+      </div>
+
+      <div class="why-now">
+        <div class="why-icon">🔍</div>
+        <p><strong>Why this is Priority 3:</strong> The opportunity is real. The channel is wrong for cold outbound. Build the inbound channels first — comparison sites and paid search — and this segment comes in at the point when they are ready to act.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEGMENT 4 -->
+  <div class="segment-card c4" id="p4">
+    <div class="segment-header">
+      <div class="seg-num sn-4">4</div>
+      <div class="seg-header-text">
+        <div class="seg-priority sp-4">Priority 4 — Build Over Time</div>
+        <div class="seg-title">Companies That Grew Out of Revolut</div>
+        <div class="seg-sub">Scale-up businesses that need a proper bank — not a fintech app</div>
+      </div>
+    </div>
+    <div class="segment-body">
+      <div class="seg-grid">
+        <div class="info-block">
+          <div class="info-label">Who They Are</div>
+          <p>These are businesses that started on Revolut Business when they were small. Revolut worked well at £500,000 in revenue. Now they are at £3 million or £5 million and Revolut does not have what they need — no relationship banker, no lending, no credit decisions made by a human who knows their business.</p>
+        </div>
+        <div class="info-block">
+          <div class="info-label">What Changed in March 2026</div>
+          <p>Revolut received its full UK banking licence on 11 March 2026. This is making some business customers re-evaluate. If Revolut is now a real bank, should they be with a bank built specifically for businesses at their size? That question is open.</p>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">How to Reach Them</div>
+        <ul>
+          <li><strong>Content and search:</strong> Own the phrase "Revolut Business alternative UK." Write content explaining when a business outgrows a fintech account.</li>
+          <li><strong>Why cold outbound does not work here:</strong> There is no public data that tells you which companies use Revolut Business. You cannot build a reliable target list.</li>
+          <li><strong>The right move:</strong> Be the answer when they go searching. Comparison articles. Blog posts. LinkedIn content. That brings this segment in over time.</li>
+        </ul>
+      </div>
+
+      <div class="say-box sb-4">
+        <div class="say-label">What to Say (In Content, Not Cold Email)</div>
+        <p>"You have outgrown your fintech account. You need a bank that grows with you — with real credit decisions, a relationship you can call, and deposit rates that make your cash work harder."</p>
+      </div>
+
+      <div class="why-now">
+        <div class="why-icon">📈</div>
+        <p><strong>Why this is Priority 4:</strong> It is a real and growing segment. But cold outbound will not work — there is no list to build. The answer is to be in the right place when they go looking. Build the content now so it compounds over the next 12 months.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <strong>Note for the interview:</strong> These four segments are ranked by how easy it is to find the right company, reach the right person, and give them a reason to act right now. Priority 1 and 2 are outbound — we go to them. Priority 3 and 4 are inbound — we make it easy for them to find us. A strong acquisition programme runs both at the same time. But it starts where the signal is clearest.
+  </div>
+
+  <footer>
+    Targeting strategy prepared by Jean Mundabi Fala / MDB Growth Capital &nbsp;·&nbsp; Senior Growth Marketing Manager interview, OakNorth &nbsp;·&nbsp; May 2026
+  </footer>
+</main>
+
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    html.setAttribute('data-theme', html.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+  }
+</script>
+
+</body>
+</html>

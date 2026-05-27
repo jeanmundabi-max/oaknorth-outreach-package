@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Allica Bank — Competitor Ad Audit | AAA Diagnostic</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --border: #1e1e2e;
+    --accent: #f97316;
+    --accent-dim: #7c2d12;
+    --green: #22c55e;
+    --red: #ef4444;
+    --amber: #f59e0b;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --card: #0f0f18;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; font-size: 15px; line-height: 1.6; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+
+  /* Header */
+  .audit-header { border-bottom: 1px solid var(--border); padding-bottom: 32px; margin-bottom: 40px; }
+  .audit-label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+  .audit-header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+  .audit-header .sub { color: var(--muted); font-size: 14px; }
+  .meta-row { display: flex; gap: 32px; margin-top: 20px; flex-wrap: wrap; }
+  .meta-item { }
+  .meta-item .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .meta-item .value { font-size: 15px; font-weight: 600; margin-top: 2px; }
+
+  /* Score cards */
+  .scores-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+  .score-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+  .score-card .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .score-card .score { font-size: 2.5rem; font-weight: 800; }
+  .score-card .score-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .score-red { color: var(--red); }
+  .score-amber { color: var(--amber); }
+  .score-green { color: var(--green); }
+
+  /* Score bar */
+  .score-bar-wrap { margin-top: 10px; background: var(--border); border-radius: 4px; height: 6px; overflow: hidden; }
+  .score-bar { height: 100%; border-radius: 4px; }
+  .bar-red { background: var(--red); }
+  .bar-amber { background: var(--amber); }
+  .bar-green { background: var(--green); }
+
+  /* Section */
+  .section { margin-bottom: 48px; }
+  .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+
+  /* Findings */
+  .finding-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+  .finding-card.critical { border-left: 3px solid var(--red); }
+  .finding-card.warning { border-left: 3px solid var(--amber); }
+  .finding-card.positive { border-left: 3px solid var(--green); }
+  .finding-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 2px 8px; border-radius: 4px; margin-bottom: 8px; }
+  .badge-critical { background: rgba(239,68,68,0.15); color: var(--red); }
+  .badge-warning { background: rgba(245,158,11,0.15); color: var(--amber); }
+  .badge-positive { background: rgba(34,197,94,0.15); color: var(--green); }
+  .badge-info { background: rgba(99,102,241,0.15); color: #818cf8; }
+  .finding-title { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .finding-body { color: #94a3b8; font-size: 14px; line-height: 1.6; }
+  .finding-body strong { color: var(--text); }
+  .finding-evidence { margin-top: 10px; font-size: 13px; background: var(--surface); border-radius: 6px; padding: 10px 14px; color: #7dd3fc; font-family: 'Menlo', monospace; }
+
+  /* AAA Layer cards */
+  .aaa-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  .aaa-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .aaa-card h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .aaa-card .aaa-score { font-size: 2rem; font-weight: 800; margin: 8px 0; }
+  .aaa-card p { font-size: 13px; color: #94a3b8; line-height: 1.5; }
+  .aaa-card ul { margin-top: 10px; padding-left: 16px; }
+  .aaa-card ul li { font-size: 13px; color: #94a3b8; margin-bottom: 4px; }
+
+  /* Platform table */
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; }
+  th { background: var(--surface); text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  td { padding: 14px 16px; font-size: 14px; border-top: 1px solid var(--border); }
+  td.num { font-weight: 700; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* LP grid */
+  .lp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .lp-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; }
+  .lp-url { font-size: 11px; color: var(--muted); margin-bottom: 8px; font-family: monospace; word-break: break-all; }
+  .lp-headline { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .lp-stats { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; }
+  .lp-stat { }
+  .lp-stat .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; }
+  .lp-stat .stat-val { font-size: 15px; font-weight: 700; }
+  .stat-red { color: var(--red); }
+  .stat-green { color: var(--green); }
+  .stat-amber { color: var(--amber); }
+
+  /* Action plan */
+  .action-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; margin-bottom: 10px; display: flex; gap: 16px; align-items: flex-start; }
+  .action-num { background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; flex-shrink: 0; margin-top: 2px; }
+  .action-body { }
+  .action-title { font-weight: 700; margin-bottom: 4px; }
+  .action-desc { font-size: 13px; color: #94a3b8; }
+
+  /* Cross-platform gap */
+  .gap-table { width: 100%; }
+  .gap-table th { min-width: 120px; }
+
+  /* Choke point callout */
+  .choke-point { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 24px; margin-bottom: 32px; }
+  .choke-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--red); margin-bottom: 8px; }
+  .choke-point h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+  .choke-point p { color: #94a3b8; font-size: 14px; }
+
+  /* OakNorth intel callout */
+  .intel-box { background: rgba(249,115,22,0.08); border: 1px solid rgba(249,115,22,0.3); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .intel-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 12px; }
+  .intel-box ul { padding-left: 18px; }
+  .intel-box ul li { font-size: 14px; color: #e2e8f0; margin-bottom: 8px; line-height: 1.5; }
+
+  /* Ad sample */
+  .ad-sample { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 10px; font-size: 13px; }
+  .ad-platform-tag { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; margin-bottom: 6px; }
+  .tag-meta { background: rgba(24,119,242,0.2); color: #60a5fa; }
+  .tag-li { background: rgba(14,118,168,0.2); color: #38bdf8; }
+  .ad-copy { color: #94a3b8; line-height: 1.5; }
+  .ad-copy .broken { color: var(--red); font-weight: 700; }
+
+  /* Footer */
+  .footer { border-top: 1px solid var(--border); margin-top: 60px; padding-top: 24px; text-align: center; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="audit-header">
+    <div class="audit-label">Competitor Ad Intelligence — OakNorth Interview Prep</div>
+    <h1>Allica Bank — Paid Media AAA Audit</h1>
+    <div class="sub">Meta Ad Library + LinkedIn Ad Library &nbsp;·&nbsp; Scraped 27 May 2026 &nbsp;·&nbsp; 23 ads, 4 landing pages</div>
+    <div class="meta-row">
+      <div class="meta-item"><div class="label">Total Ads</div><div class="value">23</div></div>
+      <div class="meta-item"><div class="label">Meta Library</div><div class="value">18</div></div>
+      <div class="meta-item"><div class="label">LinkedIn</div><div class="value">5</div></div>
+      <div class="meta-item"><div class="label">Landing Pages</div><div class="value">4</div></div>
+      <div class="meta-item"><div class="label">Regulator</div><div class="value">FCA</div></div>
+      <div class="meta-item"><div class="label">Violations</div><div class="value" style="color:var(--green)">0</div></div>
+    </div>
+  </div>
+
+  <!-- Overall Scores -->
+  <div class="scores-grid">
+    <div class="score-card">
+      <div class="label">Overall AAA</div>
+      <div class="score score-red">4.0<span style="font-size:1.2rem">/10</span></div>
+      <div class="score-sub">Critical gaps in all 3 layers</div>
+      <div class="score-bar-wrap"><div class="score-bar bar-red" style="width:40%"></div></div>
+    </div>
+    <div class="score-card">
+      <div class="label">Attraction</div>
+      <div class="score score-amber">5.5<span style="font-size:1.2rem">/10</span></div>
+      <div class="score-sub">Rate message landing, no ICP specificity</div>
+      <div class="score-bar-wrap"><div class="score-bar bar-amber" style="width:55%"></div></div>
+    </div>
+    <div class="score-card">
+      <div class="label">Alignment</div>
+      <div class="score score-red">3.0<span style="font-size:1.2rem">/10</span></div>
+      <div class="score-sub">Landing page doesn't match ad promise</div>
+      <div class="score-bar-wrap"><div class="score-bar bar-red" style="width:30%"></div></div>
+    </div>
+    <div class="score-card">
+      <div class="label">Activation</div>
+      <div class="score score-red">4.0<span style="font-size:1.2rem">/10</span></div>
+      <div class="score-sub">High friction, broken CTA paths</div>
+      <div class="score-bar-wrap"><div class="score-bar bar-red" style="width:40%"></div></div>
+    </div>
+  </div>
+
+  <!-- Biggest Choke Point -->
+  <div class="choke-point">
+    <div class="choke-label">Biggest Choke Point</div>
+    <h3>Alignment — The ad promise and the landing page are talking about different things</h3>
+    <p>Every Allica Meta ad promises: "Up to 4.08% AER + 1.5% cashback + no monthly fees." The landing page headline says: "Explore our business bank account." There is no rate, no cashback, no reason to stay. A business owner who clicked expecting to see those numbers will spend the first 5 seconds asking "is this the right page?" — and leave. This is the single biggest lever in their entire system.</p>
+  </div>
+
+  <!-- AAA Layer Breakdown -->
+  <div class="section">
+    <div class="section-title">AAA Layer Analysis</div>
+    <div class="aaa-grid">
+      <div class="aaa-card">
+        <h3>Attraction</h3>
+        <div class="aaa-score score-amber">5.5/10</div>
+        <p>Rate + cashback message is clear and gets clicks. But every ad says the same thing — no ICP segmentation, no sector-specific angles. A property developer, a solicitor, and a restaurant owner all see an identical generic ad.</p>
+        <ul>
+          <li>✅ Rate claim is specific (4.08% AER)</li>
+          <li>✅ Comparison frame works ("better than your bank")</li>
+          <li>❌ No sector segmentation — zero</li>
+          <li>❌ No ICP callout (property, professional services, hospitality)</li>
+          <li>❌ 10 ad variants say the same thing — not creative diversity</li>
+          <li>❌ LinkedIn: broken %FIRSTNAME% token in live ad</li>
+        </ul>
+      </div>
+      <div class="aaa-card">
+        <h3>Alignment</h3>
+        <div class="aaa-score score-red">3.0/10</div>
+        <p>The landing page has zero connection to the ad promise. No rate visible above fold. No cashback mention. No social proof — 0 testimonials on the primary conversion page. Ads send fee schedule and T&C pages as CTA destinations.</p>
+        <ul>
+          <li>❌ LP headline: "Explore our business bank account" — generic</li>
+          <li>❌ 0 testimonials on primary landing page</li>
+          <li>❌ Rate (4.08% AER) buried or absent above fold</li>
+          <li>❌ CTA goes to fee schedule page (low intent destination)</li>
+          <li>❌ CTA goes to product T&C page (no conversion path)</li>
+          <li>⚠️ 4 pages crawled — only 1/4 has testimonials</li>
+        </ul>
+      </div>
+      <div class="aaa-card">
+        <h3>Activation</h3>
+        <div class="aaa-score score-red">4.0/10</div>
+        <p>Primary CTA is "Apply Now" — highest possible commitment ask with no low-friction middle step. LinkedIn ads resolve to an email address (matt.west@allica.bank), not a landing page. 69 CTAs on the primary LP creates paralysis.</p>
+        <ul>
+          <li>❌ "Apply Now" as primary CTA — no qualify/educate path</li>
+          <li>❌ 69 CTAs on primary LP (decision paralysis)</li>
+          <li>❌ LinkedIn CTAs → email address, not landing page</li>
+          <li>❌ No booking / chat / calculator low-friction option</li>
+          <li>⚠️ Security badges present (4/4 pages) — positive</li>
+          <li>⚠️ Star ratings present (4/4 pages) — positive signal</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Platform breakdown -->
+  <div class="section">
+    <div class="section-title">Platform Breakdown</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Platform</th>
+          <th>Ads Found</th>
+          <th>Creative Diversity</th>
+          <th>Primary Message</th>
+          <th>CTA Destination</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Meta Ad Library</strong></td>
+          <td class="num">18</td>
+          <td class="num score-red">2 / 18 <br><span style="font-size:11px;color:var(--muted)">11% unique</span></td>
+          <td>Rate (4.08% AER) + Cashback (1.5%) + No fees — 9 variations of the same message</td>
+          <td>allica.bank/lp/business-current-account<br><span style="font-size:11px;color:var(--muted)">Same URL for all ads</span></td>
+          <td class="num score-amber">5/10</td>
+        </tr>
+        <tr>
+          <td><strong>LinkedIn</strong></td>
+          <td class="num">5</td>
+          <td class="num score-amber">2 / 5 <br><span style="font-size:11px;color:var(--muted)">40% unique</span></td>
+          <td>Same rate message + Matt West personal outreach (mailto CTA)</td>
+          <td>matt.west@allica.bank<br><span style="font-size:11px;color:var(--muted)">Email — no landing page</span></td>
+          <td class="num score-red">3/10</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Critical Findings -->
+  <div class="section">
+    <div class="section-title">Top Findings by Impact</div>
+
+    <div class="finding-card critical">
+      <div class="finding-badge badge-critical">Critical — Alignment</div>
+      <div class="finding-title">Broken Personalization Token Ran Live on LinkedIn</div>
+      <div class="finding-body">A LinkedIn ad with <strong>%FIRSTNAME%</strong> as a literal string ran publicly — the personalization variable never merged. Every prospect saw "Hello %FIRSTNAME%," instead of their name. This is a significant QA failure visible to all 500,000+ LinkedIn SME targets Allica pays to reach.</div>
+      <div class="finding-evidence">Ad copy: "Hello %FIRSTNAME%, A business saving £100,000 at a typical instant access rate of 1.80%* AER earns just £1,800 in interest."</div>
+    </div>
+
+    <div class="finding-card critical">
+      <div class="finding-badge badge-critical">Critical — Alignment</div>
+      <div class="finding-title">Landing Page Doesn't Match the Ad Promise</div>
+      <div class="finding-body">All 18 Meta ads promise a specific rate (4.08% AER), cashback (1.5%), and no fees. The primary landing page headline says "Explore our business bank account." Zero rate mention above the fold. The brain of a business owner asks "is this the right page?" and leaves. <strong>This is the highest-impact conversion fix available to Allica right now.</strong></div>
+      <div class="finding-evidence">Ad: "Get up to 4.08% AER, up to 1.5% cashback and no monthly fees" → LP: "Explore our business bank account"</div>
+    </div>
+
+    <div class="finding-card critical">
+      <div class="finding-badge badge-critical">Critical — Alignment</div>
+      <div class="finding-title">Zero Testimonials on Primary Conversion Page</div>
+      <div class="finding-body">The page all Meta ads point to has <strong>0 testimonials</strong>. A CFO or founder evaluating where to move £500k+ in company cash needs to see that others have done it safely. Allica's landing page offers no social proof. 1/4 pages crawled had testimonials — and it's not the main conversion page.</div>
+    </div>
+
+    <div class="finding-card warning">
+      <div class="finding-badge badge-warning">High — Attraction</div>
+      <div class="finding-title">No Sector Segmentation in Any Ad</div>
+      <div class="finding-body">18 Meta ads, 5 LinkedIn ads. Zero ads call out a specific sector. <strong>A property developer, a solicitor, and a restaurant owner see the same generic ad.</strong> Allica's local banker model is sector-native in sales — but their paid acquisition channel is completely undifferentiated. OakNorth's opportunity: sector-specific ads (property CFOs, professional services, hospitality) would out-attract this.</div>
+    </div>
+
+    <div class="finding-card warning">
+      <div class="finding-badge badge-warning">High — Attraction</div>
+      <div class="finding-title">10 Ad Variants That All Say the Same Thing</div>
+      <div class="finding-body">Creative diversity is 11% (2 unique messages out of 18 Meta ads). The message is: "4.08% AER + 1.5% cashback + no fees." This is a rate comparison strategy — and it works because Allica's 4.08% AER (boosted) is currently higher than most challengers. But the strategy is entirely rate-dependent: <strong>zero brand story, zero relationship narrative, zero sector expertise messaging.</strong> OakNorth's advertised instant access rate (3.35% AER) is lower — the competitive argument against Allica cannot be rate. It must be sector expertise, combined lending and deposit relationship, and Monite bank-native finance automation.</div>
+    </div>
+
+    <div class="finding-card warning">
+      <div class="finding-badge badge-warning">Medium — Activation</div>
+      <div class="finding-title">LinkedIn Strategy Is One Person's Email Address</div>
+      <div class="finding-body">LinkedIn CTA resolves to <strong>matt.west@allica.bank</strong> — a direct email to a named banker. This is the local banker model (relationship-first) translated into paid acquisition. It's not scalable: one banker, no tracking, no AB testing, no CTA page. It also signals Allica knows their product needs a human to close it — which is true, but running paid spend to an email address without a page is money without tracking.</div>
+      <div class="finding-evidence">LinkedIn CTA destination: http://mailto:matt.west@allica.bank/ — "Like your business bank again."</div>
+    </div>
+
+    <div class="finding-card warning">
+      <div class="finding-badge badge-warning">Medium — Activation</div>
+      <div class="finding-title">Ad Sends Traffic to a Fee Schedule Page and T&C Page</div>
+      <div class="finding-body">One CTA group resolves to <code>allica.bank/fees/rewards-account-fees-and-limits</code> and another to <code>/business-rewards-account/product-information</code>. These are not conversion pages — they are compliance/disclosure pages. No form. No CTA. A prospect arriving here has nowhere to go except back. This is likely an error in campaign setup, not intentional.</div>
+    </div>
+
+    <div class="finding-card positive">
+      <div class="finding-badge badge-positive">Positive — Attraction</div>
+      <div class="finding-title">Rate Comparison Approach Is Working</div>
+      <div class="finding-body">The "Allica might be better than your current bank" framing with a specific comparison date (6 Jan 2026) and competitor average rates is FCA-compliant and highly specific. <strong>This is the strongest ad in the set.</strong> It names the old bank's failure (low rates) and proves the alternative with a dated comparison study. The principle is sound — the execution just needs a matching landing page.</div>
+    </div>
+
+    <div class="finding-card positive">
+      <div class="finding-badge badge-positive">Positive — Activation</div>
+      <div class="finding-title">Security Signals Present on All 4 Pages</div>
+      <div class="finding-body">Security badges and FSCS protection messaging appear on all 4 crawled pages. For a CFO moving company deposits, this is a threshold requirement. Allica gets this right.</div>
+    </div>
+  </div>
+
+  <!-- Landing Pages -->
+  <div class="section">
+    <div class="section-title">Landing Page Analysis</div>
+    <div class="lp-grid">
+      <div class="lp-card">
+        <div class="lp-url">allica.bank/lp/business-current-account</div>
+        <div class="lp-headline">Explore our business bank account</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Primary conversion page — receives all Meta ad traffic</div>
+        <div class="lp-stats">
+          <div class="lp-stat"><div class="stat-label">CTAs</div><div class="stat-val stat-red">69</div></div>
+          <div class="lp-stat"><div class="stat-label">Form Fields</div><div class="stat-val">143</div></div>
+          <div class="lp-stat"><div class="stat-label">Testimonials</div><div class="stat-val stat-red">0</div></div>
+          <div class="lp-stat"><div class="stat-label">Stars</div><div class="stat-val stat-green">✓</div></div>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:var(--red);">⚠ Ad promise (4.08% AER) not visible above fold. 0 testimonials. Generic headline.</div>
+      </div>
+      <div class="lp-card">
+        <div class="lp-url">allica.bank/fees/rewards-account-fees-and-limits</div>
+        <div class="lp-headline">Business Rewards Account — Fees</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Fee schedule page — not a conversion destination</div>
+        <div class="lp-stats">
+          <div class="lp-stat"><div class="stat-label">CTAs</div><div class="stat-val stat-amber">61</div></div>
+          <div class="lp-stat"><div class="stat-label">Form Fields</div><div class="stat-val stat-green">0</div></div>
+          <div class="lp-stat"><div class="stat-label">Testimonials</div><div class="stat-val stat-red">0</div></div>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:var(--red);">⚠ Ad CTA resolves here — disclosure page, no conversion path.</div>
+      </div>
+      <div class="lp-card">
+        <div class="lp-url">allica.bank/business-rewards-account/product-information</div>
+        <div class="lp-headline">Business Rewards Account — T&amp;Cs</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Product information/T&C page — not a conversion destination</div>
+        <div class="lp-stats">
+          <div class="lp-stat"><div class="stat-label">CTAs</div><div class="stat-val stat-amber">61</div></div>
+          <div class="lp-stat"><div class="stat-label">Form Fields</div><div class="stat-val stat-green">0</div></div>
+          <div class="lp-stat"><div class="stat-label">Testimonials</div><div class="stat-val stat-red">0</div></div>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:var(--red);">⚠ Campaign error — sending paid traffic to a terms page.</div>
+      </div>
+      <div class="lp-card">
+        <div class="lp-url">mailto:matt.west@allica.bank → homepage</div>
+        <div class="lp-headline">Like your business bank again.</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Matt West LinkedIn CTA — resolves to email / homepage</div>
+        <div class="lp-stats">
+          <div class="lp-stat"><div class="stat-label">CTAs</div><div class="stat-val stat-red">72</div></div>
+          <div class="lp-stat"><div class="stat-label">Form Fields</div><div class="stat-val stat-amber">65</div></div>
+          <div class="lp-stat"><div class="stat-label">Testimonials</div><div class="stat-val stat-amber">1</div></div>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:var(--amber);">⚠ Relationship model — not trackable, not scalable.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cross-Platform Gap -->
+  <div class="section">
+    <div class="section-title">Cross-Platform Gap Analysis</div>
+    <table class="gap-table">
+      <thead>
+        <tr>
+          <th>Message / Product</th>
+          <th>Meta</th>
+          <th>LinkedIn</th>
+          <th>Gap</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Business current account (rate + cashback)</td>
+          <td>✅ Heavy spend</td>
+          <td>✅ Present</td>
+          <td>No gap — consistent core message</td>
+        </tr>
+        <tr>
+          <td>SME lending / commercial loans</td>
+          <td>❌ Zero ads</td>
+          <td>❌ Zero ads</td>
+          <td style="color:var(--red)">Allica's lending product has zero paid acquisition — broker-dependent</td>
+        </tr>
+        <tr>
+          <td>Sector-specific messaging (property / professional / hospitality)</td>
+          <td>❌ None</td>
+          <td>❌ None</td>
+          <td style="color:var(--red)">No ICP targeting in any paid channel — generic rate play only</td>
+        </tr>
+        <tr>
+          <td>Relationship banking / local banker model</td>
+          <td>❌ None</td>
+          <td>⚠️ Matt West email (1 ad)</td>
+          <td style="color:var(--amber)">Brand story of local banker model not translated to paid media</td>
+        </tr>
+        <tr>
+          <td>FSCS protection messaging</td>
+          <td>⚠️ In landing page only</td>
+          <td>❌ Not in ads</td>
+          <td style="color:var(--amber)">FSCS window opportunity — not used as an acquisition trigger</td>
+        </tr>
+        <tr>
+          <td>Competitor comparison (vs big banks)</td>
+          <td>✅ 2 ads</td>
+          <td>❌ None</td>
+          <td style="color:var(--amber)">LinkedIn comparison missing — high-intent LinkedIn audience would convert</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Ad Samples -->
+  <div class="section">
+    <div class="section-title">Representative Ad Copy</div>
+    <div class="ad-sample">
+      <span class="ad-platform-tag tag-meta">Meta — Strongest</span>
+      <div class="ad-copy">"Allica might be better than your current bank*. We pay up to 4.08% AER**, up to 1.5% cashback and no monthly fees***. Open an Allica business account. *Comparison on 6th Jan 2026."</div>
+    </div>
+    <div class="ad-sample">
+      <span class="ad-platform-tag tag-meta">Meta — Typical (repeated 9×)</span>
+      <div class="ad-copy">"Low rates. No cashback. Monthly fees. Get up to 4.08% AER, up to 1.5% cashback and no monthly fees. Open an Allica business account."</div>
+    </div>
+    <div class="ad-sample">
+      <span class="ad-platform-tag tag-li">LinkedIn — Broken Personalization (live in market)</span>
+      <div class="ad-copy">"Hello <span class="broken">%FIRSTNAME%</span>, A business saving £100,000 at a typical instant access rate of 1.80%* AER earns just £1,800 in interest. With Allica, you could get up to 4.33% AER** on instant access savings."</div>
+    </div>
+    <div class="ad-sample">
+      <span class="ad-platform-tag tag-li">LinkedIn — Matt West (Personal Outreach via Paid)</span>
+      <div class="ad-copy">"Matt West — Promoted. [CTA resolves to matt.west@allica.bank]"</div>
+    </div>
+  </div>
+
+  <!-- OakNorth Intelligence -->
+  <div class="section">
+    <div class="section-title">OakNorth Interview Intelligence — What This Means</div>
+    <div class="intel-box">
+      <div class="intel-label">Strategic Takeaways for Interview &amp; BD Outreach</div>
+      <ul>
+        <li><strong>Allica's paid acquisition is rate-only.</strong> Every ad is a rate comparison. There is no brand story, no sector expertise, no relationship narrative in any Meta or LinkedIn ad. OakNorth's opportunity is sector-specific acquisition — "property CFOs who hold cash between completions" — which Allica's generic rate play cannot match.</li>
+        <li><strong>The local banker model doesn't scale through paid channels.</strong> Allica's famous local banker advantage (their competitive moat in the research brief) is absent from paid media. The LinkedIn strategy is literally one banker (Matt West) with an email address. OakNorth running sector-targeted LinkedIn campaigns with a proper landing page would directly out-execute this.</li>
+        <li><strong>Their acquisition system has broken links in it right now.</strong> Traffic is being sent to fee schedule and T&C pages. LinkedIn has a live ad with a broken %FIRSTNAME% token. These are not strategic weaknesses — they're operational failures. They signal a marketing function that is executing but not reviewing.</li>
+        <li><strong>FSCS change is not being used as an acquisition trigger by Allica</strong> — despite being one of their most relevant moments. No Meta ad mentions FSCS. This is a window OakNorth can enter before Allica figures it out.</li>
+        <li><strong>Allica's rate advantage is real — OakNorth needs to answer it, not ignore it.</strong> Allica advertises 4.08–4.33% AER (including temporary boosts: 0.5% ongoing, 0.5% CASS switch for 6 months, 0.25% welcome for 3 months) against OakNorth's 3.35% AER instant access. The correct interview answer is not rate parity — it is: sector expertise (Allica ads are completely undifferentiated across all sectors), a combined lending and deposit relationship (CFOs consolidate banking with their lender), Monite bank-native AP/AR automation (Allica has no equivalent), and OakNorth's 10-year clean regulatory record. The CFO choosing OakNorth over Allica is choosing the relationship and the product ecosystem. Verify live rates at oaknorth.co.uk/business-savings and allica.bank/business-savings before the interview.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 90-Day Action Plan (what Allica should do — reverse-engineered for OakNorth context) -->
+  <div class="section">
+    <div class="section-title">What Allica Should Fix (OakNorth's Counterplay)</div>
+
+    <div class="action-item">
+      <div class="action-num">1</div>
+      <div class="action-body">
+        <div class="action-title">Fix the landing page headline — match the ad promise above the fold</div>
+        <div class="action-desc">Replace "Explore our business bank account" with "4.08% AER. 1.5% cashback. No monthly fees." — exact match to what the ad promised. For OakNorth: build a landing page that mirrors whatever the CFO just read in the outreach email.</div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">2</div>
+      <div class="action-body">
+        <div class="action-title">Segment by sector — stop showing one ad to everyone</div>
+        <div class="action-desc">Three campaigns: property (cash between completions), professional services (client money compliance), hospitality (trading account optimisation). Each with a sector-specific headline and landing page. OakNorth's head start here is their sector data — they know which sectors have the most cash.</div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">3</div>
+      <div class="action-body">
+        <div class="action-title">Add a low-friction CTA path — calculator before application</div>
+        <div class="action-desc">"See how much your reserves could earn" → yield calculator → then Apply Now. Instead of sending a cold prospect straight to "Apply Now" (a high-commitment step), qualify them with a calculator that shows the rate gap. This is the exact acquisition mechanic OakNorth's landing page mockup uses.</div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">4</div>
+      <div class="action-body">
+        <div class="action-title">Use the FSCS change as a time-sensitive acquisition trigger</div>
+        <div class="action-desc">Allica has the same FSCS protection window OakNorth does — they're not using it. A Meta campaign "Your deposits are now protected up to £120,000 — but only if you act before [date]" would generate switching intent. OakNorth should run this before Allica wakes up to it.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Strategy &amp; GTM research by Jean Mundabi Fala &nbsp;·&nbsp; MDB Growth Capital &nbsp;·&nbsp; Competitor intelligence for OakNorth interview prep, May 2026
+  </div>
+
+</div>
+</body>
+</html>
